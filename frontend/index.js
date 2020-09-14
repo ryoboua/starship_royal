@@ -1,5 +1,6 @@
 const BG_COLOUR = "#231f20"
 const SHIP_COLOUR = "#e66916"
+const ASTEROID_COLOUR = "#fbfbf8"
 
 const socket = io("http://localhost:3000")
 
@@ -33,19 +34,33 @@ function keydown(e) {
 }
 
 function paintGame(state) {
-  const { player, gridsize } = state
   ctx.fillStyle = BG_COLOUR
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
+  paintPlayer(state)
+  paintAsteroidField(state)
+}
+
+function paintPlayer(state) {
+  const { player, gridsize } = state
   ctx.fillStyle = SHIP_COLOUR
   //center block
-  ctx.fillRect(player.pos.x , player.pos.y, gridsize, gridsize)
+  ctx.fillRect(player.pos.x, player.pos.y, gridsize, gridsize)
   //left block
-  ctx.fillRect(player.pos.x - gridsize , player.pos.y, gridsize, gridsize)
+  ctx.fillRect(player.pos.x - gridsize, player.pos.y, gridsize, gridsize)
   //top block
-  ctx.fillRect(player.pos.x , player.pos.y - gridsize, gridsize, gridsize)
+  ctx.fillRect(player.pos.x, player.pos.y - gridsize, gridsize, gridsize)
   //right block
-  ctx.fillRect(player.pos.x + gridsize , player.pos.y, gridsize, gridsize)
+  ctx.fillRect(player.pos.x + gridsize, player.pos.y, gridsize, gridsize)
+}
+
+function paintAsteroidField(state) {
+  const { asteroidField, gridsize } = state
+
+  ctx.fillStyle = ASTEROID_COLOUR
+  asteroidField.asteroids.forEach((ast) => {
+    ctx.fillRect(ast.pos.x, ast.pos.y, 1.5 * gridsize, 1.5 * gridsize)
+  })
 }
 
 function handleGameState(gameState) {

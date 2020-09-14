@@ -1,5 +1,5 @@
-const Vector = require("./vector")
-const Keys = require("./keys")
+const Vector = require("./Vector")
+const Keys = require("./Keys")
 const { GRID_SIZE, STEP } = require("../constants")
 
 module.exports = class Player {

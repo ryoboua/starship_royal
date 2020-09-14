@@ -6,7 +6,7 @@ io.on("connection", (client) => {
   const state = createGameState()
   startGameInterval(client, state)
 
-  const { player } = state
+  const { player, asteroidField } = state
 
   client.on("keydown", handleKeydown)
   client.on("keyup", handleKeyUp)
@@ -19,6 +19,9 @@ io.on("connection", (client) => {
       return
     }
 
+    if (keyCode === 67) {
+      asteroidField.generateAsteroid(3)
+    }
     player.keys.updateKeysDown(keyCode)
     player.updateVelocityKeyDown(keyCode)
   }
