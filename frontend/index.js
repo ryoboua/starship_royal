@@ -10,16 +10,15 @@ let canvas, ctx
 let playerNumber
 let gameActive = false
 
-
 socket.on("init", () => init())
 socket.on("gameState", handleGameState)
 
 const keys = {
-    up: false,
-    down: false,
-    left: false,
-    right: false,
-    spacebar: false
+  up: false,
+  down: false,
+  left: false,
+  right: false,
+  spacebar: false,
 }
 
 function init() {
@@ -46,13 +45,18 @@ function paintGame(state) {
   ctx.fillStyle = BG_COLOUR
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-  const size = canvas.width / gridsize
   ctx.fillStyle = SHIP_COLOUR
-  ctx.fillRect(player.pos.x * size, player.pos.y * size, size, size)
+  //center block
+  ctx.fillRect(player.pos.x , player.pos.y, gridsize, gridsize)
+  //left block
+  ctx.fillRect(player.pos.x - gridsize , player.pos.y, gridsize, gridsize)
+  //top block
+  ctx.fillRect(player.pos.x , player.pos.y - gridsize, gridsize, gridsize)
+  //right block
+  ctx.fillRect(player.pos.x + gridsize , player.pos.y, gridsize, gridsize)
 }
 
 function handleGameState(gameState) {
   gameState = JSON.parse(gameState)
   requestAnimationFrame(() => paintGame(gameState))
 }
-
