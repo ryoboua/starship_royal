@@ -1,18 +1,13 @@
 const io = require("socket.io")()
-const {
-  createGameState,
-  gameloop,
-  getUpdatedVelocityKeyUp,
-  getUpdatedVelocityKeyDown,
-  getUpdatedKeysUp,
-  getUpdatedKeysDown,
-} = require("./game")
+const { createGameState, gameloop } = require("./game")
 const { FRAME_RATE } = require("./constants")
 
 io.on("connection", (client) => {
   const state = createGameState()
-
   startGameInterval(client, state)
+
+  const { player } = state
+
   client.on("keydown", handleKeydown)
   client.on("keyup", handleKeyUp)
 
@@ -24,19 +19,8 @@ io.on("connection", (client) => {
       return
     }
 
-    const keys = getUpdatedKeysDown(keyCode, state.player.keys)
-    if (keys) {
-      state.player.keys = keys
-    }
-
-    const vel = getUpdatedVelocityKeyDown(
-      keyCode,
-      state.player.vel,
-      state.player.keys
-    )
-    if (vel) {
-      state.player.vel = vel
-    }
+    player.keys.updateKeysDown(keyCode)
+    player.updateVelocityKeyDown(keyCode)
   }
 
   function handleKeyUp(keyCode) {
@@ -47,19 +31,8 @@ io.on("connection", (client) => {
       return
     }
 
-    const keys = getUpdatedKeysUp(keyCode, state.player.keys)
-    if (keys) {
-      state.player.keys = keys
-    }
-
-    const vel = getUpdatedVelocityKeyUp(
-      keyCode,
-      state.player.vel,
-      state.player.keys
-    )
-    if (vel) {
-      state.player.vel = vel
-    }
+    player.keys.updateKeysUp(keyCode)
+    player.updateVelocityKeyUp(keyCode)
   }
 })
 

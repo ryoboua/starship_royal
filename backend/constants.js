@@ -1,4 +1,4 @@
-const FRAME_RATE = 500;
+const FRAME_RATE = 800;
 const GRID_SIZE = 12;
 const STEP = 5;
 const BORDER_PUSH_BACK = 5

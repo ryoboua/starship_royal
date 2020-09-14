@@ -13,14 +13,6 @@ let gameActive = false
 socket.on("init", () => init())
 socket.on("gameState", handleGameState)
 
-const keys = {
-  up: false,
-  down: false,
-  left: false,
-  right: false,
-  spacebar: false,
-}
-
 function init() {
   canvas = document.getElementById("canvas")
   ctx = canvas.getContext("2d")
