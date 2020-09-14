@@ -4,8 +4,8 @@ function createGameState() {
   return {
     player: {
       pos: {
-        x: 3,
-        y: 10,
+        x: 500,
+        y: 300,
       },
       vel: {
         x: 0,
@@ -27,19 +27,8 @@ function gameloop(state) {
   if (!state) {
     return
   }
+  handlePlayerPosition(state)
 
-  const { player } = state
-  player.pos.x += player.vel.x
-  player.pos.y += player.vel.y
-
-  if (
-    player.pos.x < 0 ||
-    player.pos.x > GRID_SIZE ||
-    player.pos.y < 0 ||
-    player.pos.y > GRID_SIZE
-  ) {
-    return 1
-  }
 }
 
 function getUpdatedKeysDown(keyCode, keys) {
@@ -128,6 +117,32 @@ function getUpdatedVelocityKeyUp(keyCode, currentVelocity, keys) {
   if (keyCode === 40 || keyCode === 83) {
     return { ...currentVelocity, y: keys.down ? -STEP : 0 }
   }
+}
+
+function handlePlayerPosition(state) {
+  const { player } = state
+
+  if (player.pos.x - GRID_SIZE < 0) {
+    player.pos.x += 5
+    return
+  }
+
+  if (player.pos.x + 2 * GRID_SIZE > 1000) {
+    player.pos.x -= 5
+    return
+  }
+
+  if (player.pos.y - GRID_SIZE < 0) {
+    player.pos.y += 5
+    return
+  }
+  if (player.pos.y + GRID_SIZE > 600) {
+    player.pos.y += -5
+    return
+  }
+
+  player.pos.x += player.vel.x
+  player.pos.y += player.vel.y
 }
 
 module.exports = {
