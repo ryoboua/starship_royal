@@ -46,7 +46,7 @@ function startGameInterval(client, state) {
       client.emit("gameState", JSON.stringify(state))
     } else {
       client.emit("gameOver")
-      clearInterval(intervalId)
+      clearInterval(mainGameLoopIntervalId)
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
     }
