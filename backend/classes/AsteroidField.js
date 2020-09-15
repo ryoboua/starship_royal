@@ -1,6 +1,6 @@
 const Asteroid = require("./Asteroid")
 const Vector = require("./Vector")
-const { GRID_SIZE, STEP } = require("../constants")
+const { GRID_SIZE } = require("../constants")
 
 module.exports = class AsteroidField {
   constructor() {

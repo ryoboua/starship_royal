@@ -1,12 +1,20 @@
 const FRAME_RATE = 800;
 const GRID_SIZE = 12;
 const STEP = 5;
-const BORDER_PUSH_BACK = 5
+const SPACE_STEP = 5;
+const MISSILE_STEP = 3
+const ASTEROID_STEP = 1
+const GAME_WIDTH = 1000
+const GAME_HEIGHT = 600
 
-const Y_GRID_SIZE = 30
 
 module.exports = {
   FRAME_RATE,
   GRID_SIZE,
-  STEP
+  STEP,
+  SPACE_STEP,
+  MISSILE_STEP,
+  ASTEROID_STEP,
+  GAME_WIDTH,
+  GAME_HEIGHT
 }

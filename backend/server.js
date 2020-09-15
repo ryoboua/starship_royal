@@ -20,12 +20,12 @@ io.on("connection", (client) => {
     }
 
     if (keyCode === 67) {
-      asteroidField.generateAsteroid(3)
     }
+    asteroidField.generateAsteroid(3)
     player.keys.updateKeysDown(keyCode)
     player.updateVelocityKeyDown(keyCode)
   }
-
+  
   function handleKeyUp(keyCode) {
     try {
       keyCode = parseInt(keyCode)
@@ -33,9 +33,11 @@ io.on("connection", (client) => {
       console.log(e)
       return
     }
-
+    
+    //asteroidField.generateAsteroid(3)
     player.keys.updateKeysUp(keyCode)
     player.updateVelocityKeyUp(keyCode)
+    console.log(player.weapons.missiles)
   }
 })
 

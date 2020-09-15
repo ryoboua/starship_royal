@@ -1,4 +1,4 @@
-const { GRID_SIZE, STEP } = require("./constants")
+const { GRID_SIZE } = require("./constants")
 const Player = require("./classes/Player")
 const AsteroidField = require("./classes/AsteroidField")
 
@@ -14,8 +14,9 @@ function gameloop(state) {
   if (!state) {
     return
   }
-  state.player.updatePosition()
-  state.asteroidField.updatePosition()
+  const { player, asteroidField } = state
+  player.updatePosition()
+  asteroidField.updatePosition()
 }
 
 module.exports = {

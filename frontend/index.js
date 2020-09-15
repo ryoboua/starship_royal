@@ -1,6 +1,7 @@
 const BG_COLOUR = "#231f20"
 const SHIP_COLOUR = "#e66916"
 const ASTEROID_COLOUR = "#fbfbf8"
+const MISSILE_COLOUR = "#FF6347"
 
 const socket = io("http://localhost:3000")
 
@@ -39,6 +40,7 @@ function paintGame(state) {
 
   paintPlayer(state)
   paintAsteroidField(state)
+  paintMissiles(state)
 }
 
 function paintPlayer(state) {
@@ -60,6 +62,19 @@ function paintAsteroidField(state) {
   ctx.fillStyle = ASTEROID_COLOUR
   asteroidField.asteroids.forEach((ast) => {
     ctx.fillRect(ast.pos.x, ast.pos.y, 1.5 * gridsize, 1.5 * gridsize)
+  })
+}
+
+function paintMissiles(state) {
+  const { player, gridsize } = state
+
+  if (!player.weapons.missiles.length) {
+    return
+  }
+
+  ctx.fillStyle = MISSILE_COLOUR
+  player.weapons.missiles.forEach((mis) => {
+    ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize)
   })
 }
 
