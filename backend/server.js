@@ -34,10 +34,8 @@ io.on("connection", (client) => {
       return
     }
     
-    //asteroidField.generateAsteroid(3)
     player.keys.updateKeysUp(keyCode)
     player.updateVelocityKeyUp(keyCode)
-    console.log(player.weapons.missiles)
   }
 })
 
