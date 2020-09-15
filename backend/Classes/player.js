@@ -12,14 +12,24 @@ module.exports = class Player {
   }
 
   updatePosition(asteroidField) {
-    this.updateSpaceshipPosition()
     this.weapons.updateMissilePositions(asteroidField)
+    return this.updateSpaceshipPosition(asteroidField)
   }
 
-  updateSpaceshipPosition() {
+  updateSpaceshipPosition(asteroidField) {
     const newPos = Vector.add(this.pos, this.vel)
     const newX = newPos.getX()
     const newY = newPos.getY()
+
+    const hit = asteroidField.asteroids.some(
+      (ast) =>
+        newX <= ast.pos.x + GRID_SIZE &&
+        newX + GRID_SIZE >= ast.pos.x &&
+        newY <= ast.pos.y + GRID_SIZE &&
+        newY + GRID_SIZE >= ast.pos.y
+    )
+
+    if (hit) return 1
 
     //check if player is in game bounderies
     if (newX - GRID_SIZE < 0) {
@@ -87,6 +97,4 @@ module.exports = class Player {
       this.weapons.generateMissile(pos)
     }
   }
-
-
 }

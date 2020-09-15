@@ -58,7 +58,7 @@ function startGameInterval(client, state) {
 
   const fireMissileIntervalId = setInterval(() => {
     state.player.fireMissile()
-  }, 350)
+  }, 300)
 }
 
 io.listen(3000)

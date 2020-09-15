@@ -14,6 +14,7 @@ let gameActive = false
 
 socket.on("init", () => init())
 socket.on("gameState", handleGameState)
+socket.on("gameOver", handleGameOver)
 
 function init() {
   canvas = document.getElementById("canvas")
@@ -81,4 +82,8 @@ function paintMissiles(state) {
 function handleGameState(gameState) {
   gameState = JSON.parse(gameState)
   requestAnimationFrame(() => paintGame(gameState))
+}
+
+function handleGameOver() {
+  alert('Game Over')
 }
