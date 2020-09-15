@@ -37,9 +37,7 @@ module.exports = class AsteroidField {
       }
     })
 
-    this.asteroids = this.asteroids.filter(
-      (ast, i) => !asteroidsToRemove.includes(i)
-    )
+    this.removeAsteroids(asteroidsToRemove)
   }
 
   removeAsteroids(astArr) {
