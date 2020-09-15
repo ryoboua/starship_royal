@@ -13,7 +13,7 @@ module.exports = class Player {
 
   updatePosition() {
     this.updateSpaceshipPosition()
-    this.updateMissilePosition()
+    this.weapons.updateMissilePositions()
     this.fireMissile()
   }
 
@@ -89,15 +89,5 @@ module.exports = class Player {
     }
   }
 
-  updateMissilePosition() {
-    if (!this.weapons.missiles.length) {
-      return
-    }
 
-    this.weapons.missiles.forEach((mis) => {
-      const newPos = Vector.sub(mis.pos, mis.vel)
-      const newY = newPos.getY()
-      mis.pos = newPos
-    })
-  }
 }
