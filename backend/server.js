@@ -21,11 +21,10 @@ io.on("connection", (client) => {
 
     if (keyCode === 67) {
     }
-    asteroidField.generateAsteroid(3)
     player.keys.updateKeysDown(keyCode)
     player.updateVelocityKeyDown(keyCode)
   }
-  
+
   function handleKeyUp(keyCode) {
     try {
       keyCode = parseInt(keyCode)
@@ -33,14 +32,14 @@ io.on("connection", (client) => {
       console.log(e)
       return
     }
-    
+
     player.keys.updateKeysUp(keyCode)
     player.updateVelocityKeyUp(keyCode)
   }
 })
 
 function startGameInterval(client, state) {
-  const intervalId = setInterval(() => {
+  const mainGameLoopIntervalId = setInterval(() => {
     const winner = gameloop(state)
     if (!winner) {
       //console.log(state.player.keys)
@@ -48,8 +47,18 @@ function startGameInterval(client, state) {
     } else {
       client.emit("gameOver")
       clearInterval(intervalId)
+      clearInterval(asteroidFieldIntervalId)
+      clearInterval(fireMissileIntervalId)
     }
-  }, 10000 / FRAME_RATE)
+  }, 1000 / FRAME_RATE)
+
+  const asteroidFieldIntervalId = setInterval(() => {
+    state.asteroidField.generateAsteroid(3)
+  }, 1000)
+
+  const fireMissileIntervalId = setInterval(() => {
+    state.player.fireMissile()
+  }, 350)
 }
 
 io.listen(3000)

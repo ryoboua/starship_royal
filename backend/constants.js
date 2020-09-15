@@ -1,4 +1,4 @@
-const FRAME_RATE = 800;
+const FRAME_RATE = 80;
 const GRID_SIZE = 12;
 const STEP = 5;
 const SPACE_STEP = 5;

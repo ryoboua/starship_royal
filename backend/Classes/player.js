@@ -14,7 +14,6 @@ module.exports = class Player {
   updatePosition() {
     this.updateSpaceshipPosition()
     this.weapons.updateMissilePositions()
-    this.fireMissile()
   }
 
   updateSpaceshipPosition() {
