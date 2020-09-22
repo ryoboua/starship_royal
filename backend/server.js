@@ -67,7 +67,7 @@ io.on("connection", (client) => {
     addPlayer(state[roomName], {
       id: client.id,
       playerNumber,
-      startPosition: { x: 200, y: 300 },
+      startPosition: { x: playerNumber * 200, y: 500 },
     })
 
     clientRooms[client.id] = roomName
@@ -79,7 +79,6 @@ io.on("connection", (client) => {
       playerNumber,
     })
     //room.emit("PLAYER_JOINED", {})
-    //startGameInterval(roomName);
   }
 
   function handleKeydown(keyCode) {
@@ -142,9 +141,9 @@ function startGameInterval(roomName) {
     }
   }, 1000 / FRAME_RATE)
 
-  const asteroidFieldIntervalId = setInterval(() => {
-    state[roomName].asteroidField.generateAsteroid(3)
-  }, 100)
+  // const asteroidFieldIntervalId = setInterval(() => {
+  //   state[roomName].asteroidField.generateAsteroid(3)
+  // }, 100)
 
   const fireMissileIntervalId = setInterval(() => {
     state[roomName].players.forEach((player) => {
