@@ -3,7 +3,7 @@ const Player = require("./classes/Player")
 const AsteroidField = require("./classes/AsteroidField")
 
 function createGameState(id, playerNumber = 1) {
-  const startPosition = { x: 500, y: 300 }
+  const startPosition = { x: 200, y: 500 }
   const playerOne = new Player({ id, playerNumber, startPosition })
   return {
     players: [playerOne],
@@ -17,7 +17,7 @@ function gameloop(state) {
     return
   }
   const { players, asteroidField } = state
-  asteroidField.updatePosition()
+  //asteroidField.updatePosition()
   players.forEach((player) => player.updatePosition(asteroidField))
   return 0
 }
