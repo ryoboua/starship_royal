@@ -22,10 +22,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    initNewGame(context) {
-      console.log(context)
-      context.commit("setRoomName", "Hello")
-    },
     SOCKET_NEW_GAME(context, gameInfo) {
       context.commit("setRoomName", gameInfo.roomName)
       context.commit("setPlayerNumber", gameInfo.playerNumber)
