@@ -2,9 +2,11 @@ const { GRID_SIZE } = require("./constants")
 const Player = require("./classes/Player")
 const AsteroidField = require("./classes/AsteroidField")
 
-function createGameState() {
+function createGameState(id, playerNumber = 1) {
+  const startPosition = { x: 500, y: 300 }
+  const playerOne = new Player({ id, playerNumber, startPosition })
   return {
-    player: new Player(500, 300),
+    players: [playerOne],
     asteroidField: new AsteroidField(),
     gridsize: GRID_SIZE,
   }
@@ -14,12 +16,18 @@ function gameloop(state) {
   if (!state) {
     return
   }
-  const { player, asteroidField } = state
+  const { players, asteroidField } = state
   asteroidField.updatePosition()
-  return player.updatePosition(asteroidField)
+  players.forEach((player) => player.updatePosition(asteroidField))
+  return 0
+}
+
+function addPlayer(state, player) {
+  state.players.push(new Player(player))
 }
 
 module.exports = {
   createGameState,
   gameloop,
+  addPlayer,
 }

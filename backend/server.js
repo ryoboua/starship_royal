@@ -1,5 +1,5 @@
 const io = require("socket.io")()
-const { createGameState, gameloop } = require("./game")
+const { createGameState, gameloop, addPlayer } = require("./game")
 const { FRAME_RATE } = require("./constants")
 const { makeid } = require("./utils")
 
@@ -11,11 +11,18 @@ io.on("connection", (client) => {
   client.on("joinGame", handleJoinGame)
   client.on("startGame", handleStartGame)
 
-  // client.on("keydown", handleKeydown)
-  // client.on("keyup", handleKeyUp)
+  client.on("keydown", handleKeydown)
+  client.on("keyup", handleKeyUp)
 
   function handleStartGame() {
-    console.log("ysdsa")
+    const roomName = clientRooms[client.id]
+    if (!roomName) {
+      return
+    }
+
+    console.log(state[roomName])
+
+    startGameInterval(roomName)
   }
 
   function handleNewGame() {
@@ -23,7 +30,7 @@ io.on("connection", (client) => {
     const playerNumber = 1
 
     clientRooms[client.id] = roomName
-    state[roomName] = createGameState()
+    state[roomName] = createGameState(client.id, playerNumber)
 
     client.number = playerNumber
     client.join(roomName)
@@ -57,9 +64,16 @@ io.on("connection", (client) => {
 
     const playerNumber = numClients + 1
 
+    addPlayer(state[roomName], {
+      id: client.id,
+      playerNumber,
+      startPosition: { x: 200, y: 300 },
+    })
+
     clientRooms[client.id] = roomName
-    client.join(roomName)
     client.number = playerNumber
+
+    client.join(roomName)
     client.emit("JOIN_GAME_ACCEPTED", {
       roomName,
       playerNumber,
@@ -69,6 +83,33 @@ io.on("connection", (client) => {
   }
 
   function handleKeydown(keyCode) {
+    const roomName = clientRooms[client.id]
+    if (!roomName) {
+      return
+    }
+
+    try {
+      keyCode = parseInt(keyCode)
+    } catch (e) {
+      console.log(e)
+      return
+    }
+    const player = state[roomName].players[client.number - 1]
+
+    if (!player) {
+      return
+    }
+
+    player.keys.updateKeysDown(keyCode)
+    player.updateVelocityKeyDown(keyCode)
+  }
+
+  function handleKeyUp(keyCode) {
+    const roomName = clientRooms[client.id]
+    if (!roomName) {
+      return
+    }
+
     try {
       keyCode = parseInt(keyCode)
     } catch (e) {
@@ -76,17 +117,9 @@ io.on("connection", (client) => {
       return
     }
 
-    if (keyCode === 67) {
-    }
-    player.keys.updateKeysDown(keyCode)
-    player.updateVelocityKeyDown(keyCode)
-  }
+    const player = state[roomName].players[client.number - 1]
 
-  function handleKeyUp(keyCode) {
-    try {
-      keyCode = parseInt(keyCode)
-    } catch (e) {
-      console.log(e)
+    if (!player) {
       return
     }
 
@@ -95,14 +128,14 @@ io.on("connection", (client) => {
   }
 })
 
-function startGameInterval(client, state) {
+function startGameInterval(roomName) {
   const mainGameLoopIntervalId = setInterval(() => {
-    const winner = gameloop(state)
+    const winner = gameloop(state[roomName])
     if (!winner) {
       //console.log(state.player.keys)
-      client.emit("gameState", JSON.stringify(state))
+      emitGameState(roomName, state[roomName])
     } else {
-      client.emit("gameOver")
+      emitGameOver("gameOver")
       clearInterval(mainGameLoopIntervalId)
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
@@ -110,12 +143,22 @@ function startGameInterval(client, state) {
   }, 1000 / FRAME_RATE)
 
   const asteroidFieldIntervalId = setInterval(() => {
-    state.asteroidField.generateAsteroid(3)
+    state[roomName].asteroidField.generateAsteroid(3)
   }, 100)
 
   const fireMissileIntervalId = setInterval(() => {
-    state.player.fireMissile()
+    state[roomName].players.forEach((player) => {
+      player.fireMissile()
+    })
   }, 300)
+}
+
+function emitGameState(room, gameState) {
+  io.sockets.in(room).emit("gameState", JSON.stringify(gameState))
+}
+
+function emitGameOver(room, winner) {
+  io.sockets.in(room).emit("gameOver")
 }
 
 io.listen(3000)

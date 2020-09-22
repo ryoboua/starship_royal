@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     handleStartGame() {
-        this.$socket.emit("startGame")
+      this.$socket.emit("startGame")
     },
     keydown(e) {
       this.$socket.emit("keydown", e.keyCode)
@@ -53,17 +53,19 @@ export default {
     },
     paintPlayer(state) {
       const ctx = this.$refs.canvas.getContext("2d")
-      const { player, gridsize } = state
+      const { players, gridsize } = state
 
-      ctx.fillStyle = this.SHIP_COLOUR
-      //center block
-      ctx.fillRect(player.pos.x, player.pos.y, gridsize, gridsize)
-      //left block
-      ctx.fillRect(player.pos.x - gridsize, player.pos.y, gridsize, gridsize)
-      //top block
-      ctx.fillRect(player.pos.x, player.pos.y - gridsize, gridsize, gridsize)
-      //right block
-      ctx.fillRect(player.pos.x + gridsize, player.pos.y, gridsize, gridsize)
+      players.forEach((player) => {
+        ctx.fillStyle = this.SHIP_COLOUR
+        //center block
+        ctx.fillRect(player.pos.x, player.pos.y, gridsize, gridsize)
+        //left block
+        ctx.fillRect(player.pos.x - gridsize, player.pos.y, gridsize, gridsize)
+        //top block
+        ctx.fillRect(player.pos.x, player.pos.y - gridsize, gridsize, gridsize)
+        //right block
+        ctx.fillRect(player.pos.x + gridsize, player.pos.y, gridsize, gridsize)
+      })
     },
     paintAsteroidField(state) {
       const ctx = this.$refs.canvas.getContext("2d")
@@ -76,15 +78,17 @@ export default {
     },
     paintMissiles(state) {
       const ctx = this.$refs.canvas.getContext("2d")
-      const { player, gridsize } = state
+      const { players, gridsize } = state
 
-      if (!player.weapons.missiles.length) {
-        return
-      }
+      players.forEach((player) => {
+        if (!player.weapons.missiles.length) {
+          return
+        }
 
-      ctx.fillStyle = this.MISSILE_COLOUR
-      player.weapons.missiles.forEach((mis) => {
-        ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize)
+        ctx.fillStyle = this.MISSILE_COLOUR
+        player.weapons.missiles.forEach((mis) => {
+          ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize)
+        })
       })
     },
   },
@@ -103,4 +107,11 @@ export default {
   },
 }
 </script>
-<style lang="sass" scoped></style>
+<style lang="scss" scoped>
+div {
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+  text-align: center;
+}
+</style>
