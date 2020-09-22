@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <h3>Room Name: {{ roomName }}</h3>
-    <h4>Player Number:{{ playerNumber }}</h4>
-    <button @click="handleStartGame">Start Game</button>
-    <canvas ref="canvas"></canvas>
+  <div class="game_panel">
+    <div class="game_screen">
+      <canvas ref="canvas"></canvas>
+    </div>
+    <aside>
+      <h3>Room Name: {{ roomName }}</h3>
+      <h4>Player Number:{{ playerNumber }}</h4>
+      <button @click="handleStartGame">Start Game</button>
+    </aside>
   </div>
 </template>
 <script>
@@ -13,7 +17,7 @@ export default {
   data() {
     return {
       BG_COLOUR: "#231f20",
-      SHIP_COLOUR: "#e66916",
+      SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
       ASTEROID_COLOUR: "#fbfbf8",
       MISSILE_COLOUR: "#FF6347",
       ctx: null,
@@ -56,7 +60,7 @@ export default {
       const { players, gridsize } = state
 
       players.forEach((player) => {
-        ctx.fillStyle = this.SHIP_COLOUR
+        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1]
         //center block
         ctx.fillRect(player.pos.x, player.pos.y, gridsize, gridsize)
         //left block
@@ -85,7 +89,7 @@ export default {
           return
         }
 
-        ctx.fillStyle = this.MISSILE_COLOUR
+        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1]//this.MISSILE_COLOUR
         player.weapons.missiles.forEach((mis) => {
           ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize)
         })
@@ -108,10 +112,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-div {
-  display: flex;
-  flex-direction: column;
-  width: 1000px;
-  text-align: center;
+.game_panel {
+  display: grid;
+  grid-template-columns: 1000px 1fr;
+  grid-template-rows: auto;
+}
+aside {
 }
 </style>
