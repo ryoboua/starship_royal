@@ -25,7 +25,6 @@ export default {
       SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
       ASTEROID_COLOUR: "#fbfbf8",
       MISSILE_COLOUR: "#FF6347",
-      ctx: null,
       playerScores: [],
     }
   },
@@ -95,7 +94,7 @@ export default {
           return
         }
 
-        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1] //this.MISSILE_COLOUR
+        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1]
         player.weapons.missiles.forEach((mis) => {
           ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize)
         })
