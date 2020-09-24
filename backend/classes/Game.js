@@ -1,22 +1,27 @@
 const { GRID_SIZE } = require("../constants")
 const Player = require("./Player")
+const Level = require("./Level")
 const AsteroidField = require("./AsteroidField")
+const levelParams = require("../levels")
 
 module.exports = class Game {
-  constructor({ players, asteroidField, gridsize }) {
-    this.players = players
-    this.asteroidField = asteroidField
-    this.gridsize = gridsize
+  constructor() {
+    this.players = []
+    this.levels = []
+    this.asteroidField = new AsteroidField()
+    this.gridsize = GRID_SIZE
   }
 
   static createGameState(id, playerNumber = 1) {
+    const game = new Game()
+
     const startPosition = { x: 200, y: 500 }
-    const playerOne = new Player({ id, playerNumber, startPosition })
-    return new Game({
-      players: [playerOne],
-      asteroidField: new AsteroidField(),
-      gridsize: GRID_SIZE,
-    })
+    const playerOne = { id, playerNumber, startPosition }
+
+    game.addPlayer(playerOne)
+    game.addLevel(levelParams[0])
+
+    return game
   }
 
   gameLoop() {
@@ -46,6 +51,12 @@ module.exports = class Game {
   }
 
   addPlayer(player) {
-    this.players.push(new Player(player))
+    player = new Player(player)
+    this.players.push(player)
+  }
+
+  addLevel(level) {
+    level = new Level(level)
+    this.levels.push(level)
   }
 }

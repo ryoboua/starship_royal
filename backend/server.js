@@ -134,10 +134,14 @@ io.on("connection", (client) => {
 })
 
 function startGameInterval(roomName) {
+  const gameState = gameStates[roomName]
+  const { asteroidField, players, levels } = gameState
+  const { numOfAsteroids, asteroidFieldTimeInterval } = levels[levels.length - 1]
+
   const mainGameLoopIntervalId = setInterval(() => {
-    const winner = gameStates[roomName].gameLoop()
+    const winner = gameState.gameLoop()
     if (!winner) {
-      emitGameState(roomName, gameStates[roomName].getGameState())
+      emitGameState(roomName, gameState.getGameState())
     } else {
       emitGameOver(roomName)
       clearInterval(mainGameLoopIntervalId)
@@ -147,11 +151,11 @@ function startGameInterval(roomName) {
   }, 1000 / FRAME_RATE)
 
   const asteroidFieldIntervalId = setInterval(() => {
-    gameStates[roomName].asteroidField.generateAsteroid(3)
-  }, 100)
+    asteroidField.generateAsteroid(numOfAsteroids)
+  }, asteroidFieldTimeInterval)
 
   const fireMissileIntervalId = setInterval(() => {
-    gameStates[roomName].players.forEach((player) => {
+    players.forEach((player) => {
       if (player.isAlive) {
         player.fireMissile()
       }
