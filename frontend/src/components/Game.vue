@@ -65,6 +65,9 @@ export default {
       const { players, gridsize } = state
 
       players.forEach((player) => {
+        if(!player.isAlive) {
+          return
+        }
         ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1]
         //center block
         ctx.fillRect(player.pos.x, player.pos.y, gridsize, gridsize)
@@ -90,7 +93,7 @@ export default {
       const { players, gridsize } = state
 
       players.forEach((player) => {
-        if (!player.weapons.missiles.length) {
+        if (!player.weapons.missiles.length || !player.isAlive) {
           return
         }
 

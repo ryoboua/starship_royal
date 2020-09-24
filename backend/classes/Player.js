@@ -12,6 +12,7 @@ module.exports = class Player {
     this.vel = new Vector(0, 0)
     this.keys = new Keys()
     this.weapons = new Missiles()
+    this.isAlive = true
   }
 
   updatePosition(asteroidField) {
@@ -37,7 +38,9 @@ module.exports = class Player {
         newY + GRID_SIZE >= ast.pos.y
     )
 
-    //if (hit) return 1
+    if (hit) {
+      return this.isAlive = false
+    }
 
     //check if player is in game bounderies
     if (newX - GRID_SIZE < 0) {

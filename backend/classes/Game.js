@@ -21,7 +21,9 @@ module.exports = class Game {
 
   gameLoop() {
     this.asteroidField.updatePosition()
-    this.players.forEach((player) => player.updatePosition(this.asteroidField))
+    this.players.forEach((player) => {
+      if (player.isAlive) player.updatePosition(this.asteroidField)
+    })
     return 0
   }
 

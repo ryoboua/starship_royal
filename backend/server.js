@@ -11,7 +11,7 @@ const {
   KEY_UP,
   UNKNOWN_CODE,
   TOO_MANY_PLAYERS,
-  GAME_STATE_UPDATE
+  GAME_STATE_UPDATE,
 } = require("./events")
 
 const gameStates = {}
@@ -152,7 +152,9 @@ function startGameInterval(roomName) {
 
   const fireMissileIntervalId = setInterval(() => {
     gameStates[roomName].players.forEach((player) => {
-      player.fireMissile()
+      if (player.isAlive) {
+        player.fireMissile()
+      }
     })
   }, 300)
 }
