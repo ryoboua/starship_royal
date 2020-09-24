@@ -2,17 +2,27 @@ const io = require("socket.io")()
 const Game = require("./classes/Game")
 const { FRAME_RATE } = require("./constants")
 const { makeid } = require("./utils")
+const {
+  NEW_GAME,
+  START_GAME,
+  JOIN_GAME,
+  JOIN_GAME_ACCEPTED,
+  KEY_DOWN,
+  KEY_UP,
+  UNKNOWN_CODE,
+  TOO_MANY_PLAYERS,
+  GAME_STATE_UPDATE
+} = require("./events")
 
 const gameStates = {}
 const clientRooms = {}
 
 io.on("connection", (client) => {
-  client.on("newGame", handleNewGame)
-  client.on("joinGame", handleJoinGame)
-  client.on("startGame", handleStartGame)
-
-  client.on("keydown", handleKeydown)
-  client.on("keyup", handleKeyUp)
+  client.on(NEW_GAME, handleNewGame)
+  client.on(START_GAME, handleStartGame)
+  client.on(JOIN_GAME, handleJoinGame)
+  client.on(KEY_DOWN, handleKeydown)
+  client.on(KEY_UP, handleKeyUp)
 
   function handleStartGame() {
     const roomName = clientRooms[client.id]
@@ -33,7 +43,7 @@ io.on("connection", (client) => {
     client.number = playerNumber
     client.join(roomName)
 
-    client.emit("NEW_GAME", {
+    client.emit(NEW_GAME, {
       playerNumber,
       roomName,
     })
@@ -53,10 +63,10 @@ io.on("connection", (client) => {
     }
 
     if (numClients === 0) {
-      client.emit("unknownCode")
+      client.emit(UNKNOWN_CODE)
       return
     } else if (numClients >= 4) {
-      client.emit("tooManyPlayers")
+      client.emit(TOO_MANY_PLAYERS)
       return
     }
 
@@ -71,11 +81,10 @@ io.on("connection", (client) => {
     client.number = playerNumber
 
     client.join(roomName)
-    client.emit("JOIN_GAME_ACCEPTED", {
+    client.emit(JOIN_GAME_ACCEPTED, {
       roomName,
       playerNumber,
     })
-    //room.emit("PLAYER_JOINED", {})
   }
 
   function handleKeydown(keyCode) {
@@ -126,11 +135,11 @@ io.on("connection", (client) => {
 
 function startGameInterval(roomName) {
   const mainGameLoopIntervalId = setInterval(() => {
-    const winner = gameStates[roomName].gameloop()
+    const winner = gameStates[roomName].gameLoop()
     if (!winner) {
       emitGameState(roomName, gameStates[roomName].getGameState())
     } else {
-      emitGameOver("gameOver")
+      emitGameOver(roomName)
       clearInterval(mainGameLoopIntervalId)
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
@@ -149,11 +158,11 @@ function startGameInterval(roomName) {
 }
 
 function emitGameState(room, gameState) {
-  io.sockets.in(room).emit("GAME_STATE_UPDATE", JSON.stringify(gameState))
+  io.sockets.in(room).emit(GAME_STATE_UPDATE, JSON.stringify(gameState))
 }
 
 function emitGameOver(room, winner) {
-  io.sockets.in(room).emit("GAME_OVER")
+  io.sockets.in(room).emit(GAME_OVER)
 }
 
 io.listen(3000)

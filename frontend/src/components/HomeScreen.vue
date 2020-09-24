@@ -8,7 +8,7 @@
         <button @click="handleNewGame">Create Game</button>
       </div>
       <div>
-        <input v-model="code" type="text" />
+        <input v-model="roomName" type="text" />
         <button @click="handleJoinGame">Join Game</button>
       </div>
     </div>
@@ -20,20 +20,20 @@ export default {
   name: "HomeScreen",
   data() {
     return {
-      code: null,
+      roomName: null,
     }
   },
   methods: {
     handleNewGame() {
-      this.$socket.emit("newGame")
+      this.$socket.emit("NEW_GAME")
     },
     handleJoinGame() {
-      this.$socket.emit("joinGame", this.code)
+      this.$socket.emit("JOIN_GAME", this.roomName)
     },
   },
   sockets: {
     connect() {
-      console.log("we up!")
+      console.log("Connected")
     },
   },
 }

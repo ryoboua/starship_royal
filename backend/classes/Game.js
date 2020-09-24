@@ -19,7 +19,7 @@ module.exports = class Game {
     })
   }
 
-  gameloop() {
+  gameLoop() {
     this.asteroidField.updatePosition()
     this.players.forEach((player) => player.updatePosition(this.asteroidField))
     return 0

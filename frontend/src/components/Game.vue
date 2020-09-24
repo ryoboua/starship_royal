@@ -39,13 +39,13 @@ export default {
   },
   methods: {
     handleStartGame() {
-      this.$socket.emit("startGame")
+      this.$socket.emit("START_GAME")
     },
     keydown(e) {
-      this.$socket.emit("keydown", e.keyCode)
+      this.$socket.emit("KEY_DOWN", e.keyCode)
     },
     keyup(e) {
-      this.$socket.emit("keyup", e.keyCode)
+      this.$socket.emit("KEY_UP", e.keyCode)
     },
     paintGame(state) {
       const canvas = this.$refs.canvas
