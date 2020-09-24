@@ -46,10 +46,14 @@ module.exports = class Missiles {
       }
     })
 
+    this.removeMissiles(missilesToRemove)
     asteroidField.removeAsteroids(asteroidsToRemove)
+    return missilesToRemove.length
+  }
 
+  removeMissiles(missArr) {
     this.missiles = this.missiles.filter(
-      (mis, i) => !missilesToRemove.includes(i)
+      (mis, i) => !missArr.includes(i)
     )
   }
 }

@@ -4,6 +4,7 @@ const STEP = 5;
 const SPACE_STEP = 5;
 const MISSILE_STEP = 3
 const ASTEROID_STEP = 1
+const ASTEROID_VALUE = 10
 const GAME_WIDTH = 1000
 const GAME_HEIGHT = 600
 
@@ -16,5 +17,6 @@ module.exports = {
   MISSILE_STEP,
   ASTEROID_STEP,
   GAME_WIDTH,
-  GAME_HEIGHT
+  GAME_HEIGHT,
+  ASTEROID_VALUE
 }

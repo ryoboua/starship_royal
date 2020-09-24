@@ -1,12 +1,13 @@
 const Vector = require("./Vector")
 const Keys = require("./Keys")
 const Missiles = require("./Missiles")
-const { GRID_SIZE, SPACE_STEP } = require("../constants")
+const { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } = require("../constants")
 
 module.exports = class Player {
   constructor({ id, playerNumber, startPosition }) {
     this.id = id
     this.playerNumber = playerNumber
+    this.score = 0
     this.pos = new Vector(startPosition.x, startPosition.y)
     this.vel = new Vector(0, 0)
     this.keys = new Keys()
@@ -14,7 +15,13 @@ module.exports = class Player {
   }
 
   updatePosition(asteroidField) {
-    this.weapons.updateMissilePositions(asteroidField)
+    const numOfDestroyedAsteroids = this.weapons.updateMissilePositions(
+      asteroidField
+    )
+    if (numOfDestroyedAsteroids) {
+      this.score += numOfDestroyedAsteroids * ASTEROID_VALUE
+    }
+    console.log("score", this.score)
     return this.updateSpaceshipPosition(asteroidField)
   }
 

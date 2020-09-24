@@ -17,7 +17,7 @@ function gameloop(state) {
     return
   }
   const { players, asteroidField } = state
-  //asteroidField.updatePosition()
+  asteroidField.updatePosition()
   players.forEach((player) => player.updatePosition(asteroidField))
   return 0
 }

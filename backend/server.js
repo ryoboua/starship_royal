@@ -141,9 +141,9 @@ function startGameInterval(roomName) {
     }
   }, 1000 / FRAME_RATE)
 
-  // const asteroidFieldIntervalId = setInterval(() => {
-  //   state[roomName].asteroidField.generateAsteroid(3)
-  // }, 100)
+  const asteroidFieldIntervalId = setInterval(() => {
+    state[roomName].asteroidField.generateAsteroid(3)
+  }, 100)
 
   const fireMissileIntervalId = setInterval(() => {
     state[roomName].players.forEach((player) => {
