@@ -7,6 +7,11 @@
       <h3>Room Name: {{ roomName }}</h3>
       <h4>Player Number:{{ playerNumber }}</h4>
       <button @click="handleStartGame">Start Game</button>
+      <ul>
+        <li v-for="(p, i) in playerScores" :key="i">
+          Player {{ p.number }} : {{ p.score }}
+        </li>
+      </ul>
     </aside>
   </div>
 </template>
@@ -21,6 +26,7 @@ export default {
       ASTEROID_COLOUR: "#fbfbf8",
       MISSILE_COLOUR: "#FF6347",
       ctx: null,
+      playerScores: [],
     }
   },
   computed: {
@@ -89,7 +95,7 @@ export default {
           return
         }
 
-        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1]//this.MISSILE_COLOUR
+        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1] //this.MISSILE_COLOUR
         player.weapons.missiles.forEach((mis) => {
           ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize)
         })
@@ -97,11 +103,12 @@ export default {
     },
   },
   sockets: {
-    gameState(gameState) {
+    GAME_STATE_UPDATE(gameState) {
       gameState = JSON.parse(gameState)
+      this.playerScores = gameState.playerScores
       requestAnimationFrame(() => this.paintGame(gameState))
     },
-    gameOver() {
+    GAME_OVER() {
       alert("Game Over")
     },
   },

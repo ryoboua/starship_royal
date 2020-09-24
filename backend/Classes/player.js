@@ -21,7 +21,6 @@ module.exports = class Player {
     if (numOfDestroyedAsteroids) {
       this.score += numOfDestroyedAsteroids * ASTEROID_VALUE
     }
-    console.log("score", this.score)
     return this.updateSpaceshipPosition(asteroidField)
   }
 

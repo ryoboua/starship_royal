@@ -8,7 +8,6 @@ export default new Vuex.Store({
     playerNumber: null,
     roomName: null,
     gameActive: false,
-    players: []
   },
   mutations: {
     setRoomName(state, roomName) {
@@ -20,6 +19,9 @@ export default new Vuex.Store({
     setGameActive(state, b) {
       state.gameActive = b
     },
+    setPlayerScores(state, scores) {
+      state.playerScores = scores
+    }
   },
   actions: {
     SOCKET_NEW_GAME(context, gameInfo) {
