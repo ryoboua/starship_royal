@@ -65,7 +65,7 @@ export default {
       const { players, gridsize } = state
 
       players.forEach((player) => {
-        if(!player.isAlive) {
+        if (!player.isAlive) {
           return
         }
         ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1]
@@ -110,8 +110,13 @@ export default {
       this.playerScores = gameState.playerScores
       requestAnimationFrame(() => this.paintGame(gameState))
     },
-    GAME_OVER() {
-      alert("Game Over")
+    CLEAR_CANVAS() {
+      const canvas = this.$refs.canvas
+      const ctx = canvas.getContext("2d")
+
+      canvas.width = 1000
+      canvas.height = 600
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
     },
   },
   mounted() {

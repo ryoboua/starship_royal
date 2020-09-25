@@ -29,7 +29,11 @@ module.exports = class Game {
     this.players.forEach((player) => {
       if (player.isAlive) player.updatePosition(this.asteroidField)
     })
-    return 0
+
+    if (!this.players.some((player) => player.isAlive)) {
+      return 1
+    }
+    return 
   }
 
   getGameState() {

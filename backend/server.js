@@ -1,6 +1,6 @@
 const io = require("socket.io")()
 const Game = require("./classes/Game")
-const { FRAME_RATE } = require("./constants")
+const { FRAME_RATE, GAME_OVER_REASONS } = require("./constants")
 const { makeid } = require("./utils")
 const {
   NEW_GAME,
@@ -12,6 +12,9 @@ const {
   UNKNOWN_CODE,
   TOO_MANY_PLAYERS,
   GAME_STATE_UPDATE,
+  GAME_OVER,
+  GAME_ACTIVE,
+  CLEAR_CANVAS,
 } = require("./events")
 
 const gameStates = {}
@@ -30,6 +33,7 @@ io.on("connection", (client) => {
       return
     }
     console.log(gameStates[roomName])
+    io.sockets.in(roomName).emit(GAME_ACTIVE, true)
     startGameInterval(roomName)
   }
 
@@ -136,14 +140,16 @@ io.on("connection", (client) => {
 function startGameInterval(roomName) {
   const gameState = gameStates[roomName]
   const { asteroidField, players, levels } = gameState
-  const { numOfAsteroids, asteroidFieldTimeInterval } = levels[levels.length - 1]
+  const { numOfAsteroids, asteroidFieldTimeInterval } = levels[
+    levels.length - 1
+  ]
 
   const mainGameLoopIntervalId = setInterval(() => {
-    const winner = gameState.gameLoop()
-    if (!winner) {
+    const gameOver = gameState.gameLoop()
+    if (!gameOver) {
       emitGameState(roomName, gameState.getGameState())
     } else {
-      emitGameOver(roomName)
+      emitGameOver(roomName, gameOver)
       clearInterval(mainGameLoopIntervalId)
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
@@ -167,8 +173,9 @@ function emitGameState(room, gameState) {
   io.sockets.in(room).emit(GAME_STATE_UPDATE, JSON.stringify(gameState))
 }
 
-function emitGameOver(room, winner) {
-  io.sockets.in(room).emit(GAME_OVER)
+function emitGameOver(room, reason) {
+  io.sockets.in(room).emit(GAME_OVER, GAME_OVER_REASONS[reason])
+  io.sockets.in(room).emit(CLEAR_CANVAS)
 }
 
 io.listen(3000)
