@@ -128,12 +128,10 @@ io.on("connection", (socket) => {
   }
 
   function handleKeyUp(keyCode) {
-    const client = clientRooms[socket.id]
-    if (!client) {
+    const roomName = clientRooms[socket.id].roomName
+    if (!roomName) {
       return
     }
-
-    const roomName = client.roomName
 
     try {
       keyCode = parseInt(keyCode)
