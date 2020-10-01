@@ -31,16 +31,20 @@ export default new Vuex.Store({
     addPlayer(state, players) {
       state.players = players
     },
-    //removePlayer(state, player) {},
+    removePlayer(state, players) {
+      state.players = players
+    },
   },
   actions: {
     SOCKET_NEW_GAME(context, gameInfo) {
       context.commit("setRoomName", gameInfo.roomName)
       context.commit("setPlayerNumber", gameInfo.playerNumber)
-      context.commit("addPlayer", [{
-        playerNumber: gameInfo.playerNumber,
-        name: gameInfo.name,
-      }])
+      context.commit("addPlayer", [
+        {
+          playerNumber: gameInfo.playerNumber,
+          name: gameInfo.name,
+        },
+      ])
     },
     SOCKET_JOIN_GAME_ACCEPTED(context, gameInfo) {
       context.commit("setRoomName", gameInfo.roomName)
@@ -55,6 +59,9 @@ export default new Vuex.Store({
     },
     SOCKET_PLAYER_ADDED(context, players) {
       context.commit("addPlayer", players)
+    },
+    SOCKET_PLAYER_REMOVED(context, players) {
+      context.commit("removePlayer", players)
     },
   },
   modules: {},
