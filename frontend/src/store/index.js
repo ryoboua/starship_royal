@@ -5,9 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    name: "",
     playerNumber: null,
     roomName: null,
     gameActive: false,
+    level: null,
+    players: [],
   },
   mutations: {
     setRoomName(state, roomName) {
@@ -22,11 +25,22 @@ export default new Vuex.Store({
     setPlayerScores(state, scores) {
       state.playerScores = scores
     },
+    setName(state, name) {
+      state.name = name
+    },
+    addPlayer(state, players) {
+      state.players = players
+    },
+    //removePlayer(state, player) {},
   },
   actions: {
     SOCKET_NEW_GAME(context, gameInfo) {
       context.commit("setRoomName", gameInfo.roomName)
       context.commit("setPlayerNumber", gameInfo.playerNumber)
+      context.commit("addPlayer", [{
+        playerNumber: gameInfo.playerNumber,
+        name: gameInfo.name,
+      }])
     },
     SOCKET_JOIN_GAME_ACCEPTED(context, gameInfo) {
       context.commit("setRoomName", gameInfo.roomName)
@@ -38,6 +52,9 @@ export default new Vuex.Store({
     },
     SOCKET_GAME_ACTIVE(context, b) {
       context.commit("setGameActive", b)
+    },
+    SOCKET_PLAYER_ADDED(context, players) {
+      context.commit("addPlayer", players)
     },
   },
   modules: {},

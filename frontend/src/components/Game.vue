@@ -5,11 +5,20 @@
     </div>
     <aside>
       <h3>Room Name: {{ roomName }}</h3>
+      <h4>Name {{ name }}</h4>
       <h4>Player Number:{{ playerNumber }}</h4>
-      <button @click="handleStartGame">Start Game</button>
-      <ul>
+      <div v-if="!gameActive">
+        <h4>Current players in Lobby</h4>
+        <ul>
+          <li v-for="(p, i) in players" :key="i">
+            {{ p.name }}
+          </li>
+        </ul>
+        <button @click="handleStartGame">Start Game</button>
+      </div>
+      <ul v-if="gameActive">
         <li v-for="(p, i) in playerScores" :key="i">
-          Player {{ p.number }} : {{ p.score }}
+          {{ p.name }} : {{ p.score }}
         </li>
       </ul>
     </aside>
@@ -34,6 +43,15 @@ export default {
     },
     roomName() {
       return this.$store.state.roomName
+    },
+    name() {
+      return this.$store.state.name
+    },
+    players() {
+      return this.$store.state.players
+    },
+    gameActive() {
+      return this.$store.state.gameActive
     },
   },
   methods: {

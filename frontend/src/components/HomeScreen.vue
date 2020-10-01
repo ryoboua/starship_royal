@@ -5,6 +5,10 @@
     </div>
     <div class="homeScreen__menu">
       <div>
+        <h3>Your Name</h3>
+        <input type="text" v-model="name" />
+      </div>
+      <div>
         <button @click="handleNewGame">Create Game</button>
       </div>
       <div>
@@ -21,15 +25,22 @@ export default {
   data() {
     return {
       roomName: null,
+      name: "Tester",
     }
   },
   methods: {
     handleNewGame() {
-      this.$socket.emit("NEW_GAME")
+      this.$socket.emit("NEW_GAME", this.name)
     },
     handleJoinGame() {
-      this.$socket.emit("JOIN_GAME", this.roomName)
+      this.$socket.emit("JOIN_GAME", {
+        roomName: this.roomName,
+        name: this.name,
+      })
     },
+  },
+  beforeDestroy() {
+    this.$store.commit("setName", this.name)
   },
   sockets: {
     connect() {

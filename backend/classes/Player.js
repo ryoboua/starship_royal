@@ -4,9 +4,10 @@ const Missiles = require("./Missiles")
 const { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } = require("../constants")
 
 module.exports = class Player {
-  constructor({ id, playerNumber, startPosition }) {
+  constructor({ id, playerNumber, name, startPosition }) {
     this.id = id
     this.playerNumber = playerNumber
+    this.name = name
     this.score = 0
     this.pos = new Vector(startPosition.x, startPosition.y)
     this.vel = new Vector(0, 0)
@@ -39,7 +40,8 @@ module.exports = class Player {
     )
 
     if (hit) {
-      return this.isAlive = false
+      this.isAlive = false
+      return
     }
 
     //check if player is in game bounderies

@@ -12,11 +12,11 @@ module.exports = class Game {
     this.gridsize = GRID_SIZE
   }
 
-  static createGameState(id, playerNumber = 1) {
+  static createGameState(id, playerNumber = 1, name) {
     const game = new Game()
 
     const startPosition = { x: 200, y: 500 }
-    const playerOne = { id, playerNumber, startPosition }
+    const playerOne = { id, playerNumber, name, startPosition }
 
     game.addPlayer(playerOne)
     game.addLevel(levelParams[0])
@@ -48,7 +48,7 @@ module.exports = class Game {
   getPlayerScores() {
     return this.players
       .map((player) => ({
-        number: player.playerNumber,
+        name: player.name,
         score: player.score,
       }))
       .sort((a, b) => b.score - a.score)
