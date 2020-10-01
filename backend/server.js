@@ -21,18 +21,21 @@ const {
 const gameStates = {}
 const clientRooms = {}
 
-io.on("connection", (client) => {
-  client.on(NEW_GAME, handleNewGame)
-  client.on(START_GAME, handleStartGame)
-  client.on(JOIN_GAME, handleJoinGame)
-  client.on(KEY_DOWN, handleKeydown)
-  client.on(KEY_UP, handleKeyUp)
-  client.on("disconnect", function() {
-    console.log('I disconnected')
+io.on("connection", (socket) => {
+  socket.on(NEW_GAME, handleNewGame)
+  socket.on(START_GAME, handleStartGame)
+  socket.on(JOIN_GAME, handleJoinGame)
+  socket.on(KEY_DOWN, handleKeydown)
+  socket.on(KEY_UP, handleKeyUp)
+  socket.on("disconnect", function () {
+    const clientInfo = clientRooms[socket.id]
+    if (!clientInfo) {
+      return
+    }
   })
 
   function handleStartGame() {
-    const roomName = clientRooms[client.id].roomName
+    const roomName = clientRooms[socket.id].roomName
     if (!roomName) {
       return
     }
@@ -45,13 +48,13 @@ io.on("connection", (client) => {
     const roomName = makeid(5)
     const playerNumber = 1
 
-    clientRooms[client.id] = { roomName, name }
-    gameStates[roomName] = Game.createGameState(client.id, playerNumber, name)
+    clientRooms[socket.id] = { roomName, name }
+    gameStates[roomName] = Game.createGameState(socket.id, playerNumber, name)
 
-    client.number = playerNumber
-    client.join(roomName)
+    socket.number = playerNumber
+    socket.join(roomName)
 
-    client.emit(NEW_GAME, {
+    socket.emit(NEW_GAME, {
       playerNumber,
       roomName,
       name,
@@ -65,6 +68,7 @@ io.on("connection", (client) => {
     if (room) {
       allUsers = room.sockets
     }
+    console.log(allUsers)
 
     let numClients = 0
     if (allUsers) {
@@ -72,27 +76,27 @@ io.on("connection", (client) => {
     }
 
     if (numClients === 0) {
-      client.emit(UNKNOWN_CODE)
+      socket.emit(UNKNOWN_CODE)
       return
     } else if (numClients >= 4) {
-      client.emit(TOO_MANY_PLAYERS)
+      socket.emit(TOO_MANY_PLAYERS)
       return
     }
 
     const playerNumber = numClients + 1
     const startPosition = { x: playerNumber * 200, y: 500 }
     gameStates[roomName].addPlayer({
-      id: client.id,
+      id: socket.id,
       playerNumber,
       startPosition,
       name,
     })
 
-    clientRooms[client.id] = { roomName, name }
-    client.number = playerNumber
+    clientRooms[socket.id] = { roomName, name }
+    socket.number = playerNumber
 
-    client.join(roomName, () => {
-      client.emit(JOIN_GAME_ACCEPTED, {
+    socket.join(roomName, () => {
+      socket.emit(JOIN_GAME_ACCEPTED, {
         roomName,
         playerNumber,
       })
@@ -102,7 +106,7 @@ io.on("connection", (client) => {
   }
 
   function handleKeydown(keyCode) {
-    const roomName = clientRooms[client.id].roomName
+    const roomName = clientRooms[socket.id].roomName
     if (!roomName) {
       return
     }
@@ -113,7 +117,7 @@ io.on("connection", (client) => {
       console.log(e)
       return
     }
-    const player = gameStates[roomName].players[client.number - 1]
+    const player = gameStates[roomName].players[socket.number - 1]
 
     if (!player) {
       return
@@ -124,10 +128,12 @@ io.on("connection", (client) => {
   }
 
   function handleKeyUp(keyCode) {
-    const roomName = clientRooms[client.id].roomName
-    if (!roomName) {
+    const client = clientRooms[socket.id]
+    if (!client) {
       return
     }
+
+    const roomName = client.roomName
 
     try {
       keyCode = parseInt(keyCode)
@@ -136,7 +142,7 @@ io.on("connection", (client) => {
       return
     }
 
-    const player = gameStates[roomName].players[client.number - 1]
+    const player = gameStates[roomName].players[socket.number - 1]
 
     if (!player) {
       return
