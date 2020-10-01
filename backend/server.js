@@ -1,5 +1,6 @@
 const io = require("socket.io")()
 const Game = require("./classes/Game")
+const Client = require("./Client")
 const { FRAME_RATE, GAME_OVER_REASONS } = require("./constants")
 const { makeid } = require("./utils")
 const {
@@ -47,8 +48,9 @@ io.on("connection", (socket) => {
   function handleNewGame(name) {
     const roomName = makeid(5)
     const playerNumber = 1
-
-    clientRooms[socket.id] = { roomName, name }
+    const client = new Client(socket.id, name, roomName)
+    console.log(client)
+    clientRooms[socket.id] = client
     gameStates[roomName] = Game.createGameState(socket.id, playerNumber, name)
 
     socket.number = playerNumber
@@ -68,7 +70,6 @@ io.on("connection", (socket) => {
     if (room) {
       allUsers = room.sockets
     }
-    console.log(allUsers)
 
     let numClients = 0
     if (allUsers) {
@@ -84,21 +85,22 @@ io.on("connection", (socket) => {
     }
 
     const playerNumber = numClients + 1
-    const startPosition = { x: playerNumber * 200, y: 500 }
-    gameStates[roomName].addPlayer({
-      id: socket.id,
-      playerNumber,
-      startPosition,
-      name,
-    })
 
-    clientRooms[socket.id] = { roomName, name }
+    clientRooms[socket.id] = new Client(socket.id, name, roomName)
     socket.number = playerNumber
 
     socket.join(roomName, () => {
       socket.emit(JOIN_GAME_ACCEPTED, {
         roomName,
         playerNumber,
+      })
+
+      const startPosition = { x: playerNumber * 200, y: 500 }
+      gameStates[roomName].addPlayer({
+        id: socket.id,
+        playerNumber,
+        startPosition,
+        name,
       })
 
       io.sockets.in(roomName).emit(PLAYER_ADDED, getAllPlayersInRoom(roomName))
