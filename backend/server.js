@@ -27,9 +27,12 @@ io.on("connection", (client) => {
   client.on(JOIN_GAME, handleJoinGame)
   client.on(KEY_DOWN, handleKeydown)
   client.on(KEY_UP, handleKeyUp)
+  client.on("disconnect", function() {
+    console.log('I disconnected')
+  })
 
   function handleStartGame() {
-    const roomName = clientRooms[client.id]
+    const roomName = clientRooms[client.id].roomName
     if (!roomName) {
       return
     }
@@ -42,7 +45,7 @@ io.on("connection", (client) => {
     const roomName = makeid(5)
     const playerNumber = 1
 
-    clientRooms[client.id] = roomName
+    clientRooms[client.id] = { roomName, name }
     gameStates[roomName] = Game.createGameState(client.id, playerNumber, name)
 
     client.number = playerNumber
@@ -85,7 +88,7 @@ io.on("connection", (client) => {
       name,
     })
 
-    clientRooms[client.id] = roomName
+    clientRooms[client.id] = { roomName, name }
     client.number = playerNumber
 
     client.join(roomName, () => {
@@ -94,15 +97,12 @@ io.on("connection", (client) => {
         playerNumber,
       })
 
-      io.sockets.in(roomName).emit(PLAYER_ADDED, {
-        name,
-        playerNumber,
-      })
+      io.sockets.in(roomName).emit(PLAYER_ADDED, getAllPlayersInRoom(roomName))
     })
   }
 
   function handleKeydown(keyCode) {
-    const roomName = clientRooms[client.id]
+    const roomName = clientRooms[client.id].roomName
     if (!roomName) {
       return
     }
@@ -124,7 +124,7 @@ io.on("connection", (client) => {
   }
 
   function handleKeyUp(keyCode) {
-    const roomName = clientRooms[client.id]
+    const roomName = clientRooms[client.id].roomName
     if (!roomName) {
       return
     }
@@ -186,6 +186,17 @@ function emitGameState(room, gameState) {
 function emitGameOver(room, reason) {
   io.sockets.in(room).emit(GAME_OVER, GAME_OVER_REASONS[reason])
   io.sockets.in(room).emit(CLEAR_CANVAS)
+}
+
+function getAllPlayersInRoom(room) {
+  const players = []
+  for (const [clientId, data] of Object.entries(clientRooms)) {
+    if (data.roomName === room) {
+      players.push(data)
+    }
+  }
+
+  return players
 }
 
 io.listen(3000)
