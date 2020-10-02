@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     name: "",
     playerNumber: null,
+    host: null,
     roomName: null,
     gameActive: false,
     level: null,
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     setName(state, name) {
       state.name = name
     },
+    setHost(state, b) {
+      state.host = b
+    },
     addPlayer(state, players) {
       state.players = players
     },
@@ -37,13 +41,17 @@ export default new Vuex.Store({
   },
   actions: {
     SOCKET_NEW_GAME(context, client) {
+      console.log(client)
       context.commit("setRoomName", client.roomName)
+      context.commit("setHost", client.host)
       context.commit("setPlayerNumber", client.playerNumber)
       context.commit("addPlayer", [client])
     },
     SOCKET_JOIN_GAME_ACCEPTED(context, client) {
+      console.log(client)
       context.commit("setRoomName", client.roomName)
       context.commit("setPlayerNumber", client.playerNumber)
+      context.commit("setHost", client.host)
     },
     SOCKET_GAME_OVER(context, reason) {
       context.commit("setGameActive", false)

@@ -36,8 +36,12 @@ io.on("connection", (socket) => {
     if (!clientList.has(socket.id)) {
       return
     }
+    const client = clientList.get(socket.id)
 
-    const roomName = clientList.get(socket.id).getRoomName()
+    if (!client.host) {
+      return
+    }
+    const roomName = client.getRoomName()
 
     console.log(gameStates.get(roomName))
     io.sockets.in(roomName).emit(GAME_ACTIVE, true)
@@ -95,7 +99,7 @@ io.on("connection", (socket) => {
 
       const startPosition = { x: playerNumber * 200, y: 500 }
       gameStates.get(roomName).addPlayer(client, startPosition)
-      
+
       socket.emit(JOIN_GAME_ACCEPTED, client)
       io.sockets.in(roomName).emit(PLAYER_ADDED, getAllClientsInRoom(roomName))
     })

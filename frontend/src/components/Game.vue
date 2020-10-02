@@ -14,7 +14,7 @@
             {{ p.name }}
           </li>
         </ul>
-        <button @click="handleStartGame">Start Game</button>
+        <button v-if="isHost" @click="handleStartGame">Start Game</button>
       </div>
       <ul v-if="gameActive">
         <li v-for="(p, i) in playerScores" :key="i">
@@ -53,6 +53,9 @@ export default {
     gameActive() {
       return this.$store.state.gameActive
     },
+    isHost() {
+      return this.$store.state.host
+    }
   },
   methods: {
     handleStartGame() {
