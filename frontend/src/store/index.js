@@ -41,9 +41,9 @@ export default new Vuex.Store({
       context.commit("setPlayerNumber", client.playerNumber)
       context.commit("addPlayer", [client])
     },
-    SOCKET_JOIN_GAME_ACCEPTED(context, gameInfo) {
-      context.commit("setRoomName", gameInfo.roomName)
-      context.commit("setPlayerNumber", gameInfo.playerNumber)
+    SOCKET_JOIN_GAME_ACCEPTED(context, client) {
+      context.commit("setRoomName", client.roomName)
+      context.commit("setPlayerNumber", client.playerNumber)
     },
     SOCKET_GAME_OVER(context, reason) {
       context.commit("setGameActive", false)

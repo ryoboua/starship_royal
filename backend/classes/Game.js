@@ -12,13 +12,11 @@ module.exports = class Game {
     this.gridsize = GRID_SIZE
   }
 
-  static createGameState(id, playerNumber = 1, name) {
+  static createGameState(client) {
     const game = new Game()
 
     const startPosition = { x: 200, y: 500 }
-    const playerOne = { id, playerNumber, name, startPosition }
-
-    game.addPlayer(playerOne)
+    game.addPlayer(client, startPosition)
     game.addLevel(levelParams[0])
 
     return game
@@ -54,8 +52,8 @@ module.exports = class Game {
       .sort((a, b) => b.score - a.score)
   }
 
-  addPlayer(player) {
-    player = new Player(player)
+  addPlayer(client, startPosition) {
+    const player = new Player(client, startPosition)
     this.players.push(player)
   }
 

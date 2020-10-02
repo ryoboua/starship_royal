@@ -1,6 +1,6 @@
 const io = require("socket.io")()
 const Game = require("./classes/Game")
-const Client = require("./Client")
+const Client = require("./classes/Client")
 const { FRAME_RATE, GAME_OVER_REASONS } = require("./constants")
 const { makeid } = require("./utils")
 const {
@@ -47,17 +47,16 @@ io.on("connection", (socket) => {
   function handleNewGame(name) {
     const roomName = makeid(5)
     const playerNumber = 1
-    const client = new Client(socket.id, name, roomName, true)
-    clientList.set(socket.id, client)
-    gameStates[roomName] = Game.createGameState(socket.id, playerNumber, name)
-
     socket.number = playerNumber
-    socket.join(roomName)
+    socket.join(roomName, (err) => {
+      if (err) {
+        return console.log("Error creating new game")
+      }
+      const client = new Client(socket.id, name, roomName, playerNumber, true)
+      clientList.set(socket.id, client)
+      gameStates[roomName] = Game.createGameState(client)
 
-    socket.emit(NEW_GAME, {
-      playerNumber,
-      roomName,
-      name,
+      socket.emit(NEW_GAME, client)
     })
   }
 
@@ -82,25 +81,21 @@ io.on("connection", (socket) => {
       return
     }
 
-    socket.join(roomName, () => {
+    socket.join(roomName, (err) => {
+      if (err) {
+        return console.log(`Error trying to join room ${roomName}`)
+      }
+
       const playerNumber = numClients + 1
       socket.number = playerNumber
 
-      clientList.set(socket.id, new Client(socket.id, name, roomName))
-
-      socket.emit(JOIN_GAME_ACCEPTED, {
-        roomName,
-        playerNumber,
-      })
+      const client = new Client(socket.id, name, roomName, playerNumber)
+      clientList.set(socket.id, client)
 
       const startPosition = { x: playerNumber * 200, y: 500 }
-      gameStates[roomName].addPlayer({
-        id: socket.id,
-        playerNumber,
-        startPosition,
-        name,
-      })
-
+      gameStates[roomName].addPlayer(client, startPosition)
+      
+      socket.emit(JOIN_GAME_ACCEPTED, client)
       io.sockets.in(roomName).emit(PLAYER_ADDED, getAllClientsInRoom(roomName))
     })
   }

@@ -1,13 +1,13 @@
+const Client = require("./Client")
 const Vector = require("./Vector")
 const Keys = require("./Keys")
 const Missiles = require("./Missiles")
 const { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } = require("../constants")
 
-module.exports = class Player {
-  constructor({ id, playerNumber, name, startPosition }) {
-    this.id = id
-    this.playerNumber = playerNumber
-    this.name = name
+module.exports = class Player extends Client {
+  constructor(client, startPosition) {
+    super(client.socketId, client.name, client.roomName, client.playerNumber, client.host)
+
     this.score = 0
     this.pos = new Vector(startPosition.x, startPosition.y)
     this.vel = new Vector(0, 0)
