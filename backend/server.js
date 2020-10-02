@@ -17,7 +17,8 @@ const {
   GAME_ACTIVE,
   CLEAR_CANVAS,
   PLAYER_ADDED,
-  PLAYER_REMOVED
+  PLAYER_REMOVED,
+  DISCONNECT,
 } = require("./events")
 
 const gameStates = {}
@@ -29,7 +30,7 @@ io.on("connection", (socket) => {
   socket.on(JOIN_GAME, handleJoinGame)
   socket.on(KEY_DOWN, handleKeydown)
   socket.on(KEY_UP, handleKeyUp)
-  socket.on("disconnect", handleDisconnect)
+  socket.on(DISCONNECT, handleDisconnect)
 
   function handleStartGame() {
     if (!clientList.has(socket.id)) {
@@ -46,7 +47,8 @@ io.on("connection", (socket) => {
   function handleNewGame(name) {
     const roomName = makeid(5)
     const playerNumber = 1
-    clientList.set(socket.id, new Client(socket.id, name, roomName))
+    const client = new Client(socket.id, name, roomName, true)
+    clientList.set(socket.id, client)
     gameStates[roomName] = Game.createGameState(socket.id, playerNumber, name)
 
     socket.number = playerNumber

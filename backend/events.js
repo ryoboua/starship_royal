@@ -12,5 +12,6 @@ module.exports = {
     UNKNOWN_CODE: "UNKNOWN_CODE",
     KEY_DOWN: "KEY_DOWN",
     KEY_UP: "KEY_UP",
-    CLEAR_CANVAS: "CLEAR_CANVAS"
+    CLEAR_CANVAS: "CLEAR_CANVAS",
+    DISCONNECT: "disconnect"
 }

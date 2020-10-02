@@ -36,15 +36,10 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    SOCKET_NEW_GAME(context, gameInfo) {
-      context.commit("setRoomName", gameInfo.roomName)
-      context.commit("setPlayerNumber", gameInfo.playerNumber)
-      context.commit("addPlayer", [
-        {
-          playerNumber: gameInfo.playerNumber,
-          name: gameInfo.name,
-        },
-      ])
+    SOCKET_NEW_GAME(context, client) {
+      context.commit("setRoomName", client.roomName)
+      context.commit("setPlayerNumber", client.playerNumber)
+      context.commit("addPlayer", [client])
     },
     SOCKET_JOIN_GAME_ACCEPTED(context, gameInfo) {
       context.commit("setRoomName", gameInfo.roomName)
