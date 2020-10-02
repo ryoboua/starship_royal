@@ -21,7 +21,7 @@ const {
   DISCONNECT,
 } = require("./events")
 
-const gameStates = {}
+const gameStates = new Map()
 const clientList = new Map()
 
 io.on("connection", (socket) => {
@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
 
     const roomName = clientList.get(socket.id).getRoomName()
 
-    console.log(gameStates[roomName])
+    console.log(gameStates.get(roomName))
     io.sockets.in(roomName).emit(GAME_ACTIVE, true)
     startGameInterval(roomName)
   }
@@ -52,9 +52,10 @@ io.on("connection", (socket) => {
       if (err) {
         return console.log("Error creating new game")
       }
+
       const client = new Client(socket.id, name, roomName, playerNumber, true)
       clientList.set(socket.id, client)
-      gameStates[roomName] = Game.createGameState(client)
+      gameStates.set(roomName, Game.createGameState(client))
 
       socket.emit(NEW_GAME, client)
     })
@@ -93,7 +94,7 @@ io.on("connection", (socket) => {
       clientList.set(socket.id, client)
 
       const startPosition = { x: playerNumber * 200, y: 500 }
-      gameStates[roomName].addPlayer(client, startPosition)
+      gameStates.get(roomName).addPlayer(client, startPosition)
       
       socket.emit(JOIN_GAME_ACCEPTED, client)
       io.sockets.in(roomName).emit(PLAYER_ADDED, getAllClientsInRoom(roomName))
@@ -113,7 +114,7 @@ io.on("connection", (socket) => {
       console.log(e)
       return
     }
-    const player = gameStates[roomName].players[socket.number - 1]
+    const player = gameStates.get(roomName).players[socket.number - 1]
 
     if (!player) {
       return
@@ -137,7 +138,7 @@ io.on("connection", (socket) => {
       return
     }
 
-    const player = gameStates[roomName].players[socket.number - 1]
+    const player = gameStates.get(roomName).players[socket.number - 1]
 
     if (!player) {
       return
@@ -158,7 +159,7 @@ io.on("connection", (socket) => {
 })
 
 function startGameInterval(roomName) {
-  const gameState = gameStates[roomName]
+  const gameState = gameStates.get(roomName)
   const { asteroidField, players, levels } = gameState
   const { numOfAsteroids, asteroidFieldTimeInterval } = levels[
     levels.length - 1
