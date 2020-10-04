@@ -3,6 +3,7 @@ const Game = require("./classes/Game")
 const Client = require("./classes/Client")
 const { FRAME_RATE, GAME_OVER_REASONS } = require("./constants")
 const { makeid } = require("./utils")
+//const { createNewGame } = require("./controllers")
 const {
   NEW_GAME,
   START_GAME,
@@ -47,6 +48,14 @@ io.on("connection", (socket) => {
     io.sockets.in(roomName).emit(GAME_ACTIVE, true)
     startGameInterval(roomName)
   }
+
+  // function handleNewGame(name) {
+  //   const client = createNewGame(socket.id, name)
+
+  //   socket.number = client.playerNumber
+  //   socket.join(client.roomName)
+  //   socket.emit(NEW_GAME, client)
+  // }
 
   function handleNewGame(name) {
     const roomName = makeid(5)
@@ -118,7 +127,7 @@ io.on("connection", (socket) => {
       console.log(e)
       return
     }
-    const player = gameStates.get(roomName).players[socket.number - 1]
+    const player = gameStates.get(roomName).players[socket.id]
 
     if (!player) {
       return
@@ -142,7 +151,7 @@ io.on("connection", (socket) => {
       return
     }
 
-    const player = gameStates.get(roomName).players[socket.number - 1]
+    const player = gameStates.get(roomName).players[socket.id]
 
     if (!player) {
       return
@@ -186,7 +195,7 @@ function startGameInterval(roomName) {
   }, asteroidFieldTimeInterval)
 
   const fireMissileIntervalId = setInterval(() => {
-    players.forEach((player) => {
+    Object.values(players).forEach((player) => {
       if (player.isAlive) {
         player.fireMissile()
       }

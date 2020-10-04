@@ -85,7 +85,7 @@ export default {
       const ctx = this.$refs.canvas.getContext("2d")
       const { players, gridsize } = state
 
-      players.forEach((player) => {
+      Object.values(players).forEach((player) => {
         if (!player.isAlive) {
           return
         }
@@ -113,7 +113,7 @@ export default {
       const ctx = this.$refs.canvas.getContext("2d")
       const { players, gridsize } = state
 
-      players.forEach((player) => {
+      Object.values(players).forEach((player) => {
         if (!player.weapons.missiles.length || !player.isAlive) {
           return
         }

@@ -6,7 +6,7 @@ const levelParams = require("../levels")
 
 module.exports = class Game {
   constructor() {
-    this.players = []
+    this.players = {}
     this.levels = []
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE
@@ -24,14 +24,14 @@ module.exports = class Game {
 
   gameLoop() {
     this.asteroidField.updatePosition()
-    this.players.forEach((player) => {
+    Object.values(this.players).forEach((player) => {
       if (player.isAlive) player.updatePosition(this.asteroidField)
     })
 
-    if (!this.players.some((player) => player.isAlive)) {
+    if (!Object.values(this.players).some((player) => player.isAlive)) {
       return 1
     }
-    return 
+    return
   }
 
   getGameState() {
@@ -44,7 +44,7 @@ module.exports = class Game {
   }
 
   getPlayerScores() {
-    return this.players
+    return Object.values(this.players)
       .map((player) => ({
         name: player.name,
         score: player.score,
@@ -54,7 +54,7 @@ module.exports = class Game {
 
   addPlayer(client, startPosition) {
     const player = new Player(client, startPosition)
-    this.players.push(player)
+    this.players[player.socketId] = player
   }
 
   addLevel(level) {
