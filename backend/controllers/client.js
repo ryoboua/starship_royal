@@ -1,25 +1,12 @@
-const Game = require("./classes/Game")
-const Client = require("./classes/Client")
-const { FRAME_RATE, GAME_OVER_REASONS } = require("./constants")
-const { initGame, addPlayer, gameHandleKeydown, gameHandleKeyUp } = require("./gameCrontollers")
-const { makeid } = require("./utils")
+const Client = require("../classes/Client")
 const {
-  NEW_GAME,
-  START_GAME,
-  JOIN_GAME,
-  JOIN_GAME_ACCEPTED,
-  KEY_DOWN,
-  KEY_UP,
-  UNKNOWN_CODE,
-  TOO_MANY_PLAYERS,
-  GAME_STATE_UPDATE,
-  GAME_OVER,
-  GAME_ACTIVE,
-  CLEAR_CANVAS,
-  PLAYER_ADDED,
-  PLAYER_REMOVED,
-  DISCONNECT,
-} = require("./events")
+  initGame,
+  addPlayer,
+  gameHandleKeydown,
+  gameHandleKeyUp,
+  startGameInterval,
+} = require("./game")
+const { makeid } = require("../utils")
 
 const clientList = new Map()
 
@@ -43,47 +30,60 @@ function joinGame(socketId, roomName, name, numClients) {
   return [client, getAllClientsInRoom(roomName)]
 }
 
-function handleKeydown(socketId, keyCode) {
-  try {
-    keyCode = parseInt(keyCode)
-  } catch (e) {
-    console.log(e)
-    return
-  }
-
-  if (!clientList.has(socketId)) {
-    return
-  }
-
-  const client = clientList.get(socketId)
-
-  gameHandleKeydown(client, keyCode)
-}
-function handleKeyUp(socketId, keyCode) {
-  try {
-    keyCode = parseInt(keyCode)
-  } catch (e) {
-    console.log(e)
-    return
-  }
-
-  if (!clientList.has(socketId)) {
-    return
-  }
-
-  const client = clientList.get(socketId)
-
-  gameHandleKeyUp(client, keyCode)
-}
-
 function processDisconnect(socketId) {
   if (!clientList.has(socketId)) {
     return
   }
   const roomName = clientList.get(socketId).getRoomName()
   clientList.delete(socketId)
-  
+
   return [roomName, getAllClientsInRoom(roomName)]
+}
+
+function handleKeydown(socketId, keyCode) {
+  if (!clientList.has(socketId)) {
+    return
+  }
+
+  const client = clientList.get(socketId)
+
+  try {
+    keyCode = parseInt(keyCode)
+  } catch (e) {
+    console.log(e)
+    return
+  }
+  gameHandleKeydown(client, keyCode)
+}
+
+function handleKeyUp(socketId, keyCode) {
+  if (!clientList.has(socketId)) {
+    return
+  }
+
+  const client = clientList.get(socketId)
+
+  try {
+    keyCode = parseInt(keyCode)
+  } catch (e) {
+    console.log(e)
+    return
+  }
+  gameHandleKeyUp(client, keyCode)
+}
+
+function startGame(socketId, gameEventEmitter) {
+  if (!clientList.has(socketId)) {
+    return
+  }
+  const client = clientList.get(socketId)
+
+  if (!client.host) {
+    return
+  }
+  const roomName = client.getRoomName()
+
+  startGameInterval(roomName, gameEventEmitter)
 }
 
 function getAllClientsInRoom(room) {
@@ -96,10 +96,12 @@ function getAllClientsInRoom(room) {
 
   return players
 }
+
 module.exports = {
   createNewGame,
   joinGame,
   handleKeydown,
   handleKeyUp,
   processDisconnect,
+  startGame,
 }
