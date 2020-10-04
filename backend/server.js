@@ -3,7 +3,7 @@ const io = require("socket.io")()
 const { GAME_OVER_REASONS } = require("./constants")
 const {
   createNewGame,
-  joinGame,
+  joinRoom,
   handleKeyDown,
   handleKeyUp,
   processDisconnect,
@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
         return console.log(`Error trying to join room ${roomName}`)
       }
 
-      const [client, clientList] = joinGame(
+      const [client, clientList] = joinRoom(
         socket.id,
         roomName,
         name,
