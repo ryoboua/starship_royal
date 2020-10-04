@@ -19,7 +19,7 @@ function createNewGame(socketId, name) {
   return client
 }
 
-function joinGame(socketId, roomName, name, numClients) {
+function joinRoom(socketId, roomName, name, numClients) {
   const playerNumber = numClients + 1
 
   const client = new Client(socketId, name, roomName, playerNumber)
@@ -99,7 +99,7 @@ function getAllClientsInRoom(room) {
 
 module.exports = {
   createNewGame,
-  joinGame,
+  joinRoom,
   handleKeyDown,
   handleKeyUp,
   processDisconnect,
