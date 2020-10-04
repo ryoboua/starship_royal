@@ -4,7 +4,7 @@ const { GAME_OVER_REASONS } = require("./constants")
 const {
   createNewGame,
   joinGame,
-  handleKeydown,
+  handleKeyDown,
   handleKeyUp,
   processDisconnect,
   startGame,
@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
   socket.on(JOIN_GAME, handleJoinRoom)
   socket.on(START_GAME, handleStartGame)
   socket.on(DISCONNECT, handleDisconnect)
-  socket.on(KEY_DOWN, (keyCode) => handleKeydown(socket.id, keyCode))
+  socket.on(KEY_DOWN, (keyCode) => handleKeyDown(socket.id, keyCode))
   socket.on(KEY_UP, (keyCode) => handleKeyUp(socket.id, keyCode))
 
   function handleNewGame(name) {

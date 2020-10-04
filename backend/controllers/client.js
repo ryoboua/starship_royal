@@ -2,7 +2,7 @@ const Client = require("../classes/Client")
 const {
   initGame,
   addPlayer,
-  gameHandleKeydown,
+  gamehandleKeyDown,
   gameHandleKeyUp,
   startGameInterval,
 } = require("./game")
@@ -40,7 +40,7 @@ function processDisconnect(socketId) {
   return [roomName, getAllClientsInRoom(roomName)]
 }
 
-function handleKeydown(socketId, keyCode) {
+function handleKeyDown(socketId, keyCode) {
   if (!clientList.has(socketId)) {
     return
   }
@@ -53,7 +53,7 @@ function handleKeydown(socketId, keyCode) {
     console.log(e)
     return
   }
-  gameHandleKeydown(client, keyCode)
+  gamehandleKeyDown(client, keyCode)
 }
 
 function handleKeyUp(socketId, keyCode) {
@@ -100,7 +100,7 @@ function getAllClientsInRoom(room) {
 module.exports = {
   createNewGame,
   joinGame,
-  handleKeydown,
+  handleKeyDown,
   handleKeyUp,
   processDisconnect,
   startGame,
