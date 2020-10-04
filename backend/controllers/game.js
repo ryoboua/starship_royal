@@ -12,7 +12,7 @@ function addPlayer(roomName, client) {
   gameStates.get(roomName).addPlayer(client, startPosition)
 }
 
-function gamehandleKeyDown(client, keyCode) {
+function gameHandleKeyDown(client, keyCode) {
   const player = gameStates.get(client.roomName).players[client.socketId]
 
   if (!player) {
@@ -74,7 +74,7 @@ function startGameInterval(
 module.exports = {
   initGame,
   addPlayer,
-  gamehandleKeyDown,
+  gameHandleKeyDown,
   gameHandleKeyUp,
   startGameInterval,
 }

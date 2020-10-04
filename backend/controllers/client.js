@@ -2,7 +2,7 @@ const Client = require("../classes/Client")
 const {
   initGame,
   addPlayer,
-  gamehandleKeyDown,
+  gameHandleKeyDown,
   gameHandleKeyUp,
   startGameInterval,
 } = require("./game")
@@ -53,7 +53,7 @@ function handleKeyDown(socketId, keyCode) {
     console.log(e)
     return
   }
-  gamehandleKeyDown(client, keyCode)
+  gameHandleKeyDown(client, keyCode)
 }
 
 function handleKeyUp(socketId, keyCode) {
