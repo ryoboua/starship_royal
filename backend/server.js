@@ -3,7 +3,13 @@ const Game = require("./classes/Game")
 const Client = require("./classes/Client")
 const { FRAME_RATE, GAME_OVER_REASONS } = require("./constants")
 const { makeid } = require("./utils")
-//const { createNewGame } = require("./controllers")
+const {
+  createNewGame,
+  joinGame,
+  handleKeydown,
+  handleKeyUp,
+  processDisconnect,
+} = require("./controllers")
 const {
   NEW_GAME,
   START_GAME,
@@ -28,9 +34,9 @@ const clientList = new Map()
 io.on("connection", (socket) => {
   socket.on(NEW_GAME, handleNewGame)
   socket.on(START_GAME, handleStartGame)
-  socket.on(JOIN_GAME, handleJoinGame)
-  socket.on(KEY_DOWN, handleKeydown)
-  socket.on(KEY_UP, handleKeyUp)
+  socket.on(JOIN_GAME, handleJoinRoom)
+  socket.on(KEY_DOWN, (keyCode) => handleKeydown(socket.id, keyCode))
+  socket.on(KEY_UP, (keyCode) => handleKeyUp(socket.id, keyCode))
   socket.on(DISCONNECT, handleDisconnect)
 
   function handleStartGame() {
@@ -49,32 +55,15 @@ io.on("connection", (socket) => {
     startGameInterval(roomName)
   }
 
-  // function handleNewGame(name) {
-  //   const client = createNewGame(socket.id, name)
-
-  //   socket.number = client.playerNumber
-  //   socket.join(client.roomName)
-  //   socket.emit(NEW_GAME, client)
-  // }
-
   function handleNewGame(name) {
-    const roomName = makeid(5)
-    const playerNumber = 1
-    socket.number = playerNumber
-    socket.join(roomName, (err) => {
-      if (err) {
-        return console.log("Error creating new game")
-      }
+    const client = createNewGame(socket.id, name)
 
-      const client = new Client(socket.id, name, roomName, playerNumber, true)
-      clientList.set(socket.id, client)
-      gameStates.set(roomName, Game.createGameState(client))
-
-      socket.emit(NEW_GAME, client)
-    })
+    socket.number = client.playerNumber
+    socket.join(client.roomName)
+    socket.emit(NEW_GAME, client)
   }
 
-  function handleJoinGame({ roomName, name }) {
+  function handleJoinRoom({ roomName, name }) {
     const room = io.sockets.adapter.rooms[roomName]
 
     let allUsers
@@ -100,74 +89,21 @@ io.on("connection", (socket) => {
         return console.log(`Error trying to join room ${roomName}`)
       }
 
-      const playerNumber = numClients + 1
-      socket.number = playerNumber
-
-      const client = new Client(socket.id, name, roomName, playerNumber)
-      clientList.set(socket.id, client)
-
-      const startPosition = { x: playerNumber * 200, y: 500 }
-      gameStates.get(roomName).addPlayer(client, startPosition)
+      const [client, clientList] = joinGame(socket.id, roomName, name, numClients)
 
       socket.emit(JOIN_GAME_ACCEPTED, client)
-      io.sockets.in(roomName).emit(PLAYER_ADDED, getAllClientsInRoom(roomName))
+      io.sockets.in(roomName).emit(PLAYER_ADDED, clientList)
     })
   }
 
-  function handleKeydown(keyCode) {
-    if (!clientList.has(socket.id)) {
-      return
-    }
-
-    const roomName = clientList.get(socket.id).getRoomName()
-
-    try {
-      keyCode = parseInt(keyCode)
-    } catch (e) {
-      console.log(e)
-      return
-    }
-    const player = gameStates.get(roomName).players[socket.id]
-
-    if (!player) {
-      return
-    }
-
-    player.keys.updateKeysDown(keyCode)
-    player.updateVelocityKeyDown(keyCode)
-  }
-
-  function handleKeyUp(keyCode) {
-    if (!clientList.has(socket.id)) {
-      return
-    }
-
-    const roomName = clientList.get(socket.id).getRoomName()
-
-    try {
-      keyCode = parseInt(keyCode)
-    } catch (e) {
-      console.log(e)
-      return
-    }
-
-    const player = gameStates.get(roomName).players[socket.id]
-
-    if (!player) {
-      return
-    }
-
-    player.keys.updateKeysUp(keyCode)
-    player.updateVelocityKeyUp(keyCode)
-  }
-
   function handleDisconnect() {
-    if (!clientList.has(socket.id)) {
+    const res = processDisconnect(socket.id)
+    if (!res) {
       return
     }
-    const roomName = clientList.get(socket.id).getRoomName()
-    clientList.delete(socket.id)
-    io.sockets.in(roomName).emit(PLAYER_REMOVED, getAllClientsInRoom(roomName))
+
+    const [roomName, newClientList] = res
+    io.sockets.in(roomName).emit(PLAYER_REMOVED, newClientList)
   }
 })
 
