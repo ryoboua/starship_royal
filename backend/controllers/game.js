@@ -56,7 +56,11 @@ function startGameInterval(roomName, initEmitter) {
     if (!gameOverReason) {
       emit(GAME_STATE_UPDATE, gameState.getGameState())
     } else {
-      emit(GAME_OVER, GAME_OVER_REASONS[gameOverReason])
+      const modal = {
+        header: "Game Over",
+        body: GAME_OVER_REASONS[gameOverReason],
+      }
+      emit(GAME_OVER, modal)
       emit(CLEAR_CANVAS)
       clearInterval(mainGameLoopIntervalId)
       clearInterval(asteroidFieldIntervalId)
@@ -81,6 +85,10 @@ function startGameInterval(roomName, initEmitter) {
       }
     })
   }, 300)
+}
+
+function generateModal(reason) {
+
 }
 
 module.exports = {

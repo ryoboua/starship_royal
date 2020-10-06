@@ -20,14 +20,13 @@ export default {
     },
   },
   actions: {
-    SOCKET_GAME_OVER(context, reason) {
+    SOCKET_GAME_OVER(context, modal) {
       context.commit("setGameActive", false)
       context.commit(
-        "modal/setModelDetails",
-        { header: "Game Over", body: reason },
+        "modal/setAndShowModal",
+        modal,
         { root: true }
       )
-      context.commit("modal/showModal", null, { root: true })
     },
     SOCKET_GAME_ACTIVE(context, b) {
       context.commit("setGameActive", b)

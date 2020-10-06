@@ -52,10 +52,16 @@ io.on("connection", (socket) => {
     }
 
     if (numClients === 0) {
-      socket.emit(UNKNOWN_CODE)
+      socket.emit(UNKNOWN_CODE, {
+        header: "Unknown Room",
+        body: `Unable to find room ${roomName}`
+      })
       return
     } else if (numClients >= 4) {
-      socket.emit(TOO_MANY_PLAYERS)
+      socket.emit(TOO_MANY_PLAYERS, {
+        header: `Room is full`,
+        body: `Room ${roomName} is full. Maximum of 4 players per room`
+      })
       return
     }
 
