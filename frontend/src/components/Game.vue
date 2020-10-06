@@ -41,22 +41,22 @@ export default {
   },
   computed: {
     playerNumber() {
-      return this.$store.state.playerNumber
+      return this.$store.state.client.playerNumber
     },
     roomName() {
-      return this.$store.state.roomName
+      return this.$store.state.client.roomName
     },
     name() {
-      return this.$store.state.name
-    },
-    players() {
-      return this.$store.state.players
-    },
-    gameActive() {
-      return this.$store.state.gameActive
+      return this.$store.state.client.name
     },
     isHost() {
-      return this.$store.state.host
+      return this.$store.state.client.host
+    },
+    players() {
+      return this.$store.state.game.players
+    },
+    gameActive() {
+      return this.$store.state.game.gameActive
     },
   },
   methods: {

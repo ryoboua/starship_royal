@@ -32,6 +32,10 @@ module.exports = class Game {
     if (!Object.values(this.players).some((player) => player.isAlive)) {
       return 1
     }
+
+    if(!this.timer) {
+      return 2
+    }
     return
   }
 

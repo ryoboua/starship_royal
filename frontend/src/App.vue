@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <Modal v-if="false">
+      <h3 slot="header">custom sds</h3>
+    </Modal>
     <HomeScreen v-if="!roomName" />
     <Game v-else />
   </div>
@@ -8,19 +11,21 @@
 <script>
 import HomeScreen from "./components/HomeScreen.vue"
 import Game from "./components/Game.vue"
+import Modal from "./components/Modal.vue"
 
 export default {
   name: "App",
   components: {
     HomeScreen,
     Game,
+    Modal,
   },
   computed: {
     playerNumber() {
-      return this.$store.state.playerNumber
+      return this.$store.state.client.playerNumber
     },
     roomName() {
-      return this.$store.state.roomName
+      return this.$store.state.client.roomName
     },
   },
 }

@@ -39,9 +39,6 @@ export default {
       })
     },
   },
-  beforeDestroy() {
-    this.$store.commit("setName", this.name)
-  },
   sockets: {
     connect() {
       console.log("Connected")
