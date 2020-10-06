@@ -26,6 +26,8 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex"
+
 export default {
   name: "Game",
   props: {},
@@ -40,24 +42,14 @@ export default {
     }
   },
   computed: {
-    playerNumber() {
-      return this.$store.state.client.playerNumber
-    },
-    roomName() {
-      return this.$store.state.client.roomName
-    },
-    name() {
-      return this.$store.state.client.name
-    },
-    isHost() {
-      return this.$store.state.client.host
-    },
-    players() {
-      return this.$store.state.game.players
-    },
-    gameActive() {
-      return this.$store.state.game.gameActive
-    },
+    ...mapState({
+      name: (state) => state.client.name,
+      playerNumber: (state) => state.client.playerNumber,
+      roomName: (state) => state.client.roomName,
+      isHost: (state) => state.client.host,
+      gameActive: (state) => state.game.gameActive,
+      players: (state) => state.game.players,
+    }),
   },
   methods: {
     handleStartGame() {
