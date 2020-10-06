@@ -87,14 +87,14 @@ function startGame(socketId, gameEventEmitter) {
 }
 
 function getAllClientsInRoom(room) {
-  const players = []
+  const clients = []
   clientList.forEach((client) => {
     if (client.roomName === room) {
-      players.push(client)
+      clients.push(client)
     }
   })
 
-  return players
+  return clients
 }
 
 module.exports = {

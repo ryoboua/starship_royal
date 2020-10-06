@@ -10,6 +10,7 @@ module.exports = class Game {
     this.levels = []
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE
+    this.timer = 10
   }
 
   static createGameState(client) {
@@ -35,12 +36,13 @@ module.exports = class Game {
   }
 
   getGameState() {
-    return {
+    return JSON.stringify({
       players: this.players,
       asteroidField: this.asteroidField,
       gridsize: this.gridsize,
+      timer: this.timer,
       playerScores: this.getPlayerScores(),
-    }
+    })
   }
 
   getPlayerScores() {
@@ -60,5 +62,16 @@ module.exports = class Game {
   addLevel(level) {
     level = new Level(level)
     this.levels.push(level)
+  }
+
+  setTimer(time) {
+    this.timer = time
+  }
+
+  decrementTimer() {
+    if(!this.timer) {
+      return
+    }
+    this.timer--
   }
 }

@@ -1,5 +1,12 @@
 const Game = require("../classes/Game")
 const { FRAME_RATE } = require("../constants")
+const { GAME_OVER_REASONS } = require("../constants")
+const {
+  GAME_STATE_UPDATE,
+  GAME_OVER,
+  GAME_ACTIVE,
+  CLEAR_CANVAS,
+} = require("../events")
 
 const gameStates = new Map()
 
@@ -34,29 +41,34 @@ function gameHandleKeyUp(client, keyCode) {
   player.updateVelocityKeyUp(keyCode)
 }
 
-function startGameInterval(
-  roomName,
-  { emitGameActive, emitGameState, emitGameOver }
-) {
+function startGameInterval(roomName, initEmitter) {
+  const emit = initEmitter(roomName)
   const gameState = gameStates.get(roomName)
   const { asteroidField, players, levels } = gameState
   const { numOfAsteroids, asteroidFieldTimeInterval } = levels[
     levels.length - 1
   ]
 
-  emitGameActive(roomName)
+  emit(GAME_ACTIVE, true)
 
   const mainGameLoopIntervalId = setInterval(() => {
     const gameOverReason = gameState.gameLoop()
     if (!gameOverReason) {
-      emitGameState(roomName, gameState.getGameState())
+      emit(GAME_STATE_UPDATE, gameState.getGameState())
     } else {
-      emitGameOver(roomName, gameOverReason)
+      emit(GAME_OVER, GAME_OVER_REASONS[gameOverReason])
+      emit(CLEAR_CANVAS)
       clearInterval(mainGameLoopIntervalId)
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
+      clearInterval(gameTimerIntervalId)
     }
   }, 1000 / FRAME_RATE)
+
+  const gameTimerIntervalId = setInterval(
+    () => gameState.decrementTimer(),
+    1000
+  )
 
   const asteroidFieldIntervalId = setInterval(() => {
     asteroidField.generateAsteroid(numOfAsteroids)

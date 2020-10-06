@@ -18,15 +18,10 @@ const {
   KEY_UP,
   UNKNOWN_CODE,
   TOO_MANY_PLAYERS,
-  GAME_STATE_UPDATE,
-  GAME_OVER,
-  GAME_ACTIVE,
-  CLEAR_CANVAS,
   PLAYER_ADDED,
   PLAYER_REMOVED,
   DISCONNECT,
 } = require("./events")
-
 
 io.on("connection", (socket) => {
   socket.on(NEW_GAME, handleNewGame)
@@ -92,23 +87,13 @@ io.on("connection", (socket) => {
   }
 
   function handleStartGame() {
-    startGame(socket.id, { emitGameActive, emitGameState, emitGameOver })
-  
-    function emitGameState(room, gameState) {
-      io.sockets.in(room).emit(GAME_STATE_UPDATE, JSON.stringify(gameState))
-    }
-  
-    function emitGameOver(room, reason) {
-      io.sockets.in(room).emit(GAME_OVER, GAME_OVER_REASONS[reason])
-      io.sockets.in(room).emit(CLEAR_CANVAS)
-    }
-  
-    function emitGameActive(roomName) {
-      io.sockets.in(roomName).emit(GAME_ACTIVE, true)
+    startGame(socket.id, initEmitter)
+
+    function initEmitter(roomName) {
+      return (eventName, data = null) =>
+        io.sockets.in(roomName).emit(eventName, data)
     }
   }
 })
-
-
 
 io.listen(3000)

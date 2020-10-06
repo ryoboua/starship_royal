@@ -17,6 +17,7 @@
         <button v-if="isHost" @click="handleStartGame">Start Game</button>
       </div>
       <ul v-if="gameActive">
+        <h2>Timer: {{ timer }}</h2>
         <li v-for="(p, i) in playerScores" :key="i">
           {{ p.name }} : {{ p.score }}
         </li>
@@ -35,6 +36,7 @@ export default {
       ASTEROID_COLOUR: "#fbfbf8",
       MISSILE_COLOUR: "#FF6347",
       playerScores: [],
+      timer: null,
     }
   },
   computed: {
@@ -55,7 +57,7 @@ export default {
     },
     isHost() {
       return this.$store.state.host
-    }
+    },
   },
   methods: {
     handleStartGame() {
@@ -129,6 +131,7 @@ export default {
     GAME_STATE_UPDATE(gameState) {
       gameState = JSON.parse(gameState)
       this.playerScores = gameState.playerScores
+      this.timer = gameState.timer
       requestAnimationFrame(() => this.paintGame(gameState))
     },
     CLEAR_CANVAS() {
