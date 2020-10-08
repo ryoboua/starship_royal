@@ -7,6 +7,7 @@
       <h3>Room Name: {{ roomName }}</h3>
       <h4>Name {{ name }}</h4>
       <h4>Player Number:{{ playerNumber }}</h4>
+      <h4>Current Level: {{level}}</h4>
       <div v-if="!gameActive">
         <h4>Current players in Lobby</h4>
         <ul>
@@ -14,7 +15,7 @@
             {{ p.name }}
           </li>
         </ul>
-        <button v-if="isHost" @click="handleStartGame">Start Game</button>
+        <button v-if="isHost" @click="handleStartGame">Start Round {{level}}</button>
       </div>
       <ul v-if="gameActive">
         <h2>Timer: {{ timer }}</h2>
@@ -49,6 +50,7 @@ export default {
       isHost: (state) => state.client.host,
       gameActive: (state) => state.game.gameActive,
       players: (state) => state.game.players,
+      level: state => state.game.level
     }),
   },
   methods: {

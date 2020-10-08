@@ -23,6 +23,12 @@ module.exports = class Game {
     return game
   }
 
+  resetState() {
+    this.timer = 10
+    this.asteroidField = new AsteroidField()
+    Object.values(this.players).forEach((player) => player.reset())
+  }
+
   gameLoop() {
     this.asteroidField.updatePosition()
     Object.values(this.players).forEach((player) => {
@@ -33,7 +39,7 @@ module.exports = class Game {
       return 1
     }
 
-    if(!this.timer) {
+    if (!this.timer) {
       return 2
     }
     return
@@ -73,9 +79,19 @@ module.exports = class Game {
   }
 
   decrementTimer() {
-    if(!this.timer) {
+    if (!this.timer) {
       return
     }
     this.timer--
+  }
+
+  endRound() {
+    if (this.levels.length >= 4) {
+      return
+    }
+    this.resetState()
+    const level = levelParams[this.levels.length + 1]
+    this.addLevel(level)
+    return level
   }
 }

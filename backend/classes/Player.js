@@ -5,11 +5,19 @@ const Missiles = require("./Missiles")
 const { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } = require("../constants")
 
 module.exports = class Player extends Client {
-  constructor(client, startPosition) {
+  constructor(client) {
     super(client.socketId, client.name, client.roomName, client.playerNumber, client.host)
-
     this.score = 0
-    this.pos = new Vector(startPosition.x, startPosition.y)
+    this.pos = new Vector(client.playerNumber * 200, 500)
+    this.vel = new Vector(0, 0)
+    this.keys = new Keys()
+    this.weapons = new Missiles()
+    this.isAlive = true
+  }
+
+  reset() {
+    this.score = 0
+    this.pos = new Vector(this.playerNumber * 200, 500)
     this.vel = new Vector(0, 0)
     this.keys = new Keys()
     this.weapons = new Missiles()

@@ -2,7 +2,7 @@ export default {
   namespaced: true,
   state: {
     gameActive: false,
-    level: null,
+    level: 1,
     players: [],
   },
   mutations: {
@@ -18,15 +18,14 @@ export default {
     removePlayer(state, players) {
       state.players = players
     },
+    incrementLevel(state) {
+      state.level++
+    },
   },
   actions: {
     SOCKET_GAME_OVER(context, modal) {
-      context.commit("setGameActive", false)
-      context.commit(
-        "modal/setAndShowModal",
-        modal,
-        { root: true }
-      )
+      ///context.commit("setGameActive", false)
+      context.commit("modal/setAndShowModal", modal, { root: true })
     },
     SOCKET_GAME_ACTIVE(context, b) {
       context.commit("setGameActive", b)
@@ -36,6 +35,11 @@ export default {
     },
     SOCKET_PLAYER_REMOVED(context, players) {
       context.commit("removePlayer", players)
+    },
+    SOCKET_ROUND_OVER(context, modal) {
+      context.commit("incrementLevel")
+      //context.commit("setGameActive", false)
+      context.commit("modal/setAndShowModal", modal, { root: true })
     },
   },
 }

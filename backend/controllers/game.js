@@ -6,6 +6,7 @@ const {
   GAME_OVER,
   GAME_ACTIVE,
   CLEAR_CANVAS,
+  ROUND_OVER
 } = require("../events")
 
 const gameStates = new Map()
@@ -15,8 +16,7 @@ function initGame(roomName, client) {
 }
 
 function addPlayer(roomName, client) {
-  const startPosition = { x: client.playerNumber * 200, y: 500 }
-  gameStates.get(roomName).addPlayer(client, startPosition)
+  gameStates.get(roomName).addPlayer(client)
 }
 
 function gameHandleKeyDown(client, keyCode) {
@@ -50,22 +50,27 @@ function startGameInterval(roomName, initEmitter) {
   ]
 
   emit(GAME_ACTIVE, true)
-
   const mainGameLoopIntervalId = setInterval(() => {
     const gameOverReason = gameState.gameLoop()
     if (!gameOverReason) {
       emit(GAME_STATE_UPDATE, gameState.getGameState())
     } else {
-      const modal = {
-        header: "Game Over",
-        body: GAME_OVER_REASONS[gameOverReason],
-      }
-      emit(GAME_OVER, modal)
-      emit(CLEAR_CANVAS)
       clearInterval(mainGameLoopIntervalId)
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
       clearInterval(gameTimerIntervalId)
+      emit(GAME_ACTIVE, false)
+
+      const modal = generateModal(gameOverReason)
+      const nextLevel = gameState.endRound()
+      if(nextLevel) {
+        emit(ROUND_OVER, modal)
+        //emit(CLEAR_CANVAS)
+        
+      } else {
+        emit(GAME_OVER, modal)
+      }
+ 
     }
   }, 1000 / FRAME_RATE)
 
@@ -88,7 +93,7 @@ function startGameInterval(roomName, initEmitter) {
 }
 
 function generateModal(reason) {
-
+  return { header: "GAME OVER", body: GAME_OVER_REASONS[reason]}
 }
 
 module.exports = {
