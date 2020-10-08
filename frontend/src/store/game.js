@@ -41,5 +41,8 @@ export default {
       //context.commit("setGameActive", false)
       context.commit("modal/setAndShowModal", modal, { root: true })
     },
+    SOCKET_OPS() {
+      console.log('gotem')
+    },
   },
 }

@@ -11,14 +11,16 @@ module.exports = class Game {
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE
     this.timer = 10
+    this.emit = null
   }
 
-  static createGameState(client) {
+  static createGameState(client, emitter) {
     const game = new Game()
 
     const startPosition = { x: 200, y: 500 }
     game.addPlayer(client, startPosition)
     game.addLevel(levelParams[0])
+    game.setGameEmitter(emitter)
 
     return game
   }
@@ -27,6 +29,10 @@ module.exports = class Game {
     this.timer = 10
     this.asteroidField = new AsteroidField()
     Object.values(this.players).forEach((player) => player.reset())
+  }
+
+  setGameEmitter(emit) {
+    this.emit = emit
   }
 
   gameLoop() {
@@ -67,6 +73,14 @@ module.exports = class Game {
   addPlayer(client, startPosition) {
     const player = new Player(client, startPosition)
     this.players[player.socketId] = player
+  }
+
+  removePlayer(socketId) {
+    delete this.players[socketId]
+  }
+
+  getPlayerList() {
+    return Object.values(this.players)
   }
 
   addLevel(level) {

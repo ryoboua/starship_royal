@@ -1,7 +1,12 @@
 const Client = require("../classes/Client")
 const {
-  initGame,
+  NEW_GAME,
+  JOIN_GAME_ACCEPTED,
+} = require("../events")
+const {
+  createGame,
   addPlayer,
+  removePlayer,
   gameHandleKeyDown,
   gameHandleKeyUp,
   startGameInterval,
@@ -10,42 +15,64 @@ const { makeid } = require("../utils")
 
 const clientList = new Map()
 
-function createNewGame(socketId, name) {
+function handleNewGame(socket, name, initGameEmitter) {
   const roomName = makeid(5)
-  const playerNumber = 1
-  const client = new Client(socketId, name, roomName, playerNumber, true)
-  clientList.set(socketId, client)
-  initGame(roomName, client)
-  return client
+  socket.join(roomName, (err) => {
+    if (err) {
+      return
+    }
+    const playerNumber = 1
+    const gameEmitter = initGameEmitter(roomName)
+
+    const client = new Client({
+      socketId: socket.id,
+      name,
+      roomName,
+      playerNumber,
+      host: true,
+    })
+
+    clientList.set(client.socketId, client)
+    createGame(roomName, client, gameEmitter)
+    socket.emit(NEW_GAME, client)
+  })
 }
 
-function joinRoom(socketId, roomName, name, numClients) {
-  const playerNumber = numClients + 1
+function joinRoom(socket, roomName, name, numClients) {
+  socket.join(roomName, (err) => {
+    if (err) {
+      return console.log(`Error trying to join room ${roomName}`)
+    }
+    const playerNumber = numClients + 1
 
-  const client = new Client(socketId, name, roomName, playerNumber)
-  clientList.set(socketId, client)
+    const client = new Client({
+      socketId: socket.id,
+      name,
+      roomName,
+      playerNumber,
+    })
 
-  addPlayer(roomName, client)
-
-  return [client, getAllClientsInRoom(roomName)]
+    clientList.set(client.socketId, client)
+    addPlayer(roomName, client)
+    socket.emit(JOIN_GAME_ACCEPTED, client)
+  })
 }
 
-function processDisconnect(socketId) {
-  if (!clientList.has(socketId)) {
+function handleDisconnect(socket) {
+  if (!clientList.has(socket.id)) {
     return
   }
-  const roomName = clientList.get(socketId).getRoomName()
-  clientList.delete(socketId)
-
-  return [roomName, getAllClientsInRoom(roomName)]
+  const roomName = clientList.get(socket.id).getRoomName()
+  removePlayer(roomName, socket.id)
+  clientList.delete(socket.id)
 }
 
-function handleKeyDown(socketId, keyCode) {
-  if (!clientList.has(socketId)) {
+function handleKeyDown(socket, keyCode) {
+  if (!clientList.has(socket.id)) {
     return
   }
 
-  const client = clientList.get(socketId)
+  const client = clientList.get(socket.id)
 
   try {
     keyCode = parseInt(keyCode)
@@ -56,12 +83,12 @@ function handleKeyDown(socketId, keyCode) {
   gameHandleKeyDown(client, keyCode)
 }
 
-function handleKeyUp(socketId, keyCode) {
-  if (!clientList.has(socketId)) {
+function handleKeyUp(socket, keyCode) {
+  if (!clientList.has(socket.id)) {
     return
   }
 
-  const client = clientList.get(socketId)
+  const client = clientList.get(socket.id)
 
   try {
     keyCode = parseInt(keyCode)
@@ -72,36 +99,25 @@ function handleKeyUp(socketId, keyCode) {
   gameHandleKeyUp(client, keyCode)
 }
 
-function startGame(socketId, gameEventEmitter) {
-  if (!clientList.has(socketId)) {
+function handleStartGame(socket) {
+  if (!clientList.has(socket.id)) {
     return
   }
-  const client = clientList.get(socketId)
+  const client = clientList.get(socket.id)
 
   if (!client.host) {
     return
   }
   const roomName = client.getRoomName()
 
-  startGameInterval(roomName, gameEventEmitter)
-}
-
-function getAllClientsInRoom(room) {
-  const clients = []
-  clientList.forEach((client) => {
-    if (client.roomName === room) {
-      clients.push(client)
-    }
-  })
-
-  return clients
+  startGameInterval(roomName)
 }
 
 module.exports = {
-  createNewGame,
   joinRoom,
+  handleNewGame,
   handleKeyDown,
   handleKeyUp,
-  processDisconnect,
-  startGame,
+  handleDisconnect,
+  handleStartGame,
 }

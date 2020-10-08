@@ -1,42 +1,35 @@
 const io = require("socket.io")()
-
-const { GAME_OVER_REASONS } = require("./constants")
 const {
-  createNewGame,
+  handleNewGame,
   joinRoom,
   handleKeyDown,
   handleKeyUp,
-  processDisconnect,
-  startGame,
+  handleDisconnect,
+  handleStartGame,
 } = require("./controllers/client")
 const {
   NEW_GAME,
   START_GAME,
   JOIN_GAME,
-  JOIN_GAME_ACCEPTED,
   KEY_DOWN,
   KEY_UP,
   UNKNOWN_CODE,
   TOO_MANY_PLAYERS,
-  PLAYER_ADDED,
-  PLAYER_REMOVED,
   DISCONNECT,
 } = require("./events")
 
+function initGameEmitter(roomName) {
+  return (eventName, data = null) =>
+    io.sockets.in(roomName).emit(eventName, data)
+}
+
 io.on("connection", (socket) => {
-  socket.on(NEW_GAME, handleNewGame)
+  socket.on(NEW_GAME, (name) => handleNewGame(socket, name, initGameEmitter))
   socket.on(JOIN_GAME, handleJoinRoom)
-  socket.on(START_GAME, handleStartGame)
-  socket.on(DISCONNECT, handleDisconnect)
-  socket.on(KEY_DOWN, (keyCode) => handleKeyDown(socket.id, keyCode))
-  socket.on(KEY_UP, (keyCode) => handleKeyUp(socket.id, keyCode))
-
-  function handleNewGame(name) {
-    const client = createNewGame(socket.id, name)
-
-    socket.join(client.roomName)
-    socket.emit(NEW_GAME, client)
-  }
+  socket.on(START_GAME, () => handleStartGame(socket))
+  socket.on(DISCONNECT, () => handleDisconnect(socket))
+  socket.on(KEY_DOWN, (keyCode) => handleKeyDown(socket, keyCode))
+  socket.on(KEY_UP, (keyCode) => handleKeyUp(socket, keyCode))
 
   function handleJoinRoom({ roomName, name }) {
     const room = io.sockets.adapter.rooms[roomName]
@@ -54,51 +47,18 @@ io.on("connection", (socket) => {
     if (numClients === 0) {
       socket.emit(UNKNOWN_CODE, {
         header: "Unknown Room",
-        body: `Unable to find room ${roomName}`
+        body: `Unable to find room ${roomName}`,
       })
       return
     } else if (numClients >= 4) {
       socket.emit(TOO_MANY_PLAYERS, {
         header: `Room is full`,
-        body: `Room ${roomName} is full. Maximum of 4 players per room`
+        body: `Room ${roomName} is full. Maximum of 4 players per room`,
       })
       return
     }
 
-    socket.join(roomName, (err) => {
-      if (err) {
-        return console.log(`Error trying to join room ${roomName}`)
-      }
-
-      const [client, clientList] = joinRoom(
-        socket.id,
-        roomName,
-        name,
-        numClients
-      )
-
-      socket.emit(JOIN_GAME_ACCEPTED, client)
-      io.sockets.in(roomName).emit(PLAYER_ADDED, clientList)
-    })
-  }
-
-  function handleDisconnect() {
-    const res = processDisconnect(socket.id)
-    if (!res) {
-      return
-    }
-
-    const [roomName, newClientList] = res
-    io.sockets.in(roomName).emit(PLAYER_REMOVED, newClientList)
-  }
-
-  function handleStartGame() {
-    startGame(socket.id, initEmitter)
-
-    function initEmitter(roomName) {
-      return (eventName, data = null) =>
-        io.sockets.in(roomName).emit(eventName, data)
-    }
+    joinRoom(socket, roomName, name, numClients)
   }
 })
 

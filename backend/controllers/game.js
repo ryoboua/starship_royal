@@ -6,17 +6,31 @@ const {
   GAME_OVER,
   GAME_ACTIVE,
   CLEAR_CANVAS,
-  ROUND_OVER
+  ROUND_OVER,
+  PLAYER_ADDED,
+  PLAYER_REMOVED
 } = require("../events")
 
 const gameStates = new Map()
 
-function initGame(roomName, client) {
-  gameStates.set(roomName, Game.createGameState(client))
+function createGame(roomName, client, emit) {
+  gameStates.set(roomName, Game.createGameState(client, emit))
 }
 
 function addPlayer(roomName, client) {
-  gameStates.get(roomName).addPlayer(client)
+  const game = gameStates.get(roomName)
+  game.addPlayer(client)
+  game.emit(PLAYER_ADDED, game.getPlayerList())
+}
+
+function removePlayer(roomName, socketId) {
+  if(!gameStates.has(roomName)) {
+    return
+  }
+  
+  const game = gameStates.get(roomName)
+  game.removePlayer(socketId)
+  game.emit(PLAYER_REMOVED, game.getPlayerList())
 }
 
 function gameHandleKeyDown(client, keyCode) {
@@ -41,14 +55,12 @@ function gameHandleKeyUp(client, keyCode) {
   player.updateVelocityKeyUp(keyCode)
 }
 
-function startGameInterval(roomName, initEmitter) {
-  const emit = initEmitter(roomName)
+function startGameInterval(roomName) {
   const gameState = gameStates.get(roomName)
-  const { asteroidField, players, levels } = gameState
+  const { asteroidField, players, levels, emit } = gameState
   const { numOfAsteroids, asteroidFieldTimeInterval } = levels[
     levels.length - 1
   ]
-
   emit(GAME_ACTIVE, true)
   const mainGameLoopIntervalId = setInterval(() => {
     const gameOverReason = gameState.gameLoop()
@@ -65,7 +77,7 @@ function startGameInterval(roomName, initEmitter) {
       const nextLevel = gameState.endRound()
       if(nextLevel) {
         emit(ROUND_OVER, modal)
-        //emit(CLEAR_CANVAS)
+        emit(CLEAR_CANVAS)
         
       } else {
         emit(GAME_OVER, modal)
@@ -96,10 +108,20 @@ function generateModal(reason) {
   return { header: "GAME OVER", body: GAME_OVER_REASONS[reason]}
 }
 
+function emitToRoom(roomName, eventName, data=null) {
+  if(!gameStates.has(roomName)) {
+    return
+  }
+
+  gameStates.get(roomName).emit(eventName)
+}
+
 module.exports = {
-  initGame,
+  createGame,
   addPlayer,
+  removePlayer,
   gameHandleKeyDown,
   gameHandleKeyUp,
   startGameInterval,
+  emitToRoom
 }
