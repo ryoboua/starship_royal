@@ -22,7 +22,6 @@ function handleNewGame(socket, name, initGameEmitter) {
       return
     }
     const playerNumber = 1
-    const gameEmitter = initGameEmitter(roomName)
 
     const client = new Client({
       socketId: socket.id,
@@ -33,7 +32,7 @@ function handleNewGame(socket, name, initGameEmitter) {
     })
 
     clientList.set(client.socketId, client)
-    createGame(roomName, client, gameEmitter)
+    createGame(roomName, client, initGameEmitter(roomName))
     socket.emit(NEW_GAME, client)
   })
 }

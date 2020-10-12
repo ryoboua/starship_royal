@@ -78,7 +78,6 @@ function startGameInterval(roomName) {
       if(nextLevel) {
         emit(ROUND_OVER, modal)
         emit(CLEAR_CANVAS)
-        
       } else {
         emit(GAME_OVER, modal)
       }
