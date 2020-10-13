@@ -1,4 +1,7 @@
 const io = require("socket.io")()
+io.serveClient(false);
+io.listen(3000)
+
 const {
   handleNewGame,
   joinRoom,
@@ -62,4 +65,3 @@ io.on("connection", (socket) => {
   }
 })
 
-io.listen(3000)
