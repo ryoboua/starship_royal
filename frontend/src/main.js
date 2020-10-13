@@ -5,10 +5,13 @@ import VueSocketIO from "vue-socket.io"
 
 Vue.config.productionTip = false
 
+const prodServer = "http://159.203.17.103/api"
+//const devServer = "http://localhost:3000"
+
 Vue.use(
   new VueSocketIO({
     debug: false,
-    connection: "http://localhost:3000",
+    connection: prodServer,
     vuex: {
       store,
       actionPrefix: "SOCKET_",
