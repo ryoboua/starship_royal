@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: cd backend && npm i
-    # - run: cd frontend && npm run build --if-present
-  #  - run: npm test
+      - run: pm2 restart backend
+   #  - run: npm test
   frontend:
     runs-on: self-hosted
     needs: backend

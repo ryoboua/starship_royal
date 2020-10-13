@@ -1,7 +1,7 @@
 <template>
   <section class="homeScreen_container">
     <div class="homeScreen__title">
-      <h1>Starship Royal</h1>
+      <h1>Starship Royal Pre-Alpha</h1>
     </div>
     <div class="homeScreen__menu">
       <div>

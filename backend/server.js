@@ -24,7 +24,7 @@ function initGameEmitter(roomName) {
 }
 
 io.on("connection", (socket) => {
-  console.log('Connected')
+  console.log('Connected Alpha')
   socket.on(NEW_GAME, (name) => handleNewGame(socket, name, initGameEmitter))
   socket.on(JOIN_GAME, handleJoinRoom)
   socket.on(START_GAME, () => handleStartGame(socket))
