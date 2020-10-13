@@ -5,7 +5,7 @@ import VueSocketIO from "vue-socket.io"
 
 Vue.config.productionTip = false
 
-const prodServer = "http://159.203.17.103/api"
+const prodServer = "http://159.203.17.103"
 //const devServer = "http://localhost:3000"
 
 Vue.use(
