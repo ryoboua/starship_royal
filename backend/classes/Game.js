@@ -26,7 +26,7 @@ module.exports = class Game {
   }
 
   resetState() {
-    this.timer = 10
+    this.timer = 30
     this.asteroidField = new AsteroidField()
     Object.values(this.players).forEach((player) => player.reset())
   }
