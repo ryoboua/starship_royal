@@ -10,7 +10,7 @@ module.exports = class Game {
     this.levels = []
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE
-    this.timer = 10
+    this.timer = 20
     this.emit = null
   }
 
@@ -45,9 +45,9 @@ module.exports = class Game {
     //   return 1
     // }
 
-    // if (!this.timer) {
-    //   return 2
-    // }
+    if (!this.timer) {
+      return 2
+    }
     return
   }
 

@@ -16,18 +16,18 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
-    env:
-      SERVER: production
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - run: echo "*** Installing backend dependencies ***"
       - run: cd backend && npm i
       - run: echo "*** Restarting backend service ***"
       - run: pm2 restart backend
+
       - run: echo "*** Installing frontend dependencies ***"
       - run: cd frontend && npm i
       - run: echo "*** Building frontend ***"

@@ -1,27 +1,27 @@
 module.exports = [
   {
     level: 1,
-    numOfAsteroids: 1,
-    asteroidFieldTimeInterval: 100,
+    numOfAsteroids: 2,
+    asteroidFieldTimeInterval: 1000,
   },
   {
     level: 2,
-    numOfAsteroids: 1,
-    asteroidFieldTimeInterval: 90,
+    numOfAsteroids: 2,
+    asteroidFieldTimeInterval: 1000,
   },
   {
     level: 3,
-    numOfAsteroids: 2,
-    asteroidFieldTimeInterval: 80,
+    numOfAsteroids: 3,
+    asteroidFieldTimeInterval: 1000,
   },
   {
     level: 4,
-    numOfAsteroids: 2,
-    asteroidFieldTimeInterval: 70,
+    numOfAsteroids: 4,
+    asteroidFieldTimeInterval: 1000,
   },
   {
     level: 5,
-    numOfAsteroids: 3,
-    asteroidFieldTimeInterval: 60,
+    numOfAsteroids: 5,
+    asteroidFieldTimeInterval: 1000,
   },
 ]
