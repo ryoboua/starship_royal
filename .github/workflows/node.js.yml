@@ -28,7 +28,7 @@ jobs:
   #  - run: npm test
   frontend:
     runs-on: self-hosted
-
+    needs: backend
     strategy:
       matrix:
         node-version: [14.x]
