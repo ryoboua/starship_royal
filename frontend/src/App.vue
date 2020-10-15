@@ -11,26 +11,26 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex"
-import HomeScreen from "./components/HomeScreen.vue"
-import Game from "./components/Game.vue"
-import Modal from "./components/Modal.vue"
+import { mapState, mapMutations } from "vuex";
+import HomeScreen from "./components/HomeScreen.vue";
+import Game from "./components/Game.vue";
+import Modal from "./components/Modal.vue";
 
 export default {
   name: "App",
   components: {
     HomeScreen,
     Game,
-    Modal,
+    Modal
   },
-  computed: mapState({
-    roomName: (state) => state.client.roomName,
-    showModal: (state) => state.modal.showModal,
-    header: (state) => state.modal.header,
-    body: (state) => state.modal.body,
+  compted: mapState({
+    roomName: state => state.client.roomName,
+    showModal: state => state.modal.showModal,
+    header: state => state.modal.header,
+    body: state => state.modal.body
   }),
-  methods: mapMutations("modal", ["closeModal"]),
-}
+  methods: mapMutations("modal", ["closeModal"])
+};
 </script>
 
 <style scoped lang="scss">

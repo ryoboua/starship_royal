@@ -24,15 +24,15 @@ export default {
   data() {
     return {
       roomName: null,
-      name: "",
-    }
+      name: ""
+    };
   },
   methods: {
     handleNewGame() {
       // if (this.name === "") {
       //   return
       // }
-      this.$socket.emit("NEW_GAME", this.name)
+      this.$socket.emit("NEW_GAME", this.name);
     },
     handleJoinGame() {
       // if (this.name === "") {
@@ -43,16 +43,16 @@ export default {
       // }
       this.$socket.emit("JOIN_GAME", {
         roomName: this.roomName,
-        name: this.name,
-      })
-    },
+        name: this.name
+      });
+    }
   },
   sockets: {
     connect() {
-      console.log("Connected")
-    },
-  },
-}
+      console.log("Connected");
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
