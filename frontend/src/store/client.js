@@ -8,7 +8,6 @@ export default {
   },
   mutations: {
     setClient(state, client) {
-      console.log(client)
       state.name = client.name
       state.playerNumber = client.playerNumber
       state.host = client.host
