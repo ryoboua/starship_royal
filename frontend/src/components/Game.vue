@@ -1,21 +1,32 @@
 <template>
   <div class="game_panel">
     <div class="game_screen">
-      <canvas ref="canvas"></canvas>
+      <canvas v-if="gameActive" ref="canvas"></canvas>
+      <div class="game_screen__information" v-else>
+        <h3 v-if="isHost">Click Start Button To Start Round</h3>
+        <h3 v-else>Waiting For Host To Start Round</h3>
+      </div>
     </div>
     <aside>
-      <h3>Room Name: {{ roomName }}</h3>
-      <h4>Name {{ name }}</h4>
+      <h3>
+        Room Name:
+        <span class="room_name">
+          {{ roomName }}
+        </span>
+      </h3>
+      <h4>Name: {{ name }}</h4>
       <h4>Player Number:{{ playerNumber }}</h4>
-      <h4>Current Level: {{level}}</h4>
+      <h4>Current Level: {{ level }}</h4>
       <div v-if="!gameActive">
-        <h4>Current players in Lobby</h4>
+        <button v-if="isHost" @click="handleStartGame">
+          Start Round {{ level }}
+        </button>
+        <h4>Current players in lobby:</h4>
         <ul>
           <li v-for="(p, i) in players" :key="i">
             {{ p.name }}
           </li>
         </ul>
-        <button v-if="isHost" @click="handleStartGame">Start Round {{level}}</button>
       </div>
       <ul v-if="gameActive">
         <h2>Timer: {{ timer }}</h2>
@@ -36,7 +47,7 @@ export default {
     return {
       BG_COLOUR: "#231f20",
       SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
-      ASTEROID_COLOUR: "#fbfbf8",
+      ASTEROID_COLOUR: "#cdc9c3",
       MISSILE_COLOUR: "#FF6347",
       playerScores: [],
       timer: null,
@@ -50,7 +61,7 @@ export default {
       isHost: (state) => state.client.host,
       gameActive: (state) => state.game.gameActive,
       players: (state) => state.game.players,
-      level: state => state.game.level
+      level: (state) => state.game.level,
     }),
   },
   methods: {
@@ -144,11 +155,31 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+$BG_COLOUR: #231f20;
+
 .game_panel {
   display: grid;
   grid-template-columns: 1000px 1fr;
   grid-template-rows: auto;
 }
-aside {
+
+.game_screen {
+  border: 10px solid #ac4b1c;
+  height: 600px;
+  width: 1000px;
+  background-color: $BG_COLOUR;
+}
+.game_screen__information {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  h3 {
+    color: $primary-color;
+    align-self: center;
+  }
+}
+.room_name {
+  color: $button-primary;
 }
 </style>

@@ -41,9 +41,9 @@ module.exports = class Game {
       if (player.isAlive) player.updatePosition(this.asteroidField)
     })
 
-    // if (!Object.values(this.players).some((player) => player.isAlive)) {
-    //   return 1
-    // }
+    if (!Object.values(this.players).some((player) => player.isAlive)) {
+      return 1
+    }
 
     if (!this.timer) {
       return 2

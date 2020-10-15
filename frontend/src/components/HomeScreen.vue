@@ -1,18 +1,17 @@
 <template>
   <section class="homeScreen_container">
     <div class="homeScreen__title">
-      <h1>Starship Royal Pre-Alpha</h1>
+      <h1>Starship Royal</h1>
     </div>
     <div class="homeScreen__menu">
       <div>
-        <h3>Your Name</h3>
-        <input type="text" v-model="name" />
+        <input placeholder="Enter a name" type="text" v-model="name" />
       </div>
+      <h4>And</h4>
       <div>
         <button @click="handleNewGame">Create Game</button>
-      </div>
-      <div>
-        <input v-model="roomName" type="text" />
+        <h4>Or</h4>
+        <input placeholder="Enter room code" v-model="roomName" type="text" />
         <button @click="handleJoinGame">Join Game</button>
       </div>
     </div>
@@ -25,14 +24,23 @@ export default {
   data() {
     return {
       roomName: null,
-      name: "Tester",
+      name: "",
     }
   },
   methods: {
     handleNewGame() {
+      // if (this.name === "") {
+      //   return
+      // }
       this.$socket.emit("NEW_GAME", this.name)
     },
     handleJoinGame() {
+      // if (this.name === "") {
+      //   return
+      // }
+      // if (this.roomName === "") {
+      //   return
+      // }
       this.$socket.emit("JOIN_GAME", {
         roomName: this.roomName,
         name: this.name,
@@ -49,9 +57,18 @@ export default {
 
 <style scoped lang="scss">
 .homeScreen_container {
-  height: 100%;
-  width: 100%;
+  // height: 100%;
+  // width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.homeScreen__title {
+  margin-bottom: 2em;
+}
+.homeScreen__menu {
+  div {
+    padding: 1em;
+  }
 }
 </style>

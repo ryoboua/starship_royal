@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "StarshipRoyal",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -25,7 +25,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.14.1",
     "prettier": "^1.19.1",
-    "sass-loader": "^10.0.2",
+    "sass-loader": "^10.0.3",
     "vue-template-compiler": "^2.6.11"
   }
 }
