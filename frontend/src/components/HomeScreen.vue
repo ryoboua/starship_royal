@@ -46,19 +46,12 @@ export default {
         name: this.name,
       })
     },
-  },
-  sockets: {
-    connect() {
-      console.log("Connected")
-    },
-  },
+  }
 }
 </script>
 
 <style scoped lang="scss">
 .homeScreen_container {
-  // height: 100%;
-  // width: 100%;
   display: flex;
   flex-direction: column;
 }
