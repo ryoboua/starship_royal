@@ -10,9 +10,7 @@
     <aside>
       <h3>
         Room Name:
-        <span class="room_name">
-          {{ roomName }}
-        </span>
+        <span class="room_name">{{ roomName }}</span>
       </h3>
       <h4>Name: {{ name }}</h4>
       <h4>Player Number:{{ playerNumber }}</h4>
