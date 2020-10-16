@@ -1,8 +1,8 @@
 <template>
   <div class="game_panel">
     <div class="game_screen">
-      <canvas v-if="gameActive" ref="canvas"></canvas>
-      <div class="game_screen__information" v-else>
+      <canvas ref="canvas"></canvas>
+      <div class="game_screen__information">
         <h3 v-if="isHost">Click Start Button To Start Round</h3>
         <h3 v-else>Waiting For Host To Start Round</h3>
       </div>
@@ -16,7 +16,7 @@
       <h4>Player Number:{{ playerNumber }}</h4>
       <h4>Current Level: {{ level }}</h4>
       <div v-if="!gameActive">
-        <button v-if="isHost" @click="handleStartGame">
+        <button v-if="isHost" @click.once="handleStartGame">
           Start Round {{ level }}
         </button>
         <h4>Current players in lobby:</h4>
@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 
 export default {
   name: "Game",
@@ -48,109 +48,119 @@ export default {
       ASTEROID_COLOUR: "#cdc9c3",
       MISSILE_COLOUR: "#FF6347",
       playerScores: [],
-      timer: null,
-    }
+      timer: null
+    };
   },
   computed: {
     ...mapState({
-      name: (state) => state.client.name,
-      playerNumber: (state) => state.client.playerNumber,
-      roomName: (state) => state.client.roomName,
-      isHost: (state) => state.client.host,
-      gameActive: (state) => state.game.gameActive,
-      players: (state) => state.game.players,
-      level: (state) => state.game.level,
-    }),
+      name: state => state.client.name,
+      playerNumber: state => state.client.playerNumber,
+      roomName: state => state.client.roomName,
+      isHost: state => state.client.host,
+      gameActive: state => state.game.gameActive,
+      players: state => state.game.players,
+      level: state => state.game.level
+    })
   },
   methods: {
     handleStartGame() {
-      this.$socket.emit("START_GAME")
+      this.btnStatus = true;
+      this.$socket.emit("START_GAME");
     },
     keydown(e) {
-      this.$socket.emit("KEY_DOWN", e.keyCode)
+      this.$socket.emit("KEY_DOWN", e.keyCode);
     },
     keyup(e) {
-      this.$socket.emit("KEY_UP", e.keyCode)
+      this.$socket.emit("KEY_UP", e.keyCode);
     },
     paintGame(state) {
-      const canvas = this.$refs.canvas
-      const ctx = canvas.getContext("2d")
+      const canvas = this.$refs.canvas;
+      const ctx = canvas.getContext("2d");
 
-      canvas.width = 1000
-      canvas.height = 600
+      canvas.width = 1000;
+      canvas.height = 600;
 
-      ctx.fillStyle = this.BG_COLOUR
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.fillStyle = this.BG_COLOUR;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      this.paintPlayer(state)
-      this.paintAsteroidField(state)
-      this.paintMissiles(state)
+      this.paintPlayer(state);
+      this.paintAsteroidField(state);
+      this.paintMissiles(state);
     },
     paintPlayer(state) {
-      const ctx = this.$refs.canvas.getContext("2d")
-      const { players, gridsize } = state
+      const ctx = this.$refs.canvas.getContext("2d");
+      const { players, gridsize } = state;
 
-      Object.values(players).forEach((player) => {
+      Object.values(players).forEach(player => {
         if (!player.isAlive) {
-          return
+          return;
         }
-        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1]
+        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
         //center block
-        ctx.fillRect(player.pos.x, player.pos.y, gridsize, gridsize)
+        ctx.fillRect(player.pos.x, player.pos.y, gridsize, gridsize);
         //left block
-        ctx.fillRect(player.pos.x - gridsize, player.pos.y, gridsize, gridsize)
+        ctx.fillRect(player.pos.x - gridsize, player.pos.y, gridsize, gridsize);
         //top block
-        ctx.fillRect(player.pos.x, player.pos.y - gridsize, gridsize, gridsize)
+        ctx.fillRect(player.pos.x, player.pos.y - gridsize, gridsize, gridsize);
         //right block
-        ctx.fillRect(player.pos.x + gridsize, player.pos.y, gridsize, gridsize)
-      })
+        ctx.fillRect(player.pos.x + gridsize, player.pos.y, gridsize, gridsize);
+      });
     },
     paintAsteroidField(state) {
-      const ctx = this.$refs.canvas.getContext("2d")
-      const { asteroidField, gridsize } = state
+      const ctx = this.$refs.canvas.getContext("2d");
+      const { asteroidField, gridsize } = state;
 
-      ctx.fillStyle = this.ASTEROID_COLOUR
-      asteroidField.asteroids.forEach((ast) => {
-        ctx.fillRect(ast.pos.x, ast.pos.y, 1.5 * gridsize, 1.5 * gridsize)
-      })
+      ctx.fillStyle = this.ASTEROID_COLOUR;
+      asteroidField.asteroids.forEach(ast => {
+        ctx.fillRect(ast.pos.x, ast.pos.y, 1.5 * gridsize, 1.5 * gridsize);
+      });
     },
     paintMissiles(state) {
-      const ctx = this.$refs.canvas.getContext("2d")
-      const { players, gridsize } = state
+      const ctx = this.$refs.canvas.getContext("2d");
+      const { players, gridsize } = state;
 
-      Object.values(players).forEach((player) => {
+      Object.values(players).forEach(player => {
         if (!player.weapons.missiles.length || !player.isAlive) {
-          return
+          return;
         }
 
-        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1]
-        player.weapons.missiles.forEach((mis) => {
-          ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize)
-        })
-      })
-    },
+        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
+        player.weapons.missiles.forEach(mis => {
+          ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize);
+        });
+      });
+    }
   },
   sockets: {
     GAME_STATE_UPDATE(gameState) {
-      gameState = JSON.parse(gameState)
-      this.playerScores = gameState.playerScores
-      this.timer = gameState.timer
-      requestAnimationFrame(() => this.paintGame(gameState))
+      gameState = JSON.parse(gameState);
+      this.playerScores = gameState.playerScores;
+      this.timer = gameState.timer;
+      requestAnimationFrame(() => this.paintGame(gameState));
     },
     CLEAR_CANVAS() {
-      const canvas = this.$refs.canvas
-      const ctx = canvas.getContext("2d")
+      const canvas = this.$refs.canvas;
+      const ctx = canvas.getContext("2d");
 
-      canvas.width = 1000
-      canvas.height = 600
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-    },
+      canvas.width = 1000;
+      canvas.height = 600;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
   },
   mounted() {
-    document.addEventListener("keydown", this.keydown)
-    document.addEventListener("keyup", this.keyup)
-  },
-}
+    document.addEventListener("keydown", this.keydown);
+    document.addEventListener("keyup", this.keyup);
+
+    const canvas = this.$refs.canvas;
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = 1000;
+    canvas.height = 600;
+
+    ctx.fillStyle = this.BG_COLOUR;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+};
 </script>
 <style lang="scss" scoped>
 $BG_COLOUR: #231f20;
@@ -162,12 +172,22 @@ $BG_COLOUR: #231f20;
 }
 
 .game_screen {
+  position: relative;
   border: 10px solid #ac4b1c;
   height: 600px;
   width: 1000px;
   background-color: $BG_COLOUR;
+
+  canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 5;
+  }
 }
 .game_screen__information {
+  background-color: green;//$BG_COLOUR;
+  position: absolute;
   display: flex;
   justify-content: center;
   width: 100%;

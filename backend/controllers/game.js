@@ -57,10 +57,16 @@ function gameHandleKeyUp(client, keyCode) {
 
 function startGameInterval(roomName) {
   const gameState = gameStates.get(roomName)
-  const { asteroidField, players, levels, emit } = gameState
+
+  if(gameState.isRoundActive()) {
+    return
+  }
+
+  const { asteroidField, players, levels, emit,  } = gameState
   const { numOfAsteroids, asteroidFieldTimeInterval } = levels[
     levels.length - 1
   ]
+  gameState.setRoundStatus(true)
   emit(GAME_ACTIVE, true)
   const mainGameLoopIntervalId = setInterval(() => {
     const gameOverReason = gameState.gameLoop()
@@ -71,6 +77,7 @@ function startGameInterval(roomName) {
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
       clearInterval(gameTimerIntervalId)
+      gameState.setRoundStatus(false)
       emit(GAME_ACTIVE, false)
 
       const modal = generateModal(gameOverReason)

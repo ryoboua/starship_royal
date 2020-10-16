@@ -12,6 +12,7 @@ module.exports = class Game {
     this.gridsize = GRID_SIZE
     this.timer = 20
     this.emit = null
+    this.roundActive = false
   }
 
   static createGameState(client, emitter) {
@@ -107,5 +108,14 @@ module.exports = class Game {
     const level = levelParams[this.levels.length + 1]
     this.addLevel(level)
     return level
+  }
+
+  setRoundStatus(b) {
+    console.log('hit')
+    this.roundActive = b
+  }
+
+  isRoundActive() {
+    return this.roundActive
   }
 }

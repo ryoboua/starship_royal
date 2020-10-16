@@ -2,7 +2,7 @@ $primary-color: #eeecda;
 $button-primary: #b83b5e;
 $button-secondary: #6a2c70;
 
- html * {
+html * {
   font-family: "Press Start 2P", cursive, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -16,8 +16,19 @@ button {
   color: $primary-color;
   font-size: 16px;
   cursor: pointer;
+  
   &:active {
-      transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  &:disabled {
+    border: 3px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    &:active {
+      transform: scale(1);
+    }
   }
 }
 
