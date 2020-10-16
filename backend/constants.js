@@ -1,5 +1,5 @@
 module.exports = {
-  FRAME_RATE: 20,
+  FRAME_RATE: 25,
   GRID_SIZE: 12,
   STEP: 5,
   SPACE_STEP: 10,

@@ -111,7 +111,6 @@ module.exports = class Game {
   }
 
   setRoundStatus(b) {
-    console.log('hit')
     this.roundActive = b
   }
 

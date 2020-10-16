@@ -2,7 +2,7 @@
   <div class="game_panel">
     <div class="game_screen">
       <canvas ref="canvas"></canvas>
-      <div class="game_screen__information">
+      <div v-if="!gameActive" class="game_screen__information">
         <h3 v-if="isHost">Click Start Button To Start Round</h3>
         <h3 v-else>Waiting For Host To Start Round</h3>
       </div>
@@ -182,16 +182,17 @@ $BG_COLOUR: #231f20;
     position: absolute;
     top: 0px;
     left: 0px;
-    z-index: 5;
+    z-index: 1;
   }
 }
 .game_screen__information {
-  background-color: green;//$BG_COLOUR;
   position: absolute;
   display: flex;
   justify-content: center;
   width: 100%;
   height: 100%;
+  background-color: transparent;
+  z-index: 5;
   h3 {
     color: $primary-color;
     align-self: center;

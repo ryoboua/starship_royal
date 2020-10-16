@@ -51,22 +51,22 @@ export default {
   },
   methods: {
     handleNewGame() {
-      // if (this.name === "") {
-      //   this.errors.name = true;
-      //   return;
-      // }
+      if (this.name === "") {
+        this.errors.name = true;
+        return;
+      }
       this.$socket.emit("NEW_GAME", this.name);
     },
     handleJoinGame() {
-      // if (this.name === "") {
-      //   this.errors.name = true;
-      // }
-      // if (this.roomName === "") {
-      //   this.errors.roomName = true;
-      // }
-      // if (this.errors.name || this.errors.roomName) {
-      //   return;
-      // }
+      if (this.name === "") {
+        this.errors.name = true;
+      }
+      if (this.roomName === "") {
+        this.errors.roomName = true;
+      }
+      if (this.errors.name || this.errors.roomName) {
+        return;
+      }
 
       this.$socket.emit("JOIN_GAME", {
         roomName: this.roomName,
