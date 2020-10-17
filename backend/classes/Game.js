@@ -2,7 +2,6 @@ const { GRID_SIZE } = require("../constants")
 const Player = require("./Player")
 const Level = require("./Level")
 const AsteroidField = require("./AsteroidField")
-const levelParams = require("../levels")
 
 module.exports = class Game {
   constructor() {
