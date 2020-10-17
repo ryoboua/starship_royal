@@ -5,10 +5,11 @@ import VueSocketIO from "vue-socket.io"
 
 Vue.config.productionTip = false
 
-const url =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "http://159.203.17.103"
+let url = "http://localhost:3000"
+
+if (process.env.NODE_ENV === "production") {
+  url = process.env.VUE_APP_BACKEND_URL
+}
 
 Vue.use(
   new VueSocketIO({
