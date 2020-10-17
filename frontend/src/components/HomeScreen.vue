@@ -43,10 +43,10 @@ export default {
   },
   watch: {
     roomName: function() {
-      this.resetErrors();
+      this.errors.roomName = false;
     },
     name: function() {
-      this.resetErrors();
+      this.errors.name = false;
     }
   },
   methods: {
@@ -72,12 +72,6 @@ export default {
         roomName: this.roomName,
         name: this.name
       });
-    },
-    resetErrors() {
-      this.errors = {
-        roomName: false,
-        name: false
-      };
     }
   }
 };
