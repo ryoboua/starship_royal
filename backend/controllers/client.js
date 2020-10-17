@@ -9,7 +9,7 @@ const {
   removePlayer,
   gameHandleKeyDown,
   gameHandleKeyUp,
-  startGameInterval,
+  startRound
 } = require("./game")
 const { makeid } = require("../utils")
 
@@ -109,7 +109,7 @@ function handleStartGame(socket) {
   }
   const roomName = client.getRoomName()
 
-  startGameInterval(roomName)
+  startRound(roomName)
 }
 
 module.exports = {

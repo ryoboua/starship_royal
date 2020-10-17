@@ -9,7 +9,7 @@ module.exports = {
   GAME_HEIGHT: 600,
   ASTEROID_VALUE: 10,
   GAME_OVER_REASONS: {
-    1: "ALL_DEAD",
-    2: "TIMER",
+    1: "ALL DEAD",
+    2: "TIMER ENDED",
   },
 }

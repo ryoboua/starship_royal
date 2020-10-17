@@ -2,10 +2,11 @@
   <div class="game_panel">
     <div class="game_screen">
       <canvas ref="canvas"></canvas>
-      <div v-if="!gameActive" class="game_screen__information">
-        <h3 v-if="isHost">Click Start Button To Start Round</h3>
-        <h3 v-else>Waiting For Host To Start Round</h3>
-      </div>
+      <div
+        v-if="!gameActive"
+        v-html="rawHtml"
+        class="game_screen__information"
+      ></div>
     </div>
     <aside>
       <h3>
@@ -14,10 +15,14 @@
       </h3>
       <h4>Name: {{ name }}</h4>
       <h4>Player Number:{{ playerNumber }}</h4>
-      <h4>Current Level: {{ level }}</h4>
+      <h4>Current Level: {{ level.number || 0 }}</h4>
       <div v-if="!gameActive">
-        <button v-if="isHost" @click.once="handleStartGame">
-          Start Round {{ level }}
+        <button
+          v-if="isHost"
+          @click.once="handleStartGame"
+          :disabled="disableStartBtn"
+        >
+          Start Round
         </button>
         <h4>Current players in lobby:</h4>
         <ul>
@@ -48,7 +53,10 @@ export default {
       ASTEROID_COLOUR: "#cdc9c3",
       MISSILE_COLOUR: "#FF6347",
       playerScores: [],
-      timer: null
+      timer: null,
+      level: {},
+      rawHtml: "",
+      disableStartBtn: false
     };
   },
   computed: {
@@ -58,13 +66,13 @@ export default {
       roomName: state => state.client.roomName,
       isHost: state => state.client.host,
       gameActive: state => state.game.gameActive,
-      players: state => state.game.players,
-      level: state => state.game.level
+      players: state => state.game.players
     })
   },
   methods: {
     handleStartGame() {
-      this.btnStatus = true;
+      this.disableStartBtn = true;
+      this.clearGameScreenInformation();
       this.$socket.emit("START_GAME");
     },
     keydown(e) {
@@ -72,6 +80,9 @@ export default {
     },
     keyup(e) {
       this.$socket.emit("KEY_UP", e.keyCode);
+    },
+    clearGameScreenInformation() {
+      this.rawHtml = "";
     },
     paintGame(state) {
       const canvas = this.$refs.canvas;
@@ -145,6 +156,23 @@ export default {
       canvas.width = 1000;
       canvas.height = 600;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+    },
+    LOAD_LEVEL({ level, initialGameState }) {
+      this.level = level;
+      initialGameState = JSON.parse(initialGameState);
+      this.timer = initialGameState.timer;
+      requestAnimationFrame(() => this.paintGame(initialGameState));
+    },
+    COUNTDOWN(rawHtml) {
+      this.rawHtml = rawHtml;
+    },
+    ROUND_OVER(rawHtml) {
+      this.disableStartBtn = false;
+      this.rawHtml = rawHtml;
+    },
+    GAME_OVER(rawHtml) {
+      this.disableStartBtn = false;
+      this.rawHtml = rawHtml;
     }
   },
   mounted() {
@@ -159,6 +187,10 @@ export default {
 
     ctx.fillStyle = this.BG_COLOUR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    this.rawHtml = this.isHost
+      ? "<h3>Click Start Button To Start Round</h3>"
+      : "<h3 v-else>Waiting For Host To Start Round</h3>";
   }
 };
 </script>
@@ -193,11 +225,14 @@ $BG_COLOUR: #231f20;
   height: 100%;
   background-color: transparent;
   z-index: 5;
-  h3 {
+  /deep/ h3,
+  /deep/ h2,
+  /deep/ h1 {
     color: $primary-color;
     align-self: center;
   }
 }
+
 .room_name {
   color: $button-primary;
 }

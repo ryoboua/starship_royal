@@ -1,10 +1,8 @@
 module.exports = class Level {
-  constructor({ level, numOfAsteroids, asteroidFieldTimeInterval }) {
-    this.level = level
+  constructor({ number, numOfAsteroids, asteroidFieldTimeInterval }) {
+    this.number = number
     this.numOfAsteroids = numOfAsteroids
     this.asteroidFieldTimeInterval = asteroidFieldTimeInterval
-    this.timer = 10
+    this.timer = 30
   }
-
-  startLevelTimer() {}
 }
