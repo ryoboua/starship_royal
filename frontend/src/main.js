@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 let url = "http://localhost:3000"
 
 if (process.env.NODE_ENV === "production") {
-  url = process.env.VUE_APP_BACKEND_URL
+  url = "http://159.203.17.103"
 }
 
 Vue.use(
