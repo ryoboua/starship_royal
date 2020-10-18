@@ -158,8 +158,8 @@ function processGameOver(gameOverReason, game) {
     game.emit(ROUND_OVER, rawHtml)
     game.emit(CLEAR_CANVAS)
   } else {
-    game.emit(GAME_OVER, 
-    `
+    game.emit(GAME_OVER,
+      `
       <h1>GAME OVER</h1>
       <br>
       <h1>THANKS FOR PLAYING</h1>
@@ -172,11 +172,20 @@ function generateGameInfoRawHtml(reason) {
   return `<h1>${GAME_OVER_REASONS[reason]}</h1>`
 }
 
+function isRoundActive(roomName) {
+  if (!gameStates.has(roomName)) {
+    return
+  }
+
+  return gameStates.get(roomName).isRoundActive()
+}
+
 module.exports = {
   createGame,
   addPlayer,
   removePlayer,
   gameHandleKeyDown,
   gameHandleKeyUp,
-  startRound
+  startRound,
+  isRoundActive
 }

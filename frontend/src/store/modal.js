@@ -24,5 +24,8 @@ export default {
     SOCKET_TOO_MANY_PLAYERS(context, modal) {
       context.commit("setAndShowModal", modal)
     },
+    SOCKET_ROUND_ACTIVE(context, modal) {
+      context.commit("setAndShowModal", modal)
+    }
   },
 }

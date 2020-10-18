@@ -2,6 +2,7 @@ const Client = require("../classes/Client")
 const {
   NEW_GAME,
   JOIN_GAME_ACCEPTED,
+  ROUND_ACTIVE
 } = require("../events")
 const {
   createGame,
@@ -9,7 +10,8 @@ const {
   removePlayer,
   gameHandleKeyDown,
   gameHandleKeyUp,
-  startRound
+  startRound,
+  isRoundActive
 } = require("./game")
 const { makeid } = require("../utils")
 
@@ -38,6 +40,12 @@ function handleNewGame(socket, name, initGameEmitter) {
 }
 
 function joinRoom(socket, roomName, name, numClients) {
+  if (isRoundActive(roomName)) {
+    return socket.emit(ROUND_ACTIVE, {
+      header: `Unable to join while round active`,
+    })
+  }
+
   socket.join(roomName, (err) => {
     if (err) {
       return console.log(`Error trying to join room ${roomName}`)
