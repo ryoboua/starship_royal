@@ -1,0 +1,51 @@
+$primary-color: #eeecda;
+$button-primary: #b83b5e;
+$button-secondary: #6a2c70;
+
+html * {
+  font-family: "Press Start 2P", cursive, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  background: $button-primary;
+  border: 3px solid $button-secondary;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  color: $primary-color;
+  font-size: 16px;
+  cursor: pointer;
+  
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &:disabled {
+    border: 3px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    &:active {
+      transform: scale(1);
+    }
+  }
+}
+
+input {
+  border: none;
+  padding: 0.75em;
+  font-size: 16px;
+  margin-right: 1em;
+}
+.input-error {
+  border: 5px solid red;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+ul {
+  list-style-type: none;
+}
