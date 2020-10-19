@@ -55,13 +55,13 @@ module.exports = class Game {
   }
 
   getGameState() {
-    return JSON.stringify({
+    return {
       players: this.players,
       asteroidField: this.asteroidField,
       gridsize: this.gridsize,
       timer: this.timer,
       playerScores: this.getPlayerScores(),
-    })
+    }
   }
 
   getPlayerScores() {

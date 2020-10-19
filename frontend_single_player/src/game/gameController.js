@@ -17,8 +17,8 @@ const {
 
 const gameStates = new Map()
 
-function createGame(roomName, client, emit) {
-  gameStates.set(roomName, Game.createGameState(client, emit))
+function createGame(client, emit) {
+  return Game.createGameState(client, emit)
 }
 
 function addPlayer(roomName, client) {
@@ -37,8 +37,8 @@ function removePlayer(roomName, socketId) {
   game.emit(PLAYER_REMOVED, game.getPlayerList())
 }
 
-function gameHandleKeyDown(client, keyCode) {
-  const player = gameStates.get(client.roomName).players[client.socketId]
+function gameHandleKeyDown(game, keyCode, socketId) {
+  const player = game.players[socketId]
 
   if (!player) {
     return
@@ -48,8 +48,8 @@ function gameHandleKeyDown(client, keyCode) {
   player.updateVelocityKeyDown(keyCode)
 }
 
-function gameHandleKeyUp(client, keyCode) {
-  const player = gameStates.get(client.roomName).players[client.socketId]
+function gameHandleKeyUp(game, keyCode, socketId) {
+  const player = game.players[socketId]
 
   if (!player) {
     return
@@ -59,9 +59,7 @@ function gameHandleKeyUp(client, keyCode) {
   player.updateVelocityKeyUp(keyCode)
 }
 
-async function startRound(roomName) {
-  const game = gameStates.get(roomName)
-
+async function handleStartRound(game) {
   if (game.isRoundActive()) {
     return
   }
@@ -75,17 +73,17 @@ async function startRound(roomName) {
   game.addLevel(level)
   const initialGameState = game.getGameState()
   game.emit(LOAD_LEVEL, { level, initialGameState })
-  await initiateCountdown(game)
+  //await initiateCountdown(game)
   startGameInterval(game)
 }
 
-function initiateCountdown(game) {
+function initiateCountdown(emit) {
   return new Promise((resolve) => {
     let count = 5
     const countdownIntervalId = setInterval(
       function () {
         if (count) {
-          game.emit(COUNTDOWN, `<h1>${count--}</h1>`)
+          emit(COUNTDOWN, `<h1>${count--}</h1>`)
         } else {
           clearInterval(countdownIntervalId)
           resolve()
@@ -186,6 +184,6 @@ module.exports = {
   removePlayer,
   gameHandleKeyDown,
   gameHandleKeyUp,
-  startRound,
+  handleStartRound,
   isRoundActive
 }

@@ -6,7 +6,7 @@ const { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } = require("../constants")
 
 module.exports = class Player extends Client {
   constructor(client) {
-    super(...client)
+    super({ ...client })
     this.score = 0
     this.pos = new Vector(client.playerNumber * 200, 500)
     this.vel = new Vector(0, 0)

@@ -18,7 +18,7 @@ const {
 const gameStates = new Map()
 
 function createGame(roomName, client, emit) {
-  gameStates.set(roomName, Game.createGameState(client, emit))
+  Game.createGameState(client, emit))
 }
 
 function addPlayer(roomName, client) {

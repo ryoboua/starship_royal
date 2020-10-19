@@ -15,7 +15,7 @@
       </h3>
       <h4>Name: {{ name }}</h4>
       <h4>Player Number:{{ playerNumber }}</h4>
-      <h4>Current Level: {{ level.number || 0 }}</h4>
+      <h4>Current Level: {{ level.number }}</h4>
       <div v-if="!gameActive">
         <button
           v-if="isHost"
@@ -24,12 +24,14 @@
         >
           Start Round
         </button>
-        <h4>Current players in lobby:</h4>
-        <ul>
-          <li v-for="(p, i) in players" :key="i">
-            {{ p.name }}
-          </li>
-        </ul>
+        <div v-if="type === 'multi'">
+          <h4>Current players in lobby:</h4>
+          <ul>
+            <li v-for="(p, i) in players" :key="i">
+              {{ p.name }}
+            </li>
+          </ul>
+        </div>
       </div>
       <ul v-if="gameActive">
         <h2>Timer: {{ timer }}</h2>
@@ -41,7 +43,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Game",
@@ -52,9 +54,6 @@ export default {
       SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
       ASTEROID_COLOUR: "#cdc9c3",
       MISSILE_COLOUR: "#FF6347",
-      playerScores: [],
-      timer: null,
-      level: {},
       rawHtml: "",
       disableStartBtn: false
     };
@@ -66,20 +65,33 @@ export default {
       roomName: state => state.client.roomName,
       isHost: state => state.client.host,
       gameActive: state => state.game.gameActive,
-      players: state => state.game.players
+      players: state => state.game.players,
+      type: state => state.game.type,
+      level: state => state.game.level,
+      timer: state => state.game.timer,
+      playerScores: state => state.game.playerScores,
+      gameState: state => state.game.gameState
     })
   },
+  watch: {
+    gameState(value) {
+      requestAnimationFrame(() => this.paintGame(value));
+    }
+  },
   methods: {
+    ...mapActions("game", ["startRound", "handleKeyDown", "handleKeyUp"]),
     handleStartGame() {
       this.disableStartBtn = true;
       this.clearGameScreenInformation();
-      this.$socket.emit("START_GAME");
+      this.startRound();
     },
     keydown(e) {
-      this.$socket.emit("KEY_DOWN", e.keyCode);
+      this.handleKeyDown(e.keyCode);
+      //this.$socket.emit("KEY_DOWN", e.keyCode);
     },
     keyup(e) {
-      this.$socket.emit("KEY_UP", e.keyCode);
+      this.handleKeyUp(e.keyCode);
+      //this.$socket.emit("KEY_UP", e.keyCode);
     },
     clearGameScreenInformation() {
       this.rawHtml = "";
@@ -140,39 +152,6 @@ export default {
           ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize);
         });
       });
-    }
-  },
-  sockets: {
-    GAME_STATE_UPDATE(gameState) {
-      gameState = JSON.parse(gameState);
-      this.playerScores = gameState.playerScores;
-      this.timer = gameState.timer;
-      requestAnimationFrame(() => this.paintGame(gameState));
-    },
-    CLEAR_CANVAS() {
-      const canvas = this.$refs.canvas;
-      const ctx = canvas.getContext("2d");
-
-      canvas.width = 1000;
-      canvas.height = 600;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    },
-    LOAD_LEVEL({ level, initialGameState }) {
-      this.level = level;
-      initialGameState = JSON.parse(initialGameState);
-      this.timer = initialGameState.timer;
-      requestAnimationFrame(() => this.paintGame(initialGameState));
-    },
-    COUNTDOWN(rawHtml) {
-      this.rawHtml = rawHtml;
-    },
-    ROUND_OVER(rawHtml) {
-      this.disableStartBtn = false;
-      this.rawHtml = rawHtml;
-    },
-    GAME_OVER(rawHtml) {
-      this.disableStartBtn = false;
-      this.rawHtml = rawHtml;
     }
   },
   mounted() {

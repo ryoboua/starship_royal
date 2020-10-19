@@ -11,14 +11,4 @@ module.exports = class Client {
     return this.roomName
   }
 
-  [Symbol.iterator] = function* () {
-    yield {
-      socketId: this.socketId,
-      socket: this.socket,
-      name: this.name,
-      roomName: this.roomName,
-      playerNumber: this.playerNumber,
-      host: this.host,
-    }
-  }
 }
