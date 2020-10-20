@@ -23,6 +23,9 @@ export default {
     disableStartBtn: false,
   },
   mutations: {
+    SET_GAME_TYPE(state, type) {
+      state.type = type
+    },
     CREATE_GAME(state, { client, emit }) {
       state.game = createGame(client, emit)
     },
@@ -85,6 +88,9 @@ export default {
     },
     displayMsg(context, msg) {
       context.commit("DISPLAY_MSG", msg)
+    },
+    setGameType(context, type) {
+      context.commit("SET_GAME_TYPE", type)
     }
   },
 }

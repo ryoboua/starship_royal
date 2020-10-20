@@ -52,26 +52,24 @@ export default {
       BG_COLOUR: "#231f20",
       SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
       ASTEROID_COLOUR: "#cdc9c3",
-      MISSILE_COLOUR: "#FF6347",
+      MISSILE_COLOUR: "#FF6347"
     };
   },
-  computed: {
-    ...mapState({
-      name: state => state.client.name,
-      playerNumber: state => state.client.playerNumber,
-      roomName: state => state.client.roomName,
-      isHost: state => state.client.host,
-      gameActive: state => state.game.gameActive,
-      players: state => state.game.players,
-      type: state => state.game.type,
-      level: state => state.game.level,
-      timer: state => state.game.timer,
-      playerScores: state => state.game.playerScores,
-      gameState: state => state.game.gameState,
-      screen: state => state.game.screen,
-      disableStartBtn: state => state.game.disableStartBtn,
-    })
-  },
+  computed: mapState({
+    name: state => state.client.name,
+    playerNumber: state => state.client.playerNumber,
+    roomName: state => state.client.roomName,
+    isHost: state => state.client.host,
+    gameActive: state => state.game.gameActive,
+    players: state => state.game.players,
+    type: state => state.game.type,
+    level: state => state.game.level,
+    timer: state => state.game.timer,
+    playerScores: state => state.game.playerScores,
+    gameState: state => state.game.gameState,
+    screen: state => state.game.screen,
+    disableStartBtn: state => state.game.disableStartBtn
+  }),
   watch: {
     gameState(value) {
       requestAnimationFrame(() => this.paintGame(value));
@@ -174,7 +172,7 @@ export default {
       ? "<h3>Click Start Button To Start Round</h3>"
       : "<h3 v-else>Waiting For Host To Start Round</h3>";
 
-    this.displayMsg(msg)
+    this.displayMsg(msg);
   }
 };
 </script>

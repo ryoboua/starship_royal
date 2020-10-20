@@ -5,24 +5,93 @@
     </div>
     <div class="homeScreen__menu">
       <div>
-        <button @click="handleSingle">Play Game</button>
+        <input
+          placeholder="Enter a name"
+          type="text"
+          v-model="name"
+          :class="{ 'input-error': errors.name }"
+        />
+      </div>
+      <div v-if="type === 'single'">
+        <button @click="handleSingle">Single Player</button>
+        <h4>Or</h4>
+        <button @click="handleMulti">Multiplayer Game</button>
+      </div>
+      <div v-if="type === 'multi'">
+        <button @click="handleNewGame">Create Game</button>
+        <h4>Or</h4>
+        <input
+          placeholder="Enter room code"
+          v-model="roomName"
+          type="text"
+          :class="{ 'input-error': errors.roomName }"
+        />
+        <button @click="handleJoinGame">Join Game</button>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "HomeScreen",
+  computed: mapState({
+    type: state => state.game.type
+  }),
   data() {
-    return {};
+    return {
+      roomName: "",
+      name: "",
+      errors: {
+        roomName: false,
+        name: false
+      }
+    };
+  },
+  watch: {
+    roomName: function() {
+      this.errors.roomName = false;
+    },
+    name: function() {
+      this.errors.name = false;
+    }
   },
   methods: {
-    ...mapActions("game", ["createSinglePlayerGame"]),
+    ...mapActions("game", ["createSinglePlayerGame", "setGameType"]),
     handleSingle() {
-      this.createSinglePlayerGame()
+      if (this.name === "") {
+        this.errors.name = true;
+        return;
+      }
+      this.createSinglePlayerGame();
+    },
+    handleMulti() {
+      this.setGameType("multi");
+    },
+    handleNewGame() {
+      if (this.name === "") {
+        this.errors.name = true;
+        return;
+      }
+      this.$socket.emit("NEW_GAME", this.name);
+    },
+    handleJoinGame() {
+      if (this.name === "") {
+        this.errors.name = true;
+      }
+      if (this.roomName === "") {
+        this.errors.roomName = true;
+      }
+      if (this.errors.name || this.errors.roomName) {
+        return;
+      }
+
+      this.$socket.emit("JOIN_GAME", {
+        roomName: this.roomName,
+        name: this.name
+      });
     }
   }
 };
