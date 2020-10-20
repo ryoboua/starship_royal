@@ -100,6 +100,17 @@ export default {
     },
 
     ////SOCKET EVENTS
+    SOCKET_NEW_GAME(context, client) {
+      context.commit("client/SET_CLIENT", client, { root: true })
+      context.commit("ADD_PLAYER", [client])
+      const emit = (eventName, data = null) => context.commit(eventName, data)
+      context.commit("CREATE_GAME", { client, emit })
+    },
+    SOCKET_JOIN_GAME_ACCEPTED(context, client) {
+      context.commit("client/SET_CLIENT", client, { root: true })
+      const emit = (eventName, data = null) => context.commit(eventName, data)
+      context.commit("CREATE_GAME", { client, emit })
+    },
     SOCKET_GAME_ACTIVE(context, b) {
       //context.commit("setGameActive", b)
     },
