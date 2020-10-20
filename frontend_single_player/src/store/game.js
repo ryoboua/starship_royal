@@ -67,7 +67,6 @@ export default {
   },
   actions: {
     createSinglePlayerGame(context) {
-      console.log(context)
       const client = { socketId: 'weuf9qwhfp9e', name: "Joe Doe", roomName: 'local', playerNumber: 1, host: true }
       const emit = (eventName, data = null) => context.commit(eventName, data)
       context.commit("client/SET_CLIENT", client, { root: true })
