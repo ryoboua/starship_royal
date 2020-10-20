@@ -1,6 +1,6 @@
 import Vue from "vue"
 import App from "./App.vue"
-import store from "./store"
+import initStore from "./store"
 import VueSocketIO from 'vue-socket.io'
 import SocketIO from 'socket.io-client'
 
@@ -15,6 +15,8 @@ if (process.env.NODE_ENV === "production") {
 const socket = SocketIO(url, {
   autoConnect: true
 });
+
+const store = initStore(socket)
 
 Vue.use(
   new VueSocketIO({

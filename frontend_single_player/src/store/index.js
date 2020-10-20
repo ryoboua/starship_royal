@@ -5,6 +5,6 @@ import game from "./game"
 import modal from "./modal"
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  modules: { client, game, modal },
+export default (socket) => new Vuex.Store({
+  modules: { client, game: game(socket), modal },
 })

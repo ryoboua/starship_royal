@@ -8,14 +8,15 @@ const {
   isRoundActive
 } = require("../game/gameController")
 
-export default {
+
+export default (socket) => ({
   namespaced: true,
   state: {
     gameActive: false,
     players: [],
     game: null,
     gameState: null,
-    type: 'multi',
+    type: 'single',
     level: {},
     timer: null,
     playerScores: [],
@@ -82,7 +83,13 @@ export default {
       context.commit("CREATE_GAME", { client, emit })
     },
     startRound(context) {
-      context.commit("START_ROUND")
+      if (context.state.type === 'single') {
+        context.commit("START_ROUND")
+      }
+
+      if (context.state.type === 'multi') {
+        socket.emit("START_GAME")
+      }
     },
     handleKeyDown(context, keyCode) {
       const socketId = context.rootState.client.socketId
@@ -120,5 +127,9 @@ export default {
     SOCKET_PLAYER_REMOVED(context, players) {
       context.commit("REMOVE_PLAYER", players)
     },
+    SOCKET_START_ROUND(context) {
+      context.commit("START_ROUND")
+    }
   },
 }
+)

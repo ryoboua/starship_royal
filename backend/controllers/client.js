@@ -10,10 +10,9 @@ const {
   removePlayer,
   gameHandleKeyDown,
   gameHandleKeyUp,
-  startRound,
   isRoundActive
 } = require("./game")
-const { createRoom, addClient, removeClient } = require("./room")
+const { createRoom, addClient, removeClient, startRound } = require("./room")
 const { makeid } = require("../utils")
 
 const clientList = new Map()
@@ -117,7 +116,6 @@ function handleStartGame(socket) {
     return
   }
   const roomName = client.getRoomName()
-
   startRound(roomName)
 }
 

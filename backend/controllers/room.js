@@ -33,6 +33,15 @@ function removeClient(roomName, socketId) {
     room.emit(PLAYER_REMOVED, room.getClientList())
 }
 
+function startRound(roomName) {
+    if (!rooms.has(roomName)) {
+        return
+    }
+    const room = rooms.get(roomName)
+
+    room.emit("START_ROUND")
+}
+
 
 function isRoundActive(roomName) {
     if (!rooms.has(roomName)) {
@@ -42,4 +51,4 @@ function isRoundActive(roomName) {
     return rooms.get(roomName).isRoundActive()
 }
 
-module.exports = { createRoom, addClient, removeClient, isRoundActive }
+module.exports = { createRoom, addClient, removeClient, startRound, isRoundActive }
