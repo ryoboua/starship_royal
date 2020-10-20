@@ -17,5 +17,12 @@ export default {
     },
   },
   actions: {
+    SOCKET_NEW_GAME(context, client) {
+      context.commit("SET_CLIENT", client)
+      context.commit("game/ADD_PLAYER", [client], { root: true })
+    },
+    SOCKET_JOIN_GAME_ACCEPTED(context, client) {
+      context.commit("SET_CLIENT", client)
+    },
   },
 }

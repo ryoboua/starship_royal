@@ -15,7 +15,7 @@ export default {
     players: [],
     game: null,
     gameState: null,
-    type: 'single',
+    type: 'multi',
     level: {},
     timer: null,
     playerScores: [],
@@ -66,7 +66,13 @@ export default {
     GAME_OVER(state, msg) {
       state.screen = msg
       state.disableStartBtn = false
-    }
+    },
+    ADD_PLAYER(state, players) {
+      state.players = players
+    },
+    REMOVE_PLAYER(state, players) {
+      state.players = players
+    },
   },
   actions: {
     createSinglePlayerGame(context) {
@@ -91,6 +97,17 @@ export default {
     },
     setGameType(context, type) {
       context.commit("SET_GAME_TYPE", type)
-    }
+    },
+
+    ////SOCKET EVENTS
+    SOCKET_GAME_ACTIVE(context, b) {
+      //context.commit("setGameActive", b)
+    },
+    SOCKET_PLAYER_ADDED(context, players) {
+      context.commit("ADD_PLAYER", players)
+    },
+    SOCKET_PLAYER_REMOVED(context, players) {
+      context.commit("REMOVE_PLAYER", players)
+    },
   },
 }

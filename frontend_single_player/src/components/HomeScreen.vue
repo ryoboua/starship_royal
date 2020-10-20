@@ -69,10 +69,11 @@ export default {
     },
     handleMulti() {
       this.setGameType("multi");
+      this.$socket.open();
     },
     handleNewGame() {
       if (this.name === "") {
-        this.errors.name = true;
+          this.errors.name = true;
         return;
       }
       this.$socket.emit("NEW_GAME", this.name);
@@ -93,7 +94,15 @@ export default {
         name: this.name
       });
     }
-  }
+  },
+  // sockets: {
+  //   connect: function() {
+  //     console.log("socket connected");
+  //   },
+  //   disconnect: function() {
+  //     console.log("disconnect");
+  //   }
+  // }
 };
 </script>
 
