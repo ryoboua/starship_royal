@@ -4,7 +4,7 @@
       <canvas ref="canvas"></canvas>
       <div
         v-if="!gameActive"
-        v-html="rawHtml"
+        v-html="screen"
         class="game_screen__information"
       ></div>
     </div>
@@ -47,15 +47,12 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Game",
-  props: {},
   data() {
     return {
       BG_COLOUR: "#231f20",
       SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
       ASTEROID_COLOUR: "#cdc9c3",
       MISSILE_COLOUR: "#FF6347",
-      rawHtml: "",
-      disableStartBtn: false
     };
   },
   computed: {
@@ -70,7 +67,9 @@ export default {
       level: state => state.game.level,
       timer: state => state.game.timer,
       playerScores: state => state.game.playerScores,
-      gameState: state => state.game.gameState
+      gameState: state => state.game.gameState,
+      screen: state => state.game.screen,
+      disableStartBtn: state => state.game.disableStartBtn,
     })
   },
   watch: {
@@ -79,9 +78,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions("game", ["startRound", "handleKeyDown", "handleKeyUp"]),
+    ...mapActions("game", [
+      "startRound",
+      "handleKeyDown",
+      "handleKeyUp",
+      "displayMsg"
+    ]),
     handleStartGame() {
-      this.disableStartBtn = true;
       this.clearGameScreenInformation();
       this.startRound();
     },
@@ -94,7 +97,7 @@ export default {
       //this.$socket.emit("KEY_UP", e.keyCode);
     },
     clearGameScreenInformation() {
-      this.rawHtml = "";
+      this.displayMsg("");
     },
     paintGame(state) {
       const canvas = this.$refs.canvas;
@@ -167,9 +170,11 @@ export default {
     ctx.fillStyle = this.BG_COLOUR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    this.rawHtml = this.isHost
+    const msg = this.isHost
       ? "<h3>Click Start Button To Start Round</h3>"
       : "<h3 v-else>Waiting For Host To Start Round</h3>";
+
+    this.displayMsg(msg)
   }
 };
 </script>

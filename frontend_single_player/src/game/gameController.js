@@ -7,7 +7,6 @@ const {
   GAME_STATE_UPDATE,
   GAME_OVER,
   GAME_ACTIVE,
-  CLEAR_CANVAS,
   ROUND_OVER,
   PLAYER_ADDED,
   PLAYER_REMOVED,
@@ -73,17 +72,17 @@ async function handleStartRound(game) {
   game.addLevel(level)
   const initialGameState = game.getGameState()
   game.emit(LOAD_LEVEL, { level, initialGameState })
-  //await initiateCountdown(game)
+  await initiateCountdown(game)
   startGameInterval(game)
 }
 
-function initiateCountdown(emit) {
+function initiateCountdown(game) {
   return new Promise((resolve) => {
     let count = 5
     const countdownIntervalId = setInterval(
       function () {
         if (count) {
-          emit(COUNTDOWN, `<h1>${count--}</h1>`)
+          game.emit(COUNTDOWN, `<h1>${count--}</h1>`)
         } else {
           clearInterval(countdownIntervalId)
           resolve()
@@ -145,16 +144,13 @@ function processGameOver(gameOverReason, game) {
   }
 
   game.setRoundStatus(false)
-  game.emit(GAME_ACTIVE, false)
-
-  const rawHtml = generateGameInfoRawHtml(gameOverReason)
-
   game.endRound()
+  game.emit(GAME_ACTIVE, false)
 
   const currentLevel = game.getCurrentLevel()
   if (currentLevel < MAX_LEVEL) {
+    const rawHtml = generateGameInfoRawHtml(gameOverReason)
     game.emit(ROUND_OVER, rawHtml)
-    game.emit(CLEAR_CANVAS)
   } else {
     game.emit(GAME_OVER,
       `

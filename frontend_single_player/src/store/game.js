@@ -18,13 +18,16 @@ export default {
     type: 'single',
     level: {},
     timer: null,
-    playerScores: []
+    playerScores: [],
+    screen: '',
+    disableStartBtn: false,
   },
   mutations: {
     CREATE_GAME(state, { client, emit }) {
       state.game = createGame(client, emit)
     },
     START_ROUND(state) {
+      state.disableStartBtn = true
       handleStartRound(state.game)
     },
     LOAD_LEVEL(state, { level, initialGameState }) {
@@ -47,12 +50,24 @@ export default {
     KEY_UP(state, { keyCode, socketId }) {
       gameHandleKeyUp(state.game, keyCode, socketId)
     },
-    COUNTDOWN(state) {
-
+    COUNTDOWN(state, count) {
+      state.screen = count
+    },
+    DISPLAY_MSG(state, msg) {
+      state.screen = msg
+    },
+    ROUND_OVER(state, msg) {
+      state.screen = msg
+      state.disableStartBtn = false
+    },
+    GAME_OVER(state, msg) {
+      state.screen = msg
+      state.disableStartBtn = false
     }
   },
   actions: {
     createSinglePlayerGame(context) {
+      console.log(context)
       const client = { socketId: 'weuf9qwhfp9e', name: "Joe Doe", roomName: 'local', playerNumber: 1, host: true }
       const emit = (eventName, data = null) => context.commit(eventName, data)
       context.commit("client/SET_CLIENT", client, { root: true })
@@ -68,6 +83,9 @@ export default {
     handleKeyUp(context, keyCode) {
       const socketId = context.rootState.client.socketId
       context.commit("KEY_UP", { keyCode, socketId })
+    },
+    displayMsg(context, msg) {
+      context.commit("DISPLAY_MSG", msg)
     }
   },
 }
