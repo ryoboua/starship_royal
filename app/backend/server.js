@@ -9,7 +9,7 @@ const {
   handleKeyUp,
   handleDisconnect,
   handleStartGame,
-} = require("./controllers/client")
+} = require("./controllers/clientController")
 const {
   NEW_GAME,
   START_GAME,

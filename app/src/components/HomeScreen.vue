@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       roomName: "",
-      name: "",
+      name: "Reggie",
       errors: {
         roomName: false,
         name: false

@@ -1,4 +1,4 @@
-const Client = require("../classes/Client")
+const Client = require("../../game/classes/Client")
 const {
   NEW_GAME,
   JOIN_GAME_ACCEPTED,
@@ -8,11 +8,11 @@ const {
   createGame,
   addPlayer,
   removePlayer,
+  startRound,
   gameHandleKeyDown,
   gameHandleKeyUp,
   isRoundActive
-} = require("./game")
-const { createRoom, addClient, removeClient, startRound } = require("./room")
+} = require("./gameController")
 const { makeid } = require("../utils")
 
 const clientList = new Map()
@@ -34,7 +34,7 @@ function handleNewGame(socket, name, initGameEmitter) {
     })
 
     clientList.set(client.socketId, client)
-    createRoom(roomName, client, initGameEmitter(roomName))
+    createGame(roomName, [client], initGameEmitter(roomName))
     socket.emit(NEW_GAME, client)
   })
 }
@@ -60,8 +60,7 @@ function joinRoom(socket, roomName, name, numClients) {
     })
 
     clientList.set(client.socketId, client)
-    addClient(roomName, client)
-    socket.emit(JOIN_GAME_ACCEPTED, client)
+    addPlayer(roomName, client, socket)
   })
 }
 
@@ -70,7 +69,7 @@ function handleDisconnect(socket) {
     return
   }
   const roomName = clientList.get(socket.id).getRoomName()
-  removeClient(roomName, socket.id)
+  removePlayer(roomName, socket.id)
   clientList.delete(socket.id)
 }
 

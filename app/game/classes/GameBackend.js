@@ -14,11 +14,10 @@ module.exports = class Game {
     this.roundActive = false
   }
 
-  static createGameState(client, emitter) {
+  static createGameState(players, emitter) {
     const game = new Game()
 
-    const startPosition = { x: 200, y: 500 }
-    game.addPlayer(client, startPosition)
+    players.forEach(player => game.addPlayer(player))
     game.setGameEmitter(emitter)
 
     return game
@@ -73,8 +72,11 @@ module.exports = class Game {
       .sort((a, b) => b.score - a.score)
   }
 
-  addPlayer(client, startPosition) {
-    const player = new Player(client, startPosition)
+  addPlayer(client) {
+    if (Object.values(this.players).some(player => player.socketId === client.socketId)) {
+      return
+    }
+    const player = new Player(client)
     this.players[player.socketId] = player
   }
 

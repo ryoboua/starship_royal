@@ -6,19 +6,19 @@ const {
   gameHandleKeyUp,
   handleStartRound,
   isRoundActive
-} = require("../../game/gameController")
+} = require("../../game/controllerFrontend")
 
 
 export default (socket) => ({
   namespaced: true,
   state: {
     gameActive: false,
-    players: [],
     game: null,
     gameState: null,
     type: 'single',
     level: {},
     timer: null,
+    players: [],
     playerScores: [],
     screen: '',
     disableStartBtn: false,
@@ -27,8 +27,9 @@ export default (socket) => ({
     SET_GAME_TYPE(state, type) {
       state.type = type
     },
-    CREATE_GAME(state, { client, emit }) {
-      state.game = createGame(client, emit)
+    CREATE_GAME(state, { players, emit }) {
+      state.players = players
+      state.game = createGame(players, emit)
     },
     START_ROUND(state) {
       state.disableStartBtn = true
@@ -41,8 +42,7 @@ export default (socket) => ({
     },
     GAME_ACTIVE(state, b) {
       state.gameActive = b
-    }
-    ,
+    },
     GAME_STATE_UPDATE(state, gameState) {
       state.gameState = gameState
       state.playerScores = gameState.playerScores;
@@ -68,11 +68,11 @@ export default (socket) => ({
       state.screen = msg
       state.disableStartBtn = false
     },
-    ADD_PLAYER(state, players) {
-      state.players = players
+    ADD_PLAYER(state, player) {
+      state.players = addPlayer(state.game, player)
     },
-    REMOVE_PLAYER(state, players) {
-      state.players = players
+    REMOVE_PLAYER(state, socketId) {
+      state.players = removePlayer(state.game, socketId)
     },
   },
   actions: {
@@ -80,7 +80,7 @@ export default (socket) => ({
       const client = { socketId: 'weuf9qwhfp9e', name: "Joe Doe", roomName: 'local', playerNumber: 1, host: true }
       const emit = (eventName, data = null) => context.commit(eventName, data)
       context.commit("client/SET_CLIENT", client, { root: true })
-      context.commit("CREATE_GAME", { client, emit })
+      context.commit("CREATE_GAME", { players: [client], emit })
     },
     startRound(context) {
       if (context.state.type === 'single') {
@@ -109,23 +109,22 @@ export default (socket) => ({
     ////SOCKET EVENTS
     SOCKET_NEW_GAME(context, client) {
       context.commit("client/SET_CLIENT", client, { root: true })
-      context.commit("ADD_PLAYER", [client])
       const emit = (eventName, data = null) => context.commit(eventName, data)
-      context.commit("CREATE_GAME", { client, emit })
+      context.commit("CREATE_GAME", { players: [client], emit })
     },
-    SOCKET_JOIN_GAME_ACCEPTED(context, client) {
+    SOCKET_JOIN_GAME_ACCEPTED(context, { client, players }) {
       context.commit("client/SET_CLIENT", client, { root: true })
       const emit = (eventName, data = null) => context.commit(eventName, data)
-      context.commit("CREATE_GAME", { client, emit })
+      context.commit("CREATE_GAME", { players, emit })
     },
     SOCKET_GAME_ACTIVE(context, b) {
       //context.commit("setGameActive", b)
     },
-    SOCKET_PLAYER_ADDED(context, players) {
-      context.commit("ADD_PLAYER", players)
+    SOCKET_PLAYER_ADDED(context, player) {
+      context.commit("ADD_PLAYER", player)
     },
-    SOCKET_PLAYER_REMOVED(context, players) {
-      context.commit("REMOVE_PLAYER", players)
+    SOCKET_PLAYER_REMOVED(context, socketId) {
+      context.commit("REMOVE_PLAYER", socketId)
     },
     SOCKET_START_ROUND(context) {
       context.commit("START_ROUND")

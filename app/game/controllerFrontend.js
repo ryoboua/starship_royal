@@ -1,44 +1,35 @@
-const Game = require("../classes/Game")
-const { FRAME_RATE } = require("../constants")
-const { GAME_OVER_REASONS } = require("../constants")
-const levelParams = require("../levels")
+const Game = require("./classes/GameFrontend")
+const { FRAME_RATE } = require("./constants")
+const { GAME_OVER_REASONS } = require("./constants")
+const levelParams = require("./levels")
 const MAX_LEVEL = levelParams.length
 const {
   GAME_STATE_UPDATE,
   GAME_OVER,
   GAME_ACTIVE,
-  CLEAR_CANVAS,
   ROUND_OVER,
   PLAYER_ADDED,
   PLAYER_REMOVED,
   LOAD_LEVEL,
   COUNTDOWN
-} = require("../events")
+} = require("./events")
 
-const gameStates = new Map()
-
-function createGame(roomName, client, emit) {
-  gameStates.set(roomName, Game.createGameState(client, emit))
+function createGame(players, emit) {
+  return Game.createGameState(players, emit)
 }
 
-function addPlayer(roomName, client) {
-  const game = gameStates.get(roomName)
-  game.addPlayer(client)
-  game.emit(PLAYER_ADDED, game.getPlayerList())
+function addPlayer(game, player) {
+  game.addPlayer(player)
+  return game.getPlayerList()
 }
 
-function removePlayer(roomName, socketId) {
-  if (!gameStates.has(roomName)) {
-    return
-  }
-
-  const game = gameStates.get(roomName)
+function removePlayer(game, socketId) {
   game.removePlayer(socketId)
-  game.emit(PLAYER_REMOVED, game.getPlayerList())
+  return game.getPlayerList()
 }
 
-function gameHandleKeyDown(client, keyCode) {
-  const player = gameStates.get(client.roomName).players[client.socketId]
+function gameHandleKeyDown(game, keyCode, socketId) {
+  const player = game.players[socketId]
 
   if (!player) {
     return
@@ -48,8 +39,8 @@ function gameHandleKeyDown(client, keyCode) {
   player.updateVelocityKeyDown(keyCode)
 }
 
-function gameHandleKeyUp(client, keyCode) {
-  const player = gameStates.get(client.roomName).players[client.socketId]
+function gameHandleKeyUp(game, keyCode, socketId) {
+  const player = game.players[socketId]
 
   if (!player) {
     return
@@ -59,9 +50,7 @@ function gameHandleKeyUp(client, keyCode) {
   player.updateVelocityKeyUp(keyCode)
 }
 
-async function startRound(roomName) {
-  const game = gameStates.get(roomName)
-
+async function handleStartRound(game) {
   if (game.isRoundActive()) {
     return
   }
@@ -147,16 +136,13 @@ function processGameOver(gameOverReason, game) {
   }
 
   game.setRoundStatus(false)
-  game.emit(GAME_ACTIVE, false)
-
-  const rawHtml = generateGameInfoRawHtml(gameOverReason)
-
   game.endRound()
+  game.emit(GAME_ACTIVE, false)
 
   const currentLevel = game.getCurrentLevel()
   if (currentLevel < MAX_LEVEL) {
+    const rawHtml = generateGameInfoRawHtml(gameOverReason)
     game.emit(ROUND_OVER, rawHtml)
-    game.emit(CLEAR_CANVAS)
   } else {
     game.emit(GAME_OVER,
       `
@@ -186,6 +172,6 @@ module.exports = {
   removePlayer,
   gameHandleKeyDown,
   gameHandleKeyUp,
-  startRound,
+  handleStartRound,
   isRoundActive
 }
