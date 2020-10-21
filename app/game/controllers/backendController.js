@@ -13,7 +13,9 @@ const {
   PLAYER_REMOVED,
   LOAD_LEVEL,
   COUNTDOWN,
-  JOIN_GAME_ACCEPTED
+  JOIN_GAME_ACCEPTED,
+  KEY_DOWN,
+  KEY_UP,
 } = require("../../appEvent")
 
 const gameStates = new Map()
@@ -43,26 +45,18 @@ function removePlayer(roomName, socketId) {
   game.emit(PLAYER_REMOVED, socketId)
 }
 
-function gameHandleKeyDown(client, keyCode) {
-  const player = gameStates.get(client.roomName).players[client.socketId]
-
-  if (!player) {
+function gameKeyDown(client, keyCode, socket) {
+  const roomName = client.roomName
+  if (!gameStates.has(roomName)) {
     return
   }
-
-  player.keys.updateKeysDown(keyCode)
-  player.updateVelocityKeyDown(keyCode)
 }
 
-function gameHandleKeyUp(client, keyCode) {
-  const player = gameStates.get(client.roomName).players[client.socketId]
-
-  if (!player) {
+function gameKeyUp(client, keyCode, socket) {
+  const roomName = client.roomName
+  if (!gameStates.has(roomName)) {
     return
   }
-
-  player.keys.updateKeysUp(keyCode)
-  player.updateVelocityKeyUp(keyCode)
 }
 
 function startRound(roomName) {
@@ -70,7 +64,7 @@ function startRound(roomName) {
     return
   }
   const game = gameStates.get(roomName)
-
+  game.setRoundStatus(true)
   game.emit("START_ROUND")
 }
 
@@ -86,8 +80,8 @@ module.exports = {
   createGame,
   addPlayer,
   removePlayer,
-  gameHandleKeyDown,
-  gameHandleKeyUp,
+  gameKeyDown,
+  gameKeyUp,
   startRound,
   isRoundActive
 }

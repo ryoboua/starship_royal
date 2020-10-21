@@ -1,15 +1,17 @@
 const Client = require("../../game/classes/Client")
 const {
   NEW_GAME,
-  ROUND_ACTIVE
+  ROUND_ACTIVE,
+  KEY_DOWN,
+  KEY_UP,
 } = require("../../appEvent")
 const {
   createGame,
   addPlayer,
   removePlayer,
   startRound,
-  gameHandleKeyDown,
-  gameHandleKeyUp,
+  gameKeyDown,
+  gameKeyUp,
   isRoundActive
 } = require("../../game/controllers/backendController")
 const { makeid } = require("../utils")
@@ -77,7 +79,11 @@ function handleKeyDown(socket, keyCode) {
     return
   }
 
-  const client = clientList.get(socket.id)
+  const roomName = clientList.get(socket.id).roomName
+
+  if (!isRoundActive(roomName)) {
+    return
+  }
 
   try {
     keyCode = parseInt(keyCode)
@@ -85,7 +91,7 @@ function handleKeyDown(socket, keyCode) {
     console.log(e)
     return
   }
-  gameHandleKeyDown(client, keyCode)
+  socket.broadcast.emit(KEY_DOWN, { keyCode, socketId: socket.id })
 }
 
 function handleKeyUp(socket, keyCode) {
@@ -93,7 +99,11 @@ function handleKeyUp(socket, keyCode) {
     return
   }
 
-  const client = clientList.get(socket.id)
+  const roomName = clientList.get(socket.id).roomName
+
+  if (!isRoundActive(roomName)) {
+    return
+  }
 
   try {
     keyCode = parseInt(keyCode)
@@ -101,7 +111,7 @@ function handleKeyUp(socket, keyCode) {
     console.log(e)
     return
   }
-  gameHandleKeyUp(client, keyCode)
+  socket.broadcast.emit(KEY_UP, { keyCode, socketId: socket.id })
 }
 
 function handleStartGame(socket) {

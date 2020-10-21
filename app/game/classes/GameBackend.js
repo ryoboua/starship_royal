@@ -24,9 +24,6 @@ module.exports = class Game {
   }
 
   resetState() {
-    this.timer = 30
-    this.asteroidField = new AsteroidField()
-    Object.values(this.players).forEach((player) => player.reset())
   }
 
   setGameEmitter(emit) {
@@ -38,28 +35,11 @@ module.exports = class Game {
   }
 
   gameLoop() {
-    this.asteroidField.updatePosition()
-    Object.values(this.players).forEach((player) => {
-      if (player.isAlive) player.updatePosition(this.asteroidField)
-    })
 
-    if (!Object.values(this.players).some((player) => player.isAlive)) {
-      return 1
-    }
-
-    if (!this.timer) {
-      return 2
-    }
-    return
   }
 
   getGameState() {
     return {
-      players: this.players,
-      asteroidField: this.asteroidField,
-      gridsize: this.gridsize,
-      timer: this.timer,
-      playerScores: this.getPlayerScores(),
     }
   }
 

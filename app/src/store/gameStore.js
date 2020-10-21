@@ -29,6 +29,8 @@ const {
   BACKEND_PLAYER_ADDED,
   BACKEND_PLAYER_REMOVED,
   BACKEND_START_ROUND,
+  BACKEND_KEY_DOWN,
+  BACKEND_KEY_UP,
 } = require("../../appEvent");
 
 export default (socket) => ({
@@ -115,11 +117,19 @@ export default (socket) => ({
     },
     handleKeyDown(context, keyCode) {
       const socketId = context.rootState.client.socketId
+      if (context.state.type === 'multi') {
+        socket.emit(KEY_DOWN, keyCode)
+      }
       context.commit(KEY_DOWN, { keyCode, socketId })
+
     },
     handleKeyUp(context, keyCode) {
       const socketId = context.rootState.client.socketId
+      if (context.state.type === 'multi') {
+        socket.emit(KEY_UP, keyCode)
+      }
       context.commit(KEY_UP, { keyCode, socketId })
+
     },
     displayMsg(context, msg) {
       context.commit(DISPLAY_MSG, msg)
@@ -150,6 +160,12 @@ export default (socket) => ({
     },
     [BACKEND_START_ROUND](context) {
       context.commit(START_ROUND)
+    },
+    [BACKEND_KEY_DOWN](context, res) {
+      context.commit(KEY_DOWN, res)
+    },
+    [BACKEND_KEY_UP](context, res) {
+      context.commit(KEY_UP, res)
     }
   },
 }
