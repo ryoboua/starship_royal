@@ -94,7 +94,7 @@ export default {
         name: this.name
       });
     }
-  },
+  }
   // sockets: {
   //   connect: function() {
   //     console.log("socket connected");

@@ -19,7 +19,7 @@ const {
   UNKNOWN_CODE,
   TOO_MANY_PLAYERS,
   DISCONNECT,
-} = require("./events")
+} = require("../appEvent")
 
 function initGameEmitter(roomName) {
   return (eventName, data = null) =>

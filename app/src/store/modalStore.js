@@ -18,13 +18,13 @@ export default {
     },
   },
   actions: {
-    SOCKET_UNKNOWN_CODE(context, modal) {
+    BACKEND_UNKNOWN_CODE(context, modal) {
       context.commit("setAndShowModal", modal)
     },
-    SOCKET_TOO_MANY_PLAYERS(context, modal) {
+    BACKEND_TOO_MANY_PLAYERS(context, modal) {
       context.commit("setAndShowModal", modal)
     },
-    SOCKET_ROUND_ACTIVE(context, modal) {
+    BACKEND_ROUND_ACTIVE(context, modal) {
       context.commit("setAndShowModal", modal)
     }
   },

@@ -24,8 +24,7 @@ Vue.use(
     connection: socket,
     vuex: {
       store,
-      actionPrefix: "SOCKET_",
-      mutationPrefix: "SOCKET_",
+      actionPrefix: "BACKEND_",
     },
   })
 )

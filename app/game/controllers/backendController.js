@@ -1,7 +1,7 @@
-const Game = require("../../game/classes/GameBackend")
-const { FRAME_RATE } = require("../../game/constants")
-const { GAME_OVER_REASONS } = require("../../game/constants")
-const levelParams = require("../../game/levels")
+const Game = require("../classes/GameBackend")
+const { FRAME_RATE } = require("../constants")
+const { GAME_OVER_REASONS } = require("../constants")
+const levelParams = require("../levels")
 const MAX_LEVEL = levelParams.length
 const {
   GAME_STATE_UPDATE,
@@ -14,7 +14,7 @@ const {
   LOAD_LEVEL,
   COUNTDOWN,
   JOIN_GAME_ACCEPTED
-} = require("../events")
+} = require("../../appEvent")
 
 const gameStates = new Map()
 

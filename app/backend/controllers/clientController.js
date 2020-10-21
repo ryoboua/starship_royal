@@ -1,9 +1,8 @@
 const Client = require("../../game/classes/Client")
 const {
   NEW_GAME,
-  JOIN_GAME_ACCEPTED,
   ROUND_ACTIVE
-} = require("../events")
+} = require("../../appEvent")
 const {
   createGame,
   addPlayer,
@@ -12,7 +11,7 @@ const {
   gameHandleKeyDown,
   gameHandleKeyUp,
   isRoundActive
-} = require("./gameController")
+} = require("../../game/controllers/backendController")
 const { makeid } = require("../utils")
 
 const clientList = new Map()

@@ -1,7 +1,7 @@
-const Game = require("./classes/GameFrontend")
-const { FRAME_RATE } = require("./constants")
-const { GAME_OVER_REASONS } = require("./constants")
-const levelParams = require("./levels")
+const Game = require("../classes/GameFrontend")
+const { FRAME_RATE } = require("../constants")
+const { GAME_OVER_REASONS } = require("../constants")
+const levelParams = require("../levels")
 const MAX_LEVEL = levelParams.length
 const {
   GAME_STATE_UPDATE,
@@ -12,7 +12,7 @@ const {
   PLAYER_REMOVED,
   LOAD_LEVEL,
   COUNTDOWN
-} = require("./events")
+} = require("../events")
 
 function createGame(players, emit) {
   return Game.createGameState(players, emit)
