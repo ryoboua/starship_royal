@@ -5,7 +5,6 @@ const {
   gameHandleKeyDown,
   gameHandleKeyUp,
   handleStartRound,
-  isRoundActive
 } = require("../../game/controllers/frontendController")
 const {
   SET_GAME_TYPE,
@@ -31,6 +30,7 @@ const {
   BACKEND_START_ROUND,
   BACKEND_KEY_DOWN,
   BACKEND_KEY_UP,
+  PLAYER_DEAD,
 } = require("../../appEvent");
 
 export default (socket) => ({
@@ -98,6 +98,7 @@ export default (socket) => ({
     [REMOVE_PLAYER](state, socketId) {
       state.players = removePlayer(state.game, socketId)
     },
+    [PLAYER_DEAD]() {},
   },
   actions: {
     createSinglePlayerGame(context) {
@@ -117,7 +118,7 @@ export default (socket) => ({
     },
     handleKeyDown(context, keyCode) {
       const socketId = context.rootState.client.socketId
-      if (context.state.type === 'multi') {
+      if (context.state.type === 'multi' && context.state.game.isRoundActive()) {
         socket.emit(KEY_DOWN, keyCode)
       }
       context.commit(KEY_DOWN, { keyCode, socketId })
@@ -125,7 +126,7 @@ export default (socket) => ({
     },
     handleKeyUp(context, keyCode) {
       const socketId = context.rootState.client.socketId
-      if (context.state.type === 'multi') {
+      if (context.state.type === 'multi' && context.state.game.isRoundActive()) {
         socket.emit(KEY_UP, keyCode)
       }
       context.commit(KEY_UP, { keyCode, socketId })

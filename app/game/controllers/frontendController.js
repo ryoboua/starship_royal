@@ -8,8 +8,6 @@ const {
   GAME_OVER,
   GAME_ACTIVE,
   ROUND_OVER,
-  PLAYER_ADDED,
-  PLAYER_REMOVED,
   LOAD_LEVEL,
   COUNTDOWN
 } = require("../events")
@@ -158,14 +156,6 @@ function generateGameInfoRawHtml(reason) {
   return `<h1>${GAME_OVER_REASONS[reason]}</h1>`
 }
 
-function isRoundActive(roomName) {
-  if (!gameStates.has(roomName)) {
-    return
-  }
-
-  return gameStates.get(roomName).isRoundActive()
-}
-
 module.exports = {
   createGame,
   addPlayer,
@@ -173,5 +163,4 @@ module.exports = {
   gameHandleKeyDown,
   gameHandleKeyUp,
   handleStartRound,
-  isRoundActive
 }

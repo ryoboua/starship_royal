@@ -28,6 +28,7 @@ const events = {
     DISPLAY_MSG: "DISPLAY_MSG",
     REMOVE_PLAYER: "REMOVE_PLAYER",
     ADD_PLAYER: "ADD_PLAYER",
+    PLAYER_DEAD: "PLAYER_DEAD",
 
     //backend events which call gameStore actions
 

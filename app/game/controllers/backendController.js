@@ -1,18 +1,7 @@
 const Game = require("../classes/GameBackend")
-const { FRAME_RATE } = require("../constants")
-const { GAME_OVER_REASONS } = require("../constants")
-const levelParams = require("../levels")
-const MAX_LEVEL = levelParams.length
 const {
-  GAME_STATE_UPDATE,
-  GAME_OVER,
-  GAME_ACTIVE,
-  CLEAR_CANVAS,
-  ROUND_OVER,
   PLAYER_ADDED,
   PLAYER_REMOVED,
-  LOAD_LEVEL,
-  COUNTDOWN,
   JOIN_GAME_ACCEPTED,
   KEY_DOWN,
   KEY_UP,

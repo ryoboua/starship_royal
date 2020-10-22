@@ -2,7 +2,7 @@ const { GRID_SIZE } = require("../constants")
 const Player = require("./Player")
 const Level = require("./Level")
 const AsteroidField = require("./AsteroidField")
-
+const { PLAYER_DEAD } = require("../../appEvent")
 module.exports = class Game {
   constructor() {
     this.players = {}
@@ -40,7 +40,12 @@ module.exports = class Game {
   gameLoop() {
     this.asteroidField.updatePosition()
     Object.values(this.players).forEach((player) => {
-      if (player.isAlive) player.updatePosition(this.asteroidField)
+      if (player.isAlive) {
+        player.updatePosition(this.asteroidField)
+        if (!player.isAlive) {
+          this.emit(PLAYER_DEAD, player.socketId)
+        }
+      }
     })
 
     if (!Object.values(this.players).some((player) => player.isAlive)) {

@@ -16,7 +16,6 @@ module.exports = class Player extends Client {
   }
 
   reset() {
-    this.score = 0
     this.pos = new Vector(this.playerNumber * 200, 500)
     this.vel = new Vector(0, 0)
     this.keys = new Keys()
@@ -31,7 +30,7 @@ module.exports = class Player extends Client {
     if (numOfDestroyedAsteroids) {
       this.score += numOfDestroyedAsteroids * ASTEROID_VALUE
     }
-    return this.updateSpaceshipPosition(asteroidField)
+    this.updateSpaceshipPosition(asteroidField)
   }
 
   updateSpaceshipPosition(asteroidField) {
