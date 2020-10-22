@@ -65,7 +65,6 @@ async function handleStartRound(game) {
   level = levelParams[level]
   game.addLevel(level)
   const initialGameState = game.getGameState()
-  console.log(game)
   game.commit(LOAD_LEVEL, { level, initialGameState })
   await initiateCountdown(game)
   startGameInterval(game)

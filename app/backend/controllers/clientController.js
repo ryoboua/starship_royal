@@ -138,7 +138,6 @@ function handleDeadPlayer(socket,  deadPlayerSocketId) {
   if (!isRoundActive(roomName)) {
     return
   }
-  console.log('hit')
   socket.broadcast.emit(PLAYER_DEAD, deadPlayerSocketId)
 }
 

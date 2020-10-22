@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const socket = SocketIO(url, {
-  autoConnect: true
+  autoConnect: false
 });
 
 const store = initStore(socket)
