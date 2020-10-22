@@ -1,4 +1,4 @@
-const { GRID_SIZE } = require("../constants")
+const { GRID_SIZE, ROUND_TIME } = require("../constants")
 const Player = require("./Player")
 const Level = require("./Level")
 const AsteroidField = require("./AsteroidField")
@@ -9,7 +9,7 @@ module.exports = class Game {
     this.levels = []
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE
-    this.timer = 30
+    this.timer = ROUND_TIME
     this._context = null
     this.roundActive = false
   }
@@ -24,7 +24,7 @@ module.exports = class Game {
   }
 
   resetState() {
-    this.timer = 30
+    this.timer = ROUND_TIME
     this.asteroidField = new AsteroidField()
     Object.values(this.players).forEach((player) => player.reset())
   }
