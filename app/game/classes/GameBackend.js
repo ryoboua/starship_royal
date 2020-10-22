@@ -1,7 +1,8 @@
-const { GRID_SIZE } = require("../constants")
+const { GRID_SIZE, GAME_WIDTH } = require("../constants")
 const Player = require("./Player")
 const Level = require("./Level")
 const AsteroidField = require("./AsteroidField")
+const { randomNumBetween } = require("../utils")
 
 module.exports = class Game {
   constructor() {
@@ -98,5 +99,13 @@ module.exports = class Game {
 
   getCurrentLevel() {
     return this.levels.length
+  }
+
+  generateSequence() {
+    const sequence = []
+    for(let i = 0; i < GAME_WIDTH; i++) {
+      sequence.push(Math.floor(randomNumBetween(0, GAME_WIDTH)))
+    }
+    return sequence
   }
 }

@@ -1,6 +1,4 @@
-function randomNumBetween(min, max) {
-  return min + Math.random() * (max - min)
-}
+const { randomNumBetween } = require("../utils")
 
 module.exports = class Vector {
   constructor(x, y) {

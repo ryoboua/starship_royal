@@ -52,7 +52,7 @@ function gameHandleKeyUp(game, keyCode, socketId) {
   player.updateVelocityKeyUp(keyCode)
 }
 
-async function handleStartRound(game) {
+async function handleStartRound(game, sequence) {
   if (game.isRoundActive()) {
     return
   }
@@ -67,7 +67,7 @@ async function handleStartRound(game) {
   const initialGameState = game.getGameState()
   game.commit(LOAD_LEVEL, { level, initialGameState })
   await initiateCountdown(game)
-  startGameInterval(game)
+  startGameInterval(game, sequence)
 }
 
 function initiateCountdown(game) {
@@ -87,7 +87,7 @@ function initiateCountdown(game) {
   })
 }
 
-function startGameInterval(game) {
+function startGameInterval(game, sequence) {
   if (game.isRoundActive()) {
     return
   }
@@ -96,8 +96,11 @@ function startGameInterval(game) {
   const { numOfAsteroids, asteroidFieldTimeInterval } = levels[
     levels.length - 1
   ]
-
+  if (sequence) {
+    asteroidField.setSequence(sequence)
+  }
   game.setRoundStatus(true)
+
   game.commit(GAME_ACTIVE, true)
 
   const mainGameLoopIntervalId = setInterval(() => {
