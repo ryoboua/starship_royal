@@ -54,7 +54,8 @@ function startRound(roomName) {
   }
   const game = gameStates.get(roomName)
   game.setRoundStatus(true)
-  game.emit("START_ROUND")
+  const sequence = game.generateSequence()
+  game.emit("START_ROUND", sequence)
 }
 
 function isRoundActive(roomName) {

@@ -57,9 +57,9 @@ export default (socket) => ({
       state.players = players
       state.game = createGame(players, context)
     },
-    [START_ROUND](state) {
+    [START_ROUND](state, sequence) {
       state.disableStartBtn = true
-      handleStartRound(state.game)
+      handleStartRound(state.game, sequence)
     },
     [LOAD_LEVEL](state, { level, initialGameState }) {
       state.level = level;
@@ -166,8 +166,8 @@ export default (socket) => ({
     [BACKEND_PLAYER_REMOVED](context, socketId) {
       context.commit(REMOVE_PLAYER, socketId)
     },
-    [BACKEND_START_ROUND](context) {
-      context.commit(START_ROUND)
+    [BACKEND_START_ROUND](context, sequence) {
+      context.commit(START_ROUND, sequence)
     },
     [BACKEND_KEY_DOWN](context, res) {
       context.commit(KEY_DOWN, res)
