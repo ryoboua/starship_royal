@@ -5,28 +5,28 @@ module.exports = class Lobby {
         this.roundActive = false
     }
 
-    addPlayer(client) {
-        if (Object.values(this.players).some(player => player.socketId === client.socketId)) {
-          return
+    addPlayer(player) {
+        if (Object.values(this.players).some(p => p.socketId === player.socketId)) {
+            return
         }
-        const player = new Player(client)
+        player = new Player(player)
         this.players[player.socketId] = player
-      }
-    
-      removePlayer(socketId) {
+    }
+
+    removePlayer(socketId) {
         delete this.players[socketId]
-      }
-    
-      getPlayerList() {
+    }
+
+    getPlayerList() {
         return Object.values(this.players)
-      }
-    
-    
-      setRoundStatus(b) {
+    }
+
+
+    setRoundStatus(b) {
         this.roundActive = b
-      }
-    
-      isRoundActive() {
+    }
+
+    isRoundActive() {
         return this.roundActive
-      }
+    }
 }

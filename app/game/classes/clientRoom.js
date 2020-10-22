@@ -2,19 +2,19 @@ const { SEQUENCE_LENGTH } = require("../constants")
 const Lobby = require("./Lobby")
 const { randomNumBetween } = require("../utils")
 
-module.exports = class Game extends Lobby {
+module.exports = class clientRoom extends Lobby {
   constructor() {
     super()
     this._emit = null
   }
 
-  static createGameState(players, emitter) {
-    const game = new Game()
+  static createClientRoom(clients, emitter) {
+    const room = new clientRoom()
 
-    players.forEach(player => game.addPlayer(player))
-    game.setGameEmitter(emitter)
+    clients.forEach(client => room.addPlayer(client))
+    room.setGameEmitter(emitter)
 
-    return game
+    return room
   }
 
   setGameEmitter(emit) {

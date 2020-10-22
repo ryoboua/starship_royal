@@ -1,4 +1,4 @@
-const Game = require("../classes/GameFrontend")
+const Game = require("../classes/Game")
 const { FRAME_RATE } = require("../constants")
 const { GAME_OVER_REASONS } = require("../constants")
 const levelParams = require("../levels")
@@ -72,7 +72,7 @@ async function handleStartRound(game, sequence) {
 
 function initiateCountdown(game) {
   return new Promise((resolve) => {
-    let count = 5
+    let count = 0
     const countdownIntervalId = setInterval(
       function () {
         if (count) {

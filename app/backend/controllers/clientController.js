@@ -7,14 +7,14 @@ const {
   PLAYER_DEAD,
 } = require("../../appEvent")
 const {
-  createGame,
+  createRoom,
   addPlayer,
   removePlayer,
   startRound,
   gameKeyDown,
   gameKeyUp,
   isRoundActive
-} = require("../../game/controllers/backendController")
+} = require("../../game/controllers/clientRoomController")
 const { makeid } = require("../utils")
 
 const clientList = new Map()
@@ -36,7 +36,7 @@ function handleNewGame(socket, name, initGameEmitter) {
     })
 
     clientList.set(client.socketId, client)
-    createGame(roomName, [client], initGameEmitter(roomName))
+    createRoom(roomName, [client], initGameEmitter(roomName))
     socket.emit(NEW_GAME, client)
   })
 }

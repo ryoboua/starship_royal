@@ -6,7 +6,7 @@ const {
   gameHandleKeyUp,
   handleStartRound,
   handleDeadPlayer
-} = require("../../game/controllers/frontendController")
+} = require("../../game/controllers/gameController")
 const {
   SET_GAME_TYPE,
   CREATE_GAME,
