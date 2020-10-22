@@ -45,7 +45,7 @@ module.exports = class Game {
     this.asteroidField.updatePosition()
     Object.values(this.players).forEach((player) => {
       if (player.isAlive) {
-        player.updatePosition(this.asteroidField)
+        player.updatePosition(this.asteroidField, this.isLocal(player.socketId))
         if (!player.isAlive) {
           this.dispatch(PLAYER_DEAD, player.socketId)
         }
@@ -137,5 +137,9 @@ module.exports = class Game {
     }
 
     player.selfDestruct()
+  }
+
+  isLocal(socketId) {
+    return this._context.rootState.client.socketId === socketId
   }
 }
