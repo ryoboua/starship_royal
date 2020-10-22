@@ -10,15 +10,15 @@ module.exports = class Game {
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE
     this.timer = 30
-    this._emit = null
+    this._context = null
     this.roundActive = false
   }
 
-  static createGameState(players, emitter) {
+  static createGameState(players, context) {
     const game = new Game()
 
     players.forEach(player => game.addPlayer(player))
-    game.setGameEmitter(emitter)
+    game.setFrontEndContext(context)
 
     return game
   }
@@ -29,12 +29,16 @@ module.exports = class Game {
     Object.values(this.players).forEach((player) => player.reset())
   }
 
-  setGameEmitter(emit) {
-    this._emit = emit
+  setFrontEndContext(context) {
+    this._context = context
   }
 
-  emit(eventName, data = null) {
-    this._emit(eventName, data)
+  dispatch(eventName, data = null) {
+    this._context.dispatch(eventName, data)
+  }
+
+  commit(eventName, data = null) {
+    this._context.commit(eventName, data)
   }
 
   gameLoop() {
@@ -43,7 +47,7 @@ module.exports = class Game {
       if (player.isAlive) {
         player.updatePosition(this.asteroidField)
         if (!player.isAlive) {
-          this.emit(PLAYER_DEAD, player.socketId)
+          this.dispatch(PLAYER_DEAD, player.socketId)
         }
       }
     })
@@ -123,5 +127,15 @@ module.exports = class Game {
 
   getCurrentLevel() {
     return this.levels.length
+  }
+
+  destroyShip(socketId) {
+    const player = this.players[socketId]
+
+    if(!player) {
+      return
+    }
+
+    player.selfDestruct()
   }
 }

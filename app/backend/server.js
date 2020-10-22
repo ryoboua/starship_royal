@@ -9,6 +9,7 @@ const {
   handleKeyUp,
   handleDisconnect,
   handleStartGame,
+  handleDeadPlayer,
 } = require("./controllers/clientController")
 const {
   NEW_GAME,
@@ -19,6 +20,7 @@ const {
   UNKNOWN_CODE,
   TOO_MANY_PLAYERS,
   DISCONNECT,
+  PLAYER_DEAD,
 } = require("../appEvent")
 
 function initGameEmitter(roomName) {
@@ -33,6 +35,7 @@ io.on("connection", (socket) => {
   socket.on(DISCONNECT, () => handleDisconnect(socket))
   socket.on(KEY_DOWN, (keyCode) => handleKeyDown(socket, keyCode))
   socket.on(KEY_UP, (keyCode) => handleKeyUp(socket, keyCode))
+  socket.on(PLAYER_DEAD, (deadPlayerSocketId) => handleDeadPlayer(socket,  deadPlayerSocketId))
 
   function handleJoinRoom({ roomName, name }) {
     const room = io.sockets.adapter.rooms[roomName]

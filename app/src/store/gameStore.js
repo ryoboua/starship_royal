@@ -5,6 +5,7 @@ const {
   gameHandleKeyDown,
   gameHandleKeyUp,
   handleStartRound,
+  handleDeadPlayer
 } = require("../../game/controllers/frontendController")
 const {
   SET_GAME_TYPE,
@@ -30,6 +31,7 @@ const {
   BACKEND_START_ROUND,
   BACKEND_KEY_DOWN,
   BACKEND_KEY_UP,
+  BACKEND_PLAYER_DEAD,
   PLAYER_DEAD,
 } = require("../../appEvent");
 
@@ -51,9 +53,9 @@ export default (socket) => ({
     [SET_GAME_TYPE](state, type) {
       state.type = type
     },
-    [CREATE_GAME](state, { players, emit }) {
+    [CREATE_GAME](state, { players, context }) {
       state.players = players
-      state.game = createGame(players, emit)
+      state.game = createGame(players, context)
     },
     [START_ROUND](state) {
       state.disableStartBtn = true
@@ -98,14 +100,15 @@ export default (socket) => ({
     [REMOVE_PLAYER](state, socketId) {
       state.players = removePlayer(state.game, socketId)
     },
-    [PLAYER_DEAD]() {},
+    [PLAYER_DEAD](state, socketId) {
+      handleDeadPlayer(state.game, socketId)
+    },
   },
   actions: {
     createSinglePlayerGame(context) {
       const client = { socketId: 'weuf9qwhfp9e', name: "Joe Doe", roomName: 'local', playerNumber: 1, host: true }
-      const emit = (eventName, data = null) => context.commit(eventName, data)
       context.commit("client/SET_CLIENT", client, { root: true })
-      context.commit(CREATE_GAME, { players: [client], emit })
+      context.commit(CREATE_GAME, { players: [client], context })
     },
     startRound(context) {
       if (context.state.type === 'single') {
@@ -139,16 +142,20 @@ export default (socket) => ({
       context.commit(SET_GAME_TYPE, type)
     },
 
+    [PLAYER_DEAD](context, socketId) {
+      if (context.state.type === 'multi' && context.state.game.isRoundActive()) {
+        socket.emit(PLAYER_DEAD, socketId)
+      }
+    },
+
     ////BACKEND EVENTS
     [BACKEND_NEW_GAME](context, client) {
       context.commit("client/SET_CLIENT", client, { root: true })
-      const emit = (eventName, data = null) => context.commit(eventName, data)
-      context.commit(CREATE_GAME, { players: [client], emit })
+      context.commit(CREATE_GAME, { players: [client], context })
     },
     [BACKEND_JOIN_GAME_ACCEPTED](context, { client, players }) {
       context.commit("client/SET_CLIENT", client, { root: true })
-      const emit = (eventName, data = null) => context.commit(eventName, data)
-      context.commit(CREATE_GAME, { players, emit })
+      context.commit(CREATE_GAME, { players, context })
     },
     [BACKEND_GAME_ACTIVE](context, b) {
       //context.commit("setGameActive", b)
@@ -167,6 +174,9 @@ export default (socket) => ({
     },
     [BACKEND_KEY_UP](context, res) {
       context.commit(KEY_UP, res)
+    },
+    [BACKEND_PLAYER_DEAD](context, socketId) {
+      context.commit(PLAYER_DEAD, socketId)
     }
   },
 }

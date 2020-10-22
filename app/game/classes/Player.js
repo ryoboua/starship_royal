@@ -23,6 +23,10 @@ module.exports = class Player extends Client {
     this.isAlive = true
   }
 
+  selfDestruct() {
+    this.isAlive = false
+  }
+
   updatePosition(asteroidField) {
     const numOfDestroyedAsteroids = this.weapons.updateMissilePositions(
       asteroidField

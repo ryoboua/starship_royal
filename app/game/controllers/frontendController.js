@@ -12,8 +12,8 @@ const {
   COUNTDOWN
 } = require("../events")
 
-function createGame(players, emit) {
-  return Game.createGameState(players, emit)
+function createGame(players, context) {
+  return Game.createGameState(players, context)
 }
 
 function addPlayer(game, player) {
@@ -24,6 +24,10 @@ function addPlayer(game, player) {
 function removePlayer(game, socketId) {
   game.removePlayer(socketId)
   return game.getPlayerList()
+}
+
+function handleDeadPlayer(game, socketId) {
+  game.destroyShip(socketId)
 }
 
 function gameHandleKeyDown(game, keyCode, socketId) {
@@ -61,7 +65,8 @@ async function handleStartRound(game) {
   level = levelParams[level]
   game.addLevel(level)
   const initialGameState = game.getGameState()
-  game.emit(LOAD_LEVEL, { level, initialGameState })
+  console.log(game)
+  game.commit(LOAD_LEVEL, { level, initialGameState })
   await initiateCountdown(game)
   startGameInterval(game)
 }
@@ -72,7 +77,7 @@ function initiateCountdown(game) {
     const countdownIntervalId = setInterval(
       function () {
         if (count) {
-          game.emit(COUNTDOWN, `<h1>${count--}</h1>`)
+          game.commit(COUNTDOWN, `<h1>${count--}</h1>`)
         } else {
           clearInterval(countdownIntervalId)
           resolve()
@@ -94,12 +99,12 @@ function startGameInterval(game) {
   ]
 
   game.setRoundStatus(true)
-  game.emit(GAME_ACTIVE, true)
+  game.commit(GAME_ACTIVE, true)
 
   const mainGameLoopIntervalId = setInterval(() => {
     const gameOverReason = game.gameLoop()
     if (!gameOverReason) {
-      game.emit(GAME_STATE_UPDATE, game.getGameState())
+      game.commit(GAME_STATE_UPDATE, game.getGameState())
     } else {
       clearInterval(mainGameLoopIntervalId)
       clearInterval(asteroidFieldIntervalId)
@@ -135,14 +140,14 @@ function processGameOver(gameOverReason, game) {
 
   game.setRoundStatus(false)
   game.endRound()
-  game.emit(GAME_ACTIVE, false)
+  game.commit(GAME_ACTIVE, false)
 
   const currentLevel = game.getCurrentLevel()
   if (currentLevel < MAX_LEVEL) {
     const rawHtml = generateGameInfoRawHtml(gameOverReason)
-    game.emit(ROUND_OVER, rawHtml)
+    game.commit(ROUND_OVER, rawHtml)
   } else {
-    game.emit(GAME_OVER,
+    game.commit(GAME_OVER,
       `
       <h1>GAME OVER</h1>
       <br>
@@ -163,4 +168,5 @@ module.exports = {
   gameHandleKeyDown,
   gameHandleKeyUp,
   handleStartRound,
+  handleDeadPlayer,
 }

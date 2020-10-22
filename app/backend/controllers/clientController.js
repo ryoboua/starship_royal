@@ -4,6 +4,7 @@ const {
   ROUND_ACTIVE,
   KEY_DOWN,
   KEY_UP,
+  PLAYER_DEAD,
 } = require("../../appEvent")
 const {
   createGame,
@@ -127,6 +128,20 @@ function handleStartGame(socket) {
   startRound(roomName)
 }
 
+function handleDeadPlayer(socket,  deadPlayerSocketId) {
+  if (!clientList.has(socket.id)) {
+    return
+  }
+
+  const roomName = clientList.get(socket.id).roomName
+
+  if (!isRoundActive(roomName)) {
+    return
+  }
+  console.log('hit')
+  socket.broadcast.emit(PLAYER_DEAD, deadPlayerSocketId)
+}
+
 module.exports = {
   joinRoom,
   handleNewGame,
@@ -134,4 +149,5 @@ module.exports = {
   handleKeyUp,
   handleDisconnect,
   handleStartGame,
+  handleDeadPlayer,
 }
