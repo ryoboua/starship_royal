@@ -90,11 +90,9 @@ export default {
     },
     keydown(e) {
       this.handleKeyDown(e.keyCode);
-      //this.$socket.emit("KEY_DOWN", e.keyCode);
     },
     keyup(e) {
       this.handleKeyUp(e.keyCode);
-      //this.$socket.emit("KEY_UP", e.keyCode);
     },
     clearGameScreenInformation() {
       this.displayMsg("");

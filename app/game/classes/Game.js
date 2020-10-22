@@ -85,10 +85,6 @@ module.exports = class Game extends Lobby {
     this.levels.push(level)
   }
 
-  setTimer(time) {
-    this.timer = time
-  }
-
   decrementTimer() {
     if (!this.timer) {
       return

@@ -6,7 +6,7 @@ module.exports = class Lobby {
     }
 
     addPlayer(player) {
-        if (Object.values(this.players).some(p => p.socketId === player.socketId)) {
+        if (Object.keys(this.players).some(socketId => socketId === player.socketId)) {
             return
         }
         player = new Player(player)

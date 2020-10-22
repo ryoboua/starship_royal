@@ -10,7 +10,7 @@ const {
   ROUND_OVER,
   LOAD_LEVEL,
   COUNTDOWN
-} = require("../events")
+} = require("../../appEvent")
 
 function createGame(players, context) {
   return Game.createGameState(players, context)
@@ -72,7 +72,7 @@ async function handleStartRound(game, sequence) {
 
 function initiateCountdown(game) {
   return new Promise((resolve) => {
-    let count = 0
+    let count = 5
     const countdownIntervalId = setInterval(
       function () {
         if (count) {

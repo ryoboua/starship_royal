@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       roomName: "",
-      name: "Reggie",
+      name: "",
       errors: {
         roomName: false,
         name: false
@@ -65,7 +65,7 @@ export default {
         this.errors.name = true;
         return;
       }
-      this.createSinglePlayerGame();
+      this.createSinglePlayerGame(this.name);
     },
     handleMulti() {
       this.setGameType("multi");

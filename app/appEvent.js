@@ -1,4 +1,4 @@
-const events = {
+module.exports = {
 
     // frontend mutations
     NEW_GAME: "NEW_GAME",
@@ -46,6 +46,3 @@ const events = {
 
 
 }
-
-
-module.exports = { ...events }

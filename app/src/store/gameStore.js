@@ -105,8 +105,8 @@ export default (socket) => ({
     },
   },
   actions: {
-    createSinglePlayerGame(context) {
-      const client = { socketId: 'weuf9qwhfp9e', name: "Joe Doe", roomName: 'local', playerNumber: 1, host: true }
+    createSinglePlayerGame(context, name) {
+      const client = { name, socketId: 'CQkNTGUIzzrQGVYuAAAB', roomName: 'local', playerNumber: 1, host: true }
       context.commit("client/SET_CLIENT", client, { root: true })
       context.commit(CREATE_GAME, { players: [client], context })
     },
