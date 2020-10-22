@@ -80,7 +80,7 @@ function handleKeyDown(socket, keyCode) {
     return
   }
 
-  const roomName = clientList.get(socket.id).roomName
+  const roomName = clientList.get(socket.id).getRoomName()
 
   if (!isRoundActive(roomName)) {
     return
@@ -100,7 +100,7 @@ function handleKeyUp(socket, keyCode) {
     return
   }
 
-  const roomName = clientList.get(socket.id).roomName
+  const roomName = clientList.get(socket.id).getRoomName()
 
   if (!isRoundActive(roomName)) {
     return
@@ -133,7 +133,7 @@ function handleDeadPlayer(socket,  deadPlayerSocketId) {
     return
   }
 
-  const roomName = clientList.get(socket.id).roomName
+  const roomName = clientList.get(socket.id).getRoomName()
 
   if (!isRoundActive(roomName)) {
     return
