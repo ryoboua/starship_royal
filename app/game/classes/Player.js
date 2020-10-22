@@ -42,20 +42,20 @@ module.exports = class Player extends Client {
     const newX = newPos.getX()
     const newY = newPos.getY()
 
-    if (isLocal) {
-      const hit = asteroidField.asteroids.some(
-        (ast) =>
-          newX <= ast.pos.x + GRID_SIZE &&
-          newX + GRID_SIZE >= ast.pos.x &&
-          newY <= ast.pos.y + GRID_SIZE &&
-          newY + GRID_SIZE >= ast.pos.y
-      )
+    // if (isLocal) {
+    //   const hit = asteroidField.asteroids.some(
+    //     (ast) =>
+    //       newX <= ast.pos.x + GRID_SIZE &&
+    //       newX + GRID_SIZE >= ast.pos.x &&
+    //       newY <= ast.pos.y + GRID_SIZE &&
+    //       newY + GRID_SIZE >= ast.pos.y
+    //   )
 
-      if (hit) {
-        this.isAlive = false
-        return
-      }
-    }
+    //   if (hit) {
+    //     this.isAlive = false
+    //     return
+    //   }
+    // }
 
 
     //check if player is in game bounderies

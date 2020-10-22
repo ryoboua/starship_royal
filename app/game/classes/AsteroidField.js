@@ -1,6 +1,6 @@
 const Asteroid = require("./Asteroid")
 const Vector = require("./Vector")
-const { GRID_SIZE } = require("../constants")
+const { GRID_SIZE, GAME_WIDTH } = require("../constants")
 
 module.exports = class AsteroidField {
   constructor() {
@@ -20,6 +20,10 @@ module.exports = class AsteroidField {
       let ast
       if (this.sequence) {
         const { value, done } = this.sequence.next()
+        if (done) {
+          this.setSequence(this._s)
+          return
+        }
         if (value) {
           const pos = { x: value, y: 0 }
           ast = new Asteroid(pos)
@@ -61,7 +65,7 @@ module.exports = class AsteroidField {
 
   *sequenceGenerator() {
     let index = 0
-    while (index < this._s.length) {
+    while (index < GAME_WIDTH) {
       yield this._s[index++]
     }
     return
