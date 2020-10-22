@@ -1,0 +1,15 @@
+module.exports = {
+  FRAME_RATE: 60,
+  GRID_SIZE: 12,
+  STEP: 5,
+  SPACE_STEP: 5,
+  MISSILE_STEP: 5,
+  ASTEROID_STEP: 5,
+  GAME_WIDTH: 1000,
+  GAME_HEIGHT: 600,
+  ASTEROID_VALUE: 10,
+  GAME_OVER_REASONS: {
+    1: "ALL DEAD",
+    2: "TIMER ENDED",
+  },
+}
