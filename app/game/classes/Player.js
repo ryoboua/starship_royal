@@ -27,33 +27,36 @@ module.exports = class Player extends Client {
     this.isAlive = false
   }
 
-  updatePosition(asteroidField) {
+  updatePosition(asteroidField, isLocal) {
     const numOfDestroyedAsteroids = this.weapons.updateMissilePositions(
       asteroidField
     )
     if (numOfDestroyedAsteroids) {
       this.score += numOfDestroyedAsteroids * ASTEROID_VALUE
     }
-    this.updateSpaceshipPosition(asteroidField)
+    this.updateSpaceshipPosition(asteroidField, isLocal)
   }
 
-  updateSpaceshipPosition(asteroidField) {
+  updateSpaceshipPosition(asteroidField, isLocal) {
     const newPos = Vector.add(this.pos, this.vel)
     const newX = newPos.getX()
     const newY = newPos.getY()
 
-    const hit = asteroidField.asteroids.some(
-      (ast) =>
-        newX <= ast.pos.x + GRID_SIZE &&
-        newX + GRID_SIZE >= ast.pos.x &&
-        newY <= ast.pos.y + GRID_SIZE &&
-        newY + GRID_SIZE >= ast.pos.y
-    )
+    if (isLocal) {
+      const hit = asteroidField.asteroids.some(
+        (ast) =>
+          newX <= ast.pos.x + GRID_SIZE &&
+          newX + GRID_SIZE >= ast.pos.x &&
+          newY <= ast.pos.y + GRID_SIZE &&
+          newY + GRID_SIZE >= ast.pos.y
+      )
 
-    if (hit) {
-      this.isAlive = false
-      return
+      if (hit) {
+        this.isAlive = false
+        return
+      }
     }
+
 
     //check if player is in game bounderies
     if (newX - GRID_SIZE < 0) {
