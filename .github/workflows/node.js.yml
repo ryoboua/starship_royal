@@ -23,13 +23,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: echo "*** Installing backend dependencies ***"
-      - run: cd backend && npm i
-      - run: echo "*** Restarting backend service ***"
-      - run: pm2 restart backend
+      - run: cd app/backend && npm i
+      # - run: pm2 restart backend
 
-      - run: echo "*** Installing frontend dependencies ***"
-      - run: cd frontend && npm i
-      - run: echo "*** Building frontend ***"
-      - run: cd frontend && npm run build
+      - run: cd app && npm i
+      - run: cd app && npm run build
   #  - run: npm test
