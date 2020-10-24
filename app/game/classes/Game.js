@@ -1,17 +1,16 @@
-const { GRID_SIZE } = require("../constants")
-const Player = require("./Player")
+const { GRID_SIZE, ROUND_TIME } = require("../constants")
+const Lobby = require("./Lobby")
 const Level = require("./Level")
 const AsteroidField = require("./AsteroidField")
 const { PLAYER_DEAD } = require("../../appEvent")
-module.exports = class Game {
+module.exports = class Game extends Lobby {
   constructor() {
-    this.players = {}
+    super()
     this.levels = []
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE
-    this.timer = 30
+    this.timer = ROUND_TIME
     this._context = null
-    this.roundActive = false
   }
 
   static createGameState(players, context) {
@@ -24,7 +23,7 @@ module.exports = class Game {
   }
 
   resetState() {
-    this.timer = 30
+    this.timer = ROUND_TIME
     this.asteroidField = new AsteroidField()
     Object.values(this.players).forEach((player) => player.reset())
   }
@@ -47,7 +46,7 @@ module.exports = class Game {
       if (player.isAlive) {
         player.updatePosition(this.asteroidField, this.isLocal(player.socketId))
         if (!player.isAlive) {
-          this.dispatch(PLAYER_DEAD, player.socketId)
+          this.dispatch("playerDead", player.socketId)
         }
       }
     })
@@ -81,29 +80,9 @@ module.exports = class Game {
       .sort((a, b) => b.score - a.score)
   }
 
-  addPlayer(client) {
-    if (Object.values(this.players).some(player => player.socketId === client.socketId)) {
-      return
-    }
-    const player = new Player(client)
-    this.players[player.socketId] = player
-  }
-
-  removePlayer(socketId) {
-    delete this.players[socketId]
-  }
-
-  getPlayerList() {
-    return Object.values(this.players)
-  }
-
   addLevel(level) {
     level = new Level(level)
     this.levels.push(level)
-  }
-
-  setTimer(time) {
-    this.timer = time
   }
 
   decrementTimer() {
@@ -117,14 +96,6 @@ module.exports = class Game {
     this.resetState()
   }
 
-  setRoundStatus(b) {
-    this.roundActive = b
-  }
-
-  isRoundActive() {
-    return this.roundActive
-  }
-
   getCurrentLevel() {
     return this.levels.length
   }
@@ -132,7 +103,7 @@ module.exports = class Game {
   destroyShip(socketId) {
     const player = this.players[socketId]
 
-    if(!player) {
+    if (!player) {
       return
     }
 

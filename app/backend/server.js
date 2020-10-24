@@ -8,12 +8,13 @@ const {
   handleKeyDown,
   handleKeyUp,
   handleDisconnect,
-  handleStartGame,
+  handleStartRound,
+  handleEndRound,
   handleDeadPlayer,
 } = require("./controllers/clientController")
 const {
   NEW_GAME,
-  START_GAME,
+  START_ROUND,
   JOIN_GAME,
   KEY_DOWN,
   KEY_UP,
@@ -21,6 +22,7 @@ const {
   TOO_MANY_PLAYERS,
   DISCONNECT,
   PLAYER_DEAD,
+  END_ROUND
 } = require("../appEvent")
 
 function initGameEmitter(roomName) {
@@ -31,11 +33,12 @@ function initGameEmitter(roomName) {
 io.on("connection", (socket) => {
   socket.on(NEW_GAME, (name) => handleNewGame(socket, name, initGameEmitter))
   socket.on(JOIN_GAME, handleJoinRoom)
-  socket.on(START_GAME, () => handleStartGame(socket))
+  socket.on(START_ROUND, () => handleStartRound(socket))
+  socket.on(END_ROUND, () => handleEndRound(socket))
   socket.on(DISCONNECT, () => handleDisconnect(socket))
   socket.on(KEY_DOWN, (keyCode) => handleKeyDown(socket, keyCode))
   socket.on(KEY_UP, (keyCode) => handleKeyUp(socket, keyCode))
-  socket.on(PLAYER_DEAD, (deadPlayerSocketId) => handleDeadPlayer(socket,  deadPlayerSocketId))
+  socket.on(PLAYER_DEAD, (deadPlayerSocketId) => handleDeadPlayer(socket, deadPlayerSocketId))
 
   function handleJoinRoom({ roomName, name }) {
     const room = io.sockets.adapter.rooms[roomName]

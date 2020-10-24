@@ -3,6 +3,5 @@ module.exports = class Level {
     this.number = number
     this.numOfAsteroids = numOfAsteroids
     this.asteroidFieldTimeInterval = asteroidFieldTimeInterval
-    this.timer = 30
   }
 }

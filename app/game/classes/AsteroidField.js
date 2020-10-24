@@ -1,6 +1,6 @@
 const Asteroid = require("./Asteroid")
 const Vector = require("./Vector")
-const { GRID_SIZE, GAME_WIDTH } = require("../constants")
+const { GRID_SIZE } = require("../constants")
 
 module.exports = class AsteroidField {
   constructor() {
@@ -17,23 +17,23 @@ module.exports = class AsteroidField {
     const newLine = []
 
     for (let i = 0; i < numOfAsteroids; i++) {
-      let ast
+      let pos = null
       if (this.sequence) {
-        const { value, done } = this.sequence.next()
-        if (done) {
-          this.setSequence(this._s)
-          return
-        }
-        if (value) {
-          const pos = { x: value, y: 0 }
-          ast = new Asteroid(pos)
-        }
-      } else {
-        ast = new Asteroid()
+        pos = this.generateAsteroidPositionFromSequence()
       }
+      const ast = new Asteroid(pos)
       newLine.push(ast)
     }
     this.asteroids.push(...newLine)
+  }
+
+  generateAsteroidPositionFromSequence() {
+    const { value, done } = this.sequence.next()
+    const pos = { x: value ? value : 25, y: 0 }
+    if (done) {
+      this.resetSequenceGenerator()
+    }
+    return pos
   }
 
   updatePosition() {
@@ -55,17 +55,27 @@ module.exports = class AsteroidField {
   }
 
   removeAsteroids(astArr) {
+    if (!astArr.length) {
+      return
+    }
     this.asteroids = this.asteroids.filter((ast, i) => !astArr.includes(i))
   }
 
   setSequence(sequence) {
+    if (!sequence) {
+      return
+    }
     this._s = sequence
+    this.sequence = this.sequenceGenerator()
+  }
+
+  resetSequenceGenerator() {
     this.sequence = this.sequenceGenerator()
   }
 
   *sequenceGenerator() {
     let index = 0
-    while (index < GAME_WIDTH) {
+    while (index < this._s.length) {
       yield this._s[index++]
     }
     return

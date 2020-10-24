@@ -1,4 +1,4 @@
-const Game = require("../classes/GameFrontend")
+const Game = require("../classes/Game")
 const { FRAME_RATE } = require("../constants")
 const { GAME_OVER_REASONS } = require("../constants")
 const levelParams = require("../levels")
@@ -9,8 +9,8 @@ const {
   GAME_ACTIVE,
   ROUND_OVER,
   LOAD_LEVEL,
-  COUNTDOWN
-} = require("../events")
+  COUNTDOWN,
+} = require("../../appEvent")
 
 function createGame(players, context) {
   return Game.createGameState(players, context)
@@ -99,9 +99,8 @@ function startGameInterval(game, sequence) {
   if (sequence) {
     asteroidField.setSequence(sequence)
   }
-  game.setRoundStatus(true)
-
   game.commit(GAME_ACTIVE, true)
+  game.setRoundStatus(true)
 
   const mainGameLoopIntervalId = setInterval(() => {
     const gameOverReason = game.gameLoop()
@@ -142,6 +141,7 @@ function processGameOver(gameOverReason, game) {
 
   game.setRoundStatus(false)
   game.endRound()
+  game.dispatch("endRound")
   game.commit(GAME_ACTIVE, false)
 
   const currentLevel = game.getCurrentLevel()
