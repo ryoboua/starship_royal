@@ -16,6 +16,10 @@ export default (socket) => ({
         context.commit(CREATE_GAME, { players: [client], context })
     },
     startRound(context) {
+        if (context.state._gameInstance.isRoundActive()) {
+            return
+        }
+
         if (context.state.type === 'single') {
             context.commit(START_ROUND)
         }
