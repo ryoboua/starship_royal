@@ -11,7 +11,6 @@ import {
     SET_GAME_TYPE,
     CREATE_GAME,
     START_ROUND,
-    START_GAME,
     LOAD_LEVEL,
     GAME_ACTIVE,
     GAME_STATE_UPDATE,
@@ -32,11 +31,11 @@ export default {
     },
     [CREATE_GAME](state, { players, context }) {
         state.players = players
-        state.game = createGame(players, context)
+        state._gameInstance = createGame(players, context)
     },
     [START_ROUND](state, sequence) {
         state.disableStartBtn = true
-        handleStartRound(state.game, sequence)
+        handleStartRound(state._gameInstance, sequence)
     },
     [LOAD_LEVEL](state, { level, initialGameState }) {
         state.level = level;
@@ -52,10 +51,10 @@ export default {
         state.timer = gameState.timer;
     },
     [KEY_DOWN](state, { keyCode, socketId }) {
-        gameHandleKeyDown(state.game, keyCode, socketId)
+        gameHandleKeyDown(state._gameInstance, keyCode, socketId)
     },
     [KEY_UP](state, { keyCode, socketId }) {
-        gameHandleKeyUp(state.game, keyCode, socketId)
+        gameHandleKeyUp(state._gameInstance, keyCode, socketId)
     },
     [COUNTDOWN](state, count) {
         state.screen = count
@@ -72,12 +71,12 @@ export default {
         state.disableStartBtn = false
     },
     [ADD_PLAYER](state, player) {
-        state.players = addPlayer(state.game, player)
+        state.players = addPlayer(state._gameInstance, player)
     },
     [REMOVE_PLAYER](state, socketId) {
-        state.players = removePlayer(state.game, socketId)
+        state.players = removePlayer(state._gameInstance, socketId)
     },
     [PLAYER_DEAD](state, socketId) {
-        handleDeadPlayer(state.game, socketId)
+        handleDeadPlayer(state._gameInstance, socketId)
     },
 }

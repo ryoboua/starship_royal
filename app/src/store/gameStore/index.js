@@ -5,8 +5,8 @@ import clientActions from "./clientActions"
 export default (socket) => ({
   namespaced: true,
   state: {
+    _gameInstance: null,
     gameActive: false,
-    game: null,
     gameState: null,
     type: 'single',
     level: {},

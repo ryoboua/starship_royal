@@ -2,11 +2,11 @@ import {
     SET_GAME_TYPE,
     CREATE_GAME,
     START_ROUND,
-    START_GAME,
     KEY_DOWN,
     KEY_UP,
     DISPLAY_MSG,
     PLAYER_DEAD,
+    END_ROUND
 } from "../../../appEvent"
 
 export default (socket) => ({
@@ -21,12 +21,17 @@ export default (socket) => ({
         }
 
         if (context.state.type === 'multi') {
-            socket.emit(START_GAME)
+            socket.emit(START_ROUND)
+        }
+    },
+    endRound(context) {
+        if (context.state.type === 'multi' && context.rootState.client.host) {
+            socket.emit(END_ROUND)
         }
     },
     handleKeyDown(context, keyCode) {
         const socketId = context.rootState.client.socketId
-        if (context.state.type === 'multi' && context.state.game.isRoundActive()) {
+        if (context.state.type === 'multi' && context.state._gameInstance.isRoundActive()) {
             socket.emit(KEY_DOWN, keyCode)
         }
         context.commit(KEY_DOWN, { keyCode, socketId })
@@ -34,7 +39,7 @@ export default (socket) => ({
     },
     handleKeyUp(context, keyCode) {
         const socketId = context.rootState.client.socketId
-        if (context.state.type === 'multi' && context.state.game.isRoundActive()) {
+        if (context.state.type === 'multi' && context.state._gameInstance.isRoundActive()) {
             socket.emit(KEY_UP, keyCode)
         }
         context.commit(KEY_UP, { keyCode, socketId })
@@ -46,8 +51,8 @@ export default (socket) => ({
     setGameType(context, type) {
         context.commit(SET_GAME_TYPE, type)
     },
-    [PLAYER_DEAD](context, socketId) {
-        if (context.state.type === 'multi' && context.state.game.isRoundActive()) {
+    playerDead(context, socketId) {
+        if (context.state.type === 'multi' && context.state._gameInstance.isRoundActive()) {
             socket.emit(PLAYER_DEAD, socketId)
         }
     },

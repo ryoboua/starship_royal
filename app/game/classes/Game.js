@@ -46,7 +46,7 @@ module.exports = class Game extends Lobby {
       if (player.isAlive) {
         player.updatePosition(this.asteroidField, this.isLocal(player.socketId))
         if (!player.isAlive) {
-          this.dispatch(PLAYER_DEAD, player.socketId)
+          this.dispatch("playerDead", player.socketId)
         }
       }
     })
@@ -103,7 +103,7 @@ module.exports = class Game extends Lobby {
   destroyShip(socketId) {
     const player = this.players[socketId]
 
-    if(!player) {
+    if (!player) {
       return
     }
 

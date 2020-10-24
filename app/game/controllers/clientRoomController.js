@@ -3,6 +3,7 @@ const {
   PLAYER_ADDED,
   PLAYER_REMOVED,
   JOIN_GAME_ACCEPTED,
+  START_ROUND,
   KEY_DOWN,
   KEY_UP,
 } = require("../../appEvent")
@@ -13,7 +14,7 @@ function createRoom(roomName, players, emit) {
   rooms.set(roomName, Room.createClientRoom(players, emit))
 }
 
-async function addPlayer(roomName, client, socket) {
+function addPlayer(roomName, client, socket) {
   if (!rooms.has(roomName)) {
     return
   }
@@ -55,7 +56,15 @@ function startRound(roomName) {
   const room = rooms.get(roomName)
   room.setRoundStatus(true)
   const sequence = room.generateSequence()
-  room.emit("START_ROUND", sequence)
+  room.emit(START_ROUND, sequence)
+}
+
+function endRound(roomName) {
+  if (!rooms.has(roomName)) {
+    return
+  }
+  const room = rooms.get(roomName)
+  room.setRoundStatus(false)
 }
 
 function isRoundActive(roomName) {
@@ -73,5 +82,6 @@ module.exports = {
   gameKeyDown,
   gameKeyUp,
   startRound,
+  endRound,
   isRoundActive
 }

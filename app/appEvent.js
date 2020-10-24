@@ -25,10 +25,12 @@ module.exports = {
     SET_GAME_TYPE: "SET_GAME_TYPE",
     CREATE_GAME: "CREATE_GAME",
     START_ROUND: "START_ROUND",
+    END_ROUND: "END_ROUND",
     DISPLAY_MSG: "DISPLAY_MSG",
     REMOVE_PLAYER: "REMOVE_PLAYER",
     ADD_PLAYER: "ADD_PLAYER",
     PLAYER_DEAD: "PLAYER_DEAD",
+    END_ROUND: "END_ROUND",
 
     //backend events which call gameStore actions
 

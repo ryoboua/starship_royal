@@ -11,6 +11,7 @@ const {
   addPlayer,
   removePlayer,
   startRound,
+  endRound,
   gameKeyDown,
   gameKeyUp,
   isRoundActive
@@ -47,7 +48,6 @@ function joinRoom(socket, roomName, name, numClients) {
       header: `Unable to join while round active`,
     })
   }
-
   socket.join(roomName, (err) => {
     if (err) {
       return console.log(`Error trying to join room ${roomName}`)
@@ -115,7 +115,7 @@ function handleKeyUp(socket, keyCode) {
   socket.broadcast.emit(KEY_UP, { keyCode, socketId: socket.id })
 }
 
-function handleStartGame(socket) {
+function handleStartRound(socket) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -126,6 +126,19 @@ function handleStartGame(socket) {
   }
   const roomName = client.getRoomName()
   startRound(roomName)
+}
+
+function handleEndRound(socket) {
+  if (!clientList.has(socket.id)) {
+    return
+  }
+  const client = clientList.get(socket.id)
+
+  if (!client.host) {
+    return
+  }
+  const roomName = client.getRoomName()
+  endRound(roomName)
 }
 
 function handleDeadPlayer(socket,  deadPlayerSocketId) {
@@ -147,6 +160,7 @@ module.exports = {
   handleKeyDown,
   handleKeyUp,
   handleDisconnect,
-  handleStartGame,
+  handleStartRound,
+  handleEndRound,
   handleDeadPlayer,
 }
