@@ -10,7 +10,6 @@ const {
   ROUND_OVER,
   LOAD_LEVEL,
   COUNTDOWN,
-  ROUND_END
 } = require("../../appEvent")
 
 function createGame(players, context) {

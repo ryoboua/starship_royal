@@ -22,7 +22,7 @@ function addPlayer(roomName, client, socket) {
   room.addPlayer(client)
   const players = room.getPlayerList()
   socket.emit(JOIN_GAME_ACCEPTED, { client, players })
-  socket.broadcast.emit(PLAYER_ADDED, client)
+  socket.to(roomName).broadcast.emit(PLAYER_ADDED, client)
 }
 
 function removePlayer(roomName, socketId) {

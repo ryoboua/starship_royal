@@ -92,7 +92,7 @@ function handleKeyDown(socket, keyCode) {
     console.log(e)
     return
   }
-  socket.broadcast.emit(KEY_DOWN, { keyCode, socketId: socket.id })
+  socket.to(roomName).broadcast.emit(KEY_DOWN, { keyCode, socketId: socket.id })
 }
 
 function handleKeyUp(socket, keyCode) {
@@ -112,7 +112,7 @@ function handleKeyUp(socket, keyCode) {
     console.log(e)
     return
   }
-  socket.broadcast.emit(KEY_UP, { keyCode, socketId: socket.id })
+  socket.to(roomName).broadcast.emit(KEY_UP, { keyCode, socketId: socket.id })
 }
 
 function handleStartRound(socket) {
@@ -141,7 +141,7 @@ function handleEndRound(socket) {
   endRound(roomName)
 }
 
-function handleDeadPlayer(socket,  deadPlayerSocketId) {
+function handleDeadPlayer(socket, deadPlayerSocketId) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -151,7 +151,7 @@ function handleDeadPlayer(socket,  deadPlayerSocketId) {
   if (!isRoundActive(roomName)) {
     return
   }
-  socket.broadcast.emit(PLAYER_DEAD, deadPlayerSocketId)
+  socket.to(roomName).broadcast.emit(PLAYER_DEAD, deadPlayerSocketId)
 }
 
 module.exports = {
