@@ -1,4 +1,4 @@
-const Room = require("../classes/ClientRoom")
+const Room = require("../classes/clientRoom")
 const {
   PLAYER_ADDED,
   PLAYER_REMOVED,
