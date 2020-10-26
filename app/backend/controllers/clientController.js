@@ -1,6 +1,5 @@
 const Client = require("../../game/classes/Client")
 const {
-  CREATE_GAME,
   ROUND_ACTIVE,
   KEY_DOWN,
   KEY_UP,

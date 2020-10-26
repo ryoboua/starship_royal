@@ -2,7 +2,7 @@ const { GRID_SIZE, ROUND_TIME } = require("../constants")
 const Lobby = require("./Lobby")
 const Level = require("./Level")
 const AsteroidField = require("./AsteroidField")
-const { PLAYER_DEAD } = require("../../appEvent")
+
 module.exports = class Game extends Lobby {
   constructor() {
     super()

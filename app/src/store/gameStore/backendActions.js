@@ -1,27 +1,23 @@
 import {
-    CREATE_GAME,
     START_ROUND,
     KEY_DOWN,
     KEY_UP,
     ADD_PLAYER,
+    PLAYER_DEAD,
     REMOVE_PLAYER,
-    BACKEND_CREATE_GAME,
-    BACKEND_JOIN_GAME_ACCEPTED,
-    BACKEND_GAME_ACTIVE,
-    BACKEND_PLAYER_ADDED,
-    BACKEND_PLAYER_REMOVED,
+    BACKEND_ADD_PLAYER,
+    BACKEND_REMOVE_PLAYER,
     BACKEND_START_ROUND,
     BACKEND_KEY_DOWN,
     BACKEND_KEY_UP,
     BACKEND_PLAYER_DEAD,
-    PLAYER_DEAD,
 } from "../../../appEvent";
 
 export default {
-    [BACKEND_PLAYER_ADDED](context, player) {
+    [BACKEND_ADD_PLAYER](context, player) {
         context.commit(ADD_PLAYER, player)
     },
-    [BACKEND_PLAYER_REMOVED](context, socketId) {
+    [BACKEND_REMOVE_PLAYER](context, socketId) {
         context.commit(REMOVE_PLAYER, socketId)
     },
     [BACKEND_START_ROUND](context, sequence) {

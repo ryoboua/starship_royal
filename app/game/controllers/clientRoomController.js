@@ -1,8 +1,7 @@
 const Room = require("../classes/clientRoom")
 const {
-  PLAYER_ADDED,
-  PLAYER_REMOVED,
-  JOIN_GAME_ACCEPTED,
+  ADD_PLAYER,
+  REMOVE_PLAYER,
   START_ROUND,
   KEY_DOWN,
   KEY_UP,
@@ -22,7 +21,7 @@ function addPlayer(roomName, client, socket, resFn) {
   room.addPlayer(client)
   const players = room.getPlayerList()
   resFn({ client, players })
-  socket.to(roomName).broadcast.emit(PLAYER_ADDED, client)
+  socket.to(roomName).broadcast.emit(ADD_PLAYER, client)
 }
 
 function removePlayer(roomName, socketId) {
@@ -32,7 +31,7 @@ function removePlayer(roomName, socketId) {
 
   const room = rooms.get(roomName)
   room.removePlayer(socketId)
-  room.emit(PLAYER_REMOVED, socketId)
+  room.emit(REMOVE_PLAYER, socketId)
 }
 
 function gameKeyDown(client, keyCode, socket) {
