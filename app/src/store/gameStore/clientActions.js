@@ -18,12 +18,18 @@ export default (socket) => ({
             context.commit(CREATE_GAME, { players: [client], context })
         }
         if (context.state.type === 'multi') {
-            socket.emit(CREATE_GAME, name);
+            socket.emit(CREATE_GAME, name, (client) => {
+                context.commit("client/SET_CLIENT", client, { root: true })
+                context.commit(CREATE_GAME, { players: [client], context })
+            });
         }
     },
     joinGame(context, nameAndRoomName) {
         if (context.state.type === 'multi') {
-            socket.emit(JOIN_GAME, nameAndRoomName);
+            socket.emit(JOIN_GAME, nameAndRoomName, ({ client, players }) => {
+                context.commit("client/SET_CLIENT", client, { root: true })
+                context.commit(CREATE_GAME, { players, context })
+            });
         }
     },
     startRound(context) {

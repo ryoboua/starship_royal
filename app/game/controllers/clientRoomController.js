@@ -14,14 +14,14 @@ function createRoom(roomName, players, emit) {
   rooms.set(roomName, Room.createClientRoom(players, emit))
 }
 
-function addPlayer(roomName, client, socket) {
+function addPlayer(roomName, client, socket, resFn) {
   if (!rooms.has(roomName)) {
     return
   }
   const room = rooms.get(roomName)
   room.addPlayer(client)
   const players = room.getPlayerList()
-  socket.emit(JOIN_GAME_ACCEPTED, { client, players })
+  resFn({ client, players })
   socket.to(roomName).broadcast.emit(PLAYER_ADDED, client)
 }
 

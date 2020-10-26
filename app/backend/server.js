@@ -31,7 +31,7 @@ function initGameEmitter(roomName) {
 }
 
 io.on("connection", (socket) => {
-  socket.on(CREATE_GAME, (name) => handleNewGame(socket, name, initGameEmitter))
+  socket.on(CREATE_GAME, (name, resFn) => handleNewGame( socket, name, initGameEmitter, resFn ))
   socket.on(JOIN_GAME, handleJoinRoom)
   socket.on(START_ROUND, () => handleStartRound(socket))
   socket.on(END_ROUND, () => handleEndRound(socket))
@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
   socket.on(KEY_UP, (keyCode) => handleKeyUp(socket, keyCode))
   socket.on(PLAYER_DEAD, (deadPlayerSocketId) => handleDeadPlayer(socket, deadPlayerSocketId))
 
-  function handleJoinRoom({ roomName, name }) {
+  function handleJoinRoom({ roomName, name }, resFn) {
     const room = io.sockets.adapter.rooms[roomName]
 
     let allUsers
@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
       return
     }
 
-    joinRoom(socket, roomName, name, numClients)
+    joinRoom(socket, roomName, name, numClients, resFn)
   }
 })
 

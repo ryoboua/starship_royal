@@ -18,17 +18,6 @@ import {
 } from "../../../appEvent";
 
 export default {
-    [BACKEND_CREATE_GAME](context, client) {
-        context.commit("client/SET_CLIENT", client, { root: true })
-        context.commit(CREATE_GAME, { players: [client], context })
-    },
-    [BACKEND_JOIN_GAME_ACCEPTED](context, { client, players }) {
-        context.commit("client/SET_CLIENT", client, { root: true })
-        context.commit(CREATE_GAME, { players, context })
-    },
-    [BACKEND_GAME_ACTIVE](context, b) {
-        //context.commit("setGameActive", b)
-    },
     [BACKEND_PLAYER_ADDED](context, player) {
         context.commit(ADD_PLAYER, player)
     },

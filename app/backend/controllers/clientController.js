@@ -20,7 +20,8 @@ const { makeid } = require("../utils")
 
 const clientList = new Map()
 
-function handleNewGame(socket, name, initGameEmitter) {
+function handleNewGame(socket, name, initGameEmitter, resFn) {
+
   const roomName = makeid(5)
   socket.join(roomName, (err) => {
     if (err) {
@@ -38,11 +39,11 @@ function handleNewGame(socket, name, initGameEmitter) {
 
     clientList.set(client.socketId, client)
     createRoom(roomName, [client], initGameEmitter(roomName))
-    socket.emit(CREATE_GAME, client)
+    resFn(client)
   })
 }
 
-function joinRoom(socket, roomName, name, numClients) {
+function joinRoom(socket, roomName, name, numClients, resFn) {
   if (isRoundActive(roomName)) {
     return socket.emit(ROUND_ACTIVE, {
       header: `Unable to join while round active`,
@@ -62,7 +63,7 @@ function joinRoom(socket, roomName, name, numClients) {
     })
 
     clientList.set(client.socketId, client)
-    addPlayer(roomName, client, socket)
+    addPlayer(roomName, client, socket, resFn)
   })
 }
 
