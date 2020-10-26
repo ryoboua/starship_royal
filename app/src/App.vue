@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <HomeScreen v-if="!roomName" />
-    <Game v-else />
+    <StartMenu v-if="!roomName" />
+    <Main v-else />
 
     <Modal v-if="showModal" @close="closeModal">
       <h3 slot="header">{{ header }}</h3>
@@ -12,15 +12,15 @@
 
 <script>
 import { mapState, mapMutations } from "vuex"
-import HomeScreen from "./components/HomeScreen.vue"
-import Game from "./components/Game.vue"
+import StartMenu from "./components/StartMenu.vue"
+import Main from "./components/Main.vue"
 import Modal from "./components/Modal.vue"
 
 export default {
   name: "App",
   components: {
-    HomeScreen,
-    Game,
+    StartMenu,
+    Main,
     Modal,
   },
   computed: mapState({

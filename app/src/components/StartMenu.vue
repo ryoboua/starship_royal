@@ -36,7 +36,7 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
-  name: "HomeScreen",
+  name: "StartMenu",
   computed: mapState({
     type: state => state.game.type
   }),
