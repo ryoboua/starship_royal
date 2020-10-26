@@ -13,7 +13,7 @@ const {
   handleDeadPlayer,
 } = require("./controllers/clientController")
 const {
-  NEW_GAME,
+  CREATE_GAME,
   START_ROUND,
   JOIN_GAME,
   KEY_DOWN,
@@ -31,7 +31,7 @@ function initGameEmitter(roomName) {
 }
 
 io.on("connection", (socket) => {
-  socket.on(NEW_GAME, (name) => handleNewGame(socket, name, initGameEmitter))
+  socket.on(CREATE_GAME, (name) => handleNewGame(socket, name, initGameEmitter))
   socket.on(JOIN_GAME, handleJoinRoom)
   socket.on(START_ROUND, () => handleStartRound(socket))
   socket.on(END_ROUND, () => handleEndRound(socket))

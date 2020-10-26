@@ -1,7 +1,7 @@
 module.exports = {
 
     // frontend mutations
-    NEW_GAME: "NEW_GAME",
+    CREATE_GAME: "CREATE_GAME",
     JOIN_GAME: "JOIN_GAME",
     JOIN_GAME_ACCEPTED: "JOIN_GAME_ACCEPTED",
     PLAYER_ADDED: "PLAYER_ADDED",
@@ -23,7 +23,6 @@ module.exports = {
 
     // new frontend mutations
     SET_GAME_TYPE: "SET_GAME_TYPE",
-    CREATE_GAME: "CREATE_GAME",
     START_ROUND: "START_ROUND",
     END_ROUND: "END_ROUND",
     DISPLAY_MSG: "DISPLAY_MSG",
@@ -34,7 +33,7 @@ module.exports = {
 
     //backend events which call gameStore actions
 
-    BACKEND_NEW_GAME: "BACKEND_NEW_GAME",
+    BACKEND_CREATE_GAME: "BACKEND_CREATE_GAME",
     BACKEND_JOIN_GAME_ACCEPTED: "BACKEND_JOIN_GAME_ACCEPTED",
     BACKEND_GAME_ACTIVE: "BACKEND_GAME_ACTIVE",
     BACKEND_PLAYER_ADDED: "BACKEND_PLAYER_ADDED",

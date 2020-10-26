@@ -13,7 +13,7 @@
         />
       </div>
       <div v-if="type === 'single'">
-        <button @click="handleSingle">Single Player</button>
+        <button @click="handleNewGame">Single Player</button>
         <h4>Or</h4>
         <button @click="handleMulti">Multiplayer Game</button>
       </div>
@@ -59,24 +59,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions("game", ["createSinglePlayerGame", "setGameType"]),
-    handleSingle() {
-      if (this.name === "") {
-        this.errors.name = true;
-        return;
-      }
-      this.createSinglePlayerGame(this.name);
-    },
+    ...mapActions("game", ["createGame", "joinGame", "setGameType"]),
     handleMulti() {
       this.setGameType("multi");
       this.$socket.open();
     },
     handleNewGame() {
       if (this.name === "") {
-          this.errors.name = true;
+        this.errors.name = true;
         return;
       }
-      this.$socket.emit("NEW_GAME", this.name);
+      this.createGame(this.name);
     },
     handleJoinGame() {
       if (this.name === "") {
@@ -88,8 +81,7 @@ export default {
       if (this.errors.name || this.errors.roomName) {
         return;
       }
-
-      this.$socket.emit("JOIN_GAME", {
+      this.joinGame({
         roomName: this.roomName,
         name: this.name
       });

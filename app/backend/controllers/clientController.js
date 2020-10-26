@@ -1,6 +1,6 @@
 const Client = require("../../game/classes/Client")
 const {
-  NEW_GAME,
+  CREATE_GAME,
   ROUND_ACTIVE,
   KEY_DOWN,
   KEY_UP,
@@ -38,7 +38,7 @@ function handleNewGame(socket, name, initGameEmitter) {
 
     clientList.set(client.socketId, client)
     createRoom(roomName, [client], initGameEmitter(roomName))
-    socket.emit(NEW_GAME, client)
+    socket.emit(CREATE_GAME, client)
   })
 }
 

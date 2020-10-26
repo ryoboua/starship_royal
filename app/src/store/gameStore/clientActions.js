@@ -1,6 +1,7 @@
 import {
     SET_GAME_TYPE,
     CREATE_GAME,
+    JOIN_GAME,
     START_ROUND,
     KEY_DOWN,
     KEY_UP,
@@ -10,10 +11,20 @@ import {
 } from "../../../appEvent"
 
 export default (socket) => ({
-    createSinglePlayerGame(context, name) {
-        const client = { name, socketId: 'CQkNTGUIzzrQGVYuAAAB', roomName: 'local', playerNumber: 1, host: true }
-        context.commit("client/SET_CLIENT", client, { root: true })
-        context.commit(CREATE_GAME, { players: [client], context })
+    createGame(context, name) {
+        if (context.state.type === 'single') {
+            const client = { name, socketId: 'CQkNTGUIzzrQGVYuAAAB', roomName: 'local', playerNumber: 1, host: true }
+            context.commit("client/SET_CLIENT", client, { root: true })
+            context.commit(CREATE_GAME, { players: [client], context })
+        }
+        if (context.state.type === 'multi') {
+            socket.emit(CREATE_GAME, name);
+        }
+    },
+    joinGame(context, nameAndRoomName) {
+        if (context.state.type === 'multi') {
+            socket.emit(JOIN_GAME, nameAndRoomName);
+        }
     },
     startRound(context) {
         if (context.state._gameInstance.isRoundActive()) {

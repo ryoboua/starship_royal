@@ -5,7 +5,7 @@ import {
     KEY_UP,
     ADD_PLAYER,
     REMOVE_PLAYER,
-    BACKEND_NEW_GAME,
+    BACKEND_CREATE_GAME,
     BACKEND_JOIN_GAME_ACCEPTED,
     BACKEND_GAME_ACTIVE,
     BACKEND_PLAYER_ADDED,
@@ -18,7 +18,7 @@ import {
 } from "../../../appEvent";
 
 export default {
-    [BACKEND_NEW_GAME](context, client) {
+    [BACKEND_CREATE_GAME](context, client) {
         context.commit("client/SET_CLIENT", client, { root: true })
         context.commit(CREATE_GAME, { players: [client], context })
     },
