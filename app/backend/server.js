@@ -26,12 +26,12 @@ const {
 } = require("../appEvent")
 
 function initGameEmitter(roomName) {
-  return (eventName, data = null) =>
-    io.sockets.in(roomName).emit(eventName, data)
+  return (commit) =>
+    io.sockets.in(roomName).emit("ACTION", commit)
 }
 
 io.on("connection", (socket) => {
-  socket.on(CREATE_GAME, (name, resFn) => handleNewGame( socket, name, initGameEmitter, resFn ))
+  socket.on(CREATE_GAME, (name, resFn) => handleNewGame(socket, name, initGameEmitter, resFn))
   socket.on(JOIN_GAME, handleJoinRoom)
   socket.on(START_ROUND, () => handleStartRound(socket))
   socket.on(END_ROUND, () => handleEndRound(socket))
@@ -60,7 +60,7 @@ io.on("connection", (socket) => {
       }
       return resFn(null, err)
     } else if (numClients >= 4) {
-       const err = {
+      const err = {
         header: `Room is full`,
         body: `Room ${roomName} is full. Maximum of 4 players per room`,
       }

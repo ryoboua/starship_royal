@@ -6,5 +6,5 @@ import modal from "./modalStore"
 Vue.use(Vuex)
 
 export default (socket) => new Vuex.Store({
-  modules: { client, game: game(socket), modal },
+  modules: { client: client(socket), game: game(socket), modal },
 })

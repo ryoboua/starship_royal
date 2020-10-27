@@ -1,6 +1,5 @@
 import mutations from "./gameMutations"
-import backendActions from "./backendActions"
-import clientActions from "./clientActions"
+import actions from "./gameActions"
 
 export default (socket) => ({
   namespaced: true,
@@ -17,9 +16,6 @@ export default (socket) => ({
     disableStartBtn: false,
   },
   mutations,
-  actions: {
-    ...clientActions(socket),
-    ...backendActions
-  },
+  actions: actions(socket)
 }
 )

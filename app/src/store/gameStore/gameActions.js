@@ -1,7 +1,6 @@
 import {
     SET_GAME_TYPE,
     CREATE_GAME,
-    JOIN_GAME,
     START_ROUND,
     KEY_DOWN,
     KEY_UP,
@@ -11,31 +10,11 @@ import {
 } from "../../../appEvent"
 
 export default (socket) => ({
-    createGame(context, name) {
-        if (context.state.type === 'single') {
-            const client = { name, socketId: 'CQkNTGUIzzrQGVYuAAAB', roomName: 'local', playerNumber: 1, host: true }
-            context.commit("client/SET_CLIENT", client, { root: true })
-            context.commit(CREATE_GAME, { players: [client], context })
-        }
-        if (context.state.type === 'multi') {
-            socket.emit(CREATE_GAME, name, (client) => {
-                context.commit("client/SET_CLIENT", client, { root: true })
-                context.commit(CREATE_GAME, { players: [client], context })
-            });
-        }
+    BACKEND_ACTION(context, { mutation, data }) {
+        context.commit(mutation, data)
     },
-    joinGame(context, nameAndRoomName) {
-        if (context.state.type === 'multi') {
-            socket.emit(JOIN_GAME, nameAndRoomName, (res, err) => {
-                if (err) {
-                    return context.commit("modal/setAndShowModal", err, { root: true })
-                } else if (res) {
-                    const { client, players } = res
-                    context.commit("client/SET_CLIENT", client, { root: true })
-                    context.commit(CREATE_GAME, { players, context })
-                }
-            });
-        }
+    createGame(context, players) {
+        context.commit(CREATE_GAME, { players, context })
     },
     startRound(context) {
         if (context.state._gameInstance.isRoundActive()) {

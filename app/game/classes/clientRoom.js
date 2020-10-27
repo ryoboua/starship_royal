@@ -21,13 +21,13 @@ module.exports = class clientRoom extends Lobby {
     this._emit = emit
   }
 
-  emit(eventName, data = null) {
-    this._emit(eventName, data)
+  emit(mutation, data = null) {
+    this._emit({ mutation, data })
   }
 
   generateSequence() {
     const sequence = []
-    for(let i = 0; i < SEQUENCE_LENGTH; i++) {
+    for (let i = 0; i < SEQUENCE_LENGTH; i++) {
       sequence.push(Math.floor(randomNumBetween(0, SEQUENCE_LENGTH)))
     }
     return sequence

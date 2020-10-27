@@ -1,6 +1,6 @@
 module.exports = {
-
     // frontend mutations
+    SET_CLIENT: "SET_CLIENT",
     CREATE_GAME: "CREATE_GAME",
     JOIN_GAME: "JOIN_GAME",
     DISCONNECT: "disconnect",
@@ -13,28 +13,17 @@ module.exports = {
     ROUND_ACTIVE: "ROUND_ACTIVE",
     GAME_ACTIVE: "GAME_ACTIVE",
     ROUND_OVER: "ROUND_OVER", //**** */
-    
+
     KEY_DOWN: "KEY_DOWN",
     KEY_UP: "KEY_UP",
-    
+
     SET_GAME_TYPE: "SET_GAME_TYPE",
     DISPLAY_MSG: "DISPLAY_MSG",
-    
+
     GAME_STATE_UPDATE: "GAME_STATE_UPDATE",
     LOAD_LEVEL: "LOAD_LEVEL",
     PLAYER_DEAD: "PLAYER_DEAD",
-    
+
     COUNTDOWN: "COUNTDOWN",
     GAME_OVER: "GAME_OVER",
-    
-    //backend events which call gameStore actions
-    BACKEND_ADD_PLAYER: "BACKEND_ADD_PLAYER",
-    BACKEND_REMOVE_PLAYER: "BACKEND_REMOVE_PLAYER",
-    BACKEND_START_ROUND: "BACKEND_START_ROUND",
-    BACKEND_KEY_DOWN: "BACKEND_KEY_DOWN",
-    BACKEND_KEY_UP: "BACKEND_KEY_UP",
-    BACKEND_PLAYER_DEAD: "BACKEND_PLAYER_DEAD",
-    
-
-
 }

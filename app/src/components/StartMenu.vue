@@ -59,7 +59,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions("game", ["createGame", "joinGame", "setGameType"]),
+    ...mapActions("game", ["setGameType"]),
+    ...mapActions("client", ["createGame", "joinGame"]),
     handleMulti() {
       this.setGameType("multi");
       this.$socket.open();
