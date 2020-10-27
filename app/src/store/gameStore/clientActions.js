@@ -26,9 +26,14 @@ export default (socket) => ({
     },
     joinGame(context, nameAndRoomName) {
         if (context.state.type === 'multi') {
-            socket.emit(JOIN_GAME, nameAndRoomName, ({ client, players }) => {
-                context.commit("client/SET_CLIENT", client, { root: true })
-                context.commit(CREATE_GAME, { players, context })
+            socket.emit(JOIN_GAME, nameAndRoomName, (res, err) => {
+                if (err) {
+                    return context.commit("modal/setAndShowModal", err, { root: true })
+                } else if (res) {
+                    const { client, players } = res
+                    context.commit("client/SET_CLIENT", client, { root: true })
+                    context.commit(CREATE_GAME, { players, context })
+                }
             });
         }
     },

@@ -54,17 +54,17 @@ io.on("connection", (socket) => {
     }
 
     if (numClients === 0) {
-      socket.emit(UNKNOWN_CODE, {
+      const err = {
         header: "Unknown Room",
         body: `Unable to find room ${roomName}`,
-      })
-      return
+      }
+      return resFn(null, err)
     } else if (numClients >= 4) {
-      socket.emit(TOO_MANY_PLAYERS, {
+       const err = {
         header: `Room is full`,
         body: `Room ${roomName} is full. Maximum of 4 players per room`,
-      })
-      return
+      }
+      return resFn(null, err)
     }
 
     joinRoom(socket, roomName, name, numClients, resFn)

@@ -17,15 +17,5 @@ export default {
       state.showModal = true
     },
   },
-  actions: {
-    BACKEND_UNKNOWN_CODE(context, modal) {
-      context.commit("setAndShowModal", modal)
-    },
-    BACKEND_TOO_MANY_PLAYERS(context, modal) {
-      context.commit("setAndShowModal", modal)
-    },
-    BACKEND_ROUND_ACTIVE(context, modal) {
-      context.commit("setAndShowModal", modal)
-    }
-  },
+  actions: {}
 }

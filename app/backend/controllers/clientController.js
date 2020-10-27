@@ -44,13 +44,17 @@ function handleNewGame(socket, name, initGameEmitter, resFn) {
 
 function joinRoom(socket, roomName, name, numClients, resFn) {
   if (isRoundActive(roomName)) {
-    return socket.emit(ROUND_ACTIVE, {
+    const err = {
       header: `Unable to join while round active`,
-    })
+    }
+    return resFn(null, err)
   }
   socket.join(roomName, (err) => {
     if (err) {
-      return console.log(`Error trying to join room ${roomName}`)
+      return resFn(null, {
+        header: `Error trying to join room ${roomName}`,
+        body: err
+      })
     }
     const playerNumber = numClients + 1
 
