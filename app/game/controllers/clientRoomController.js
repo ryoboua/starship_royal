@@ -3,8 +3,6 @@ const {
   ADD_PLAYER,
   REMOVE_PLAYER,
   START_ROUND,
-  KEY_DOWN,
-  KEY_UP,
 } = require("../../appEvent")
 
 const rooms = new Map()
