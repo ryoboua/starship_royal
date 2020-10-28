@@ -4,7 +4,7 @@ const { GRID_SIZE } = require("../constants")
 
 module.exports = class AsteroidField {
   constructor() {
-    this.asteroids = [new Asteroid({x: 200, y: 200})]
+    this.asteroids = [Asteroid.createAsteroid({x: 200, y: 200})]
     this.sequence = null
     this._s = null
   }
@@ -21,7 +21,7 @@ module.exports = class AsteroidField {
       if (this.sequence) {
         pos = this.generateAsteroidPositionFromSequence()
       }
-      const ast = new Asteroid(pos)
+      const ast = Asteroid.createAsteroid(pos)
       newLine.push(ast)
     }
     this.asteroids.push(...newLine)
@@ -40,25 +40,22 @@ module.exports = class AsteroidField {
     if (!this.asteroids.length) {
       return
     }
-    const asteroidsToRemove = []
-    this.asteroids.forEach((ast, i) => {
+    this.removeDestroidAsteroids()
+
+    this.asteroids.forEach((ast) => {
       const newPos = Vector.add(ast.pos, ast.vel)
       const newY = newPos.getY()
       if (newY + GRID_SIZE > 600) {
-        asteroidsToRemove.push(i)
+        ast.destroy()
       } else {
         ast.pos = newPos
       }
     })
 
-    this.removeAsteroids(asteroidsToRemove)
   }
 
-  removeAsteroids(astArr) {
-    if (!astArr.length) {
-      return
-    }
-    this.asteroids = this.asteroids.filter((ast, i) => !astArr.includes(i))
+  removeDestroidAsteroids() {
+    this.asteroids = this.asteroids.filter((ast) => !ast.isDestroyed())
   }
 
   setSequence(sequence) {

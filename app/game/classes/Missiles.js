@@ -17,7 +17,6 @@ module.exports = class Missiles {
       return
     }
     const missilesToRemove = []
-    const asteroidsToRemove = []
 
     this.missiles.forEach((mis, missileIndex) => {
       const newPos = Vector.sub(mis.pos, mis.vel)
@@ -56,7 +55,6 @@ module.exports = class Missiles {
     })
 
     this.removeMissiles(missilesToRemove)
-    asteroidField.removeAsteroids(asteroidsToRemove)
     return missilesToRemove.length
   }
 
