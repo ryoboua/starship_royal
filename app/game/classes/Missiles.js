@@ -25,14 +25,23 @@ module.exports = class Missiles {
       const newX = newPos.getX()
 
       asteroidField.asteroids.forEach((ast, asteroidIndex) => {
-        if (
-          newX < ast.pos.x + GRID_SIZE &&
-          newX + GRID_SIZE > ast.pos.x &&
-          newY < ast.pos.y + GRID_SIZE &&
-          newY + GRID_SIZE > ast.pos.y
-        ) {
-          asteroidsToRemove.push(asteroidIndex)
-          missilesToRemove.push(missileIndex)
+        const body = ast.body;
+        for (let y = 0; y < body.length; y++) {
+          for (let x = 0; x < body[y].length; x++) {
+            if (body[y][x]) {
+              const posY = (y * GRID_SIZE) + ast.pos.y
+              const posX = (x * GRID_SIZE) + ast.pos.x
+              if (
+                newX < posX + GRID_SIZE &&
+                newX + GRID_SIZE > posX &&
+                newY < posY + GRID_SIZE &&
+                newY + GRID_SIZE > posY
+              ) {
+                ast.breakPiece(y, x)
+                missilesToRemove.push(missileIndex)
+              }
+            }
+          }
         }
       })
 

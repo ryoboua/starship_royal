@@ -66,8 +66,8 @@ async function handleStartRound(game, sequence) {
   game.addLevel(level)
   const initialGameState = game.getGameState()
   game.commit(LOAD_LEVEL, { level, initialGameState })
-  await initiateCountdown(game)
-  startGameInterval(game, sequence)
+  //await initiateCountdown(game)
+  //startGameInterval(game, sequence)
 }
 
 function initiateCountdown(game) {
@@ -131,7 +131,7 @@ function startGameInterval(game, sequence) {
         player.fireMissile()
       }
     })
-  }, 300)
+  }, 150)
 }
 
 function processGameOver(gameOverReason, game) {

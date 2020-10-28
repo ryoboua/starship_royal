@@ -4,7 +4,7 @@ const { GRID_SIZE } = require("../constants")
 
 module.exports = class AsteroidField {
   constructor() {
-    this.asteroids = []
+    this.asteroids = [new Asteroid({x: 200, y: 200})]
     this.sequence = null
     this._s = null
   }

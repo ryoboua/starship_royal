@@ -55,9 +55,9 @@ module.exports = class Game extends Lobby {
       return 1
     }
 
-    if (!this.timer) {
-      return 2
-    }
+    // if (!this.timer) {
+    //   return 2
+    // }
     return
   }
 

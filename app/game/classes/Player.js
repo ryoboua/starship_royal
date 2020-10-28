@@ -13,6 +13,8 @@ module.exports = class Player extends Client {
     this.keys = new Keys()
     this.weapons = new Missiles()
     this.isAlive = true
+    this.left = false
+    this.body = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0], [0, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
   }
 
   reset() {
@@ -42,20 +44,20 @@ module.exports = class Player extends Client {
     const newX = newPos.getX()
     const newY = newPos.getY()
 
-    if (isLocal) {
-      const hit = asteroidField.asteroids.some(
-        (ast) =>
-          newX <= ast.pos.x + GRID_SIZE &&
-          newX + GRID_SIZE >= ast.pos.x &&
-          newY <= ast.pos.y + GRID_SIZE &&
-          newY + GRID_SIZE >= ast.pos.y
-      )
+    // if (isLocal) {
+    //   const hit = asteroidField.asteroids.some(
+    //     (ast) =>
+    //       newX <= ast.pos.x + GRID_SIZE &&
+    //       newX + GRID_SIZE >= ast.pos.x &&
+    //       newY <= ast.pos.y + GRID_SIZE &&
+    //       newY + GRID_SIZE >= ast.pos.y
+    //   )
 
-      if (hit) {
-        this.isAlive = false
-        return
-      }
-    }
+    //   if (hit) {
+    //     this.isAlive = false
+    //     return
+    //   }
+    // }
 
 
     //check if player is in game bounderies
@@ -120,7 +122,9 @@ module.exports = class Player extends Client {
 
   fireMissile() {
     if (this.keys.spacebar) {
-      const pos = Vector.add(this.pos, new Vector(0, -2 * GRID_SIZE))
+      const x = this.left ? 1 : 3
+      this.left = !this.left
+      const pos = Vector.add(this.pos, new Vector(x * GRID_SIZE, 0))
       this.weapons.generateMissile(pos)
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <StartMenu v-if="!roomName" />
+    <StartMenu v-if="false" />
     <Main v-else />
 
     <Modal v-if="showModal" @close="closeModal">

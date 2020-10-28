@@ -52,15 +52,18 @@ export default {
         if (!player.isAlive) {
           return;
         }
+        const body = player.body
         ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
-        //center block
-        ctx.fillRect(player.pos.x, player.pos.y, gridsize, gridsize);
-        //left block
-        ctx.fillRect(player.pos.x - gridsize, player.pos.y, gridsize, gridsize);
-        //top block
-        ctx.fillRect(player.pos.x, player.pos.y - gridsize, gridsize, gridsize);
-        //right block
-        ctx.fillRect(player.pos.x + gridsize, player.pos.y, gridsize, gridsize);
+        for (let y = 0; y < body.length; y++) {
+          for (let x = 0; x < body[y].length; x++) {
+            if(body[y][x]) ctx.fillRect(
+              (x * gridsize) + player.pos.x,
+              (y * gridsize) + player.pos.y,
+                 gridsize,
+                gridsize
+            );
+          }
+        }
       });
     },
     paintAsteroidField(state) {
@@ -69,7 +72,18 @@ export default {
 
       ctx.fillStyle = this.ASTEROID_COLOUR;
       asteroidField.asteroids.forEach(ast => {
-        ctx.fillRect(ast.pos.x, ast.pos.y, 1.5 * gridsize, 1.5 * gridsize);
+        const body = ast.body;
+        for (let y = 0; y < body.length; y++) {
+          for (let x = 0; x < body[y].length; x++) {
+            if(body[y][x]) ctx.fillRect(
+              (x * gridsize) + ast.pos.x,
+              (y * gridsize) + ast.pos.y,
+                 gridsize,
+                gridsize
+            );
+          }
+        }
+        //ctx.fillRect(ast.pos.x, ast.pos.y, 3 * gridsize, 3 * gridsize);
       });
     },
     paintMissiles(state) {
@@ -105,10 +119,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 canvas {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 1;
-  }
-
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+}
 </style>
