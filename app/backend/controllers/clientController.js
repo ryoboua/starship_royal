@@ -11,8 +11,6 @@ const {
   removePlayer,
   startRound,
   endRound,
-  gameKeyDown,
-  gameKeyUp,
   isRoundActive
 } = require("../../game/controllers/clientRoomController")
 const { makeid } = require("../utils")
