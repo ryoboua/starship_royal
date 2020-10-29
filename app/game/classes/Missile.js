@@ -6,5 +6,6 @@ module.exports = class Missile {
     this.pos = new Vector(pos.x, pos.y)
     this.vel = new Vector(0, MISSILE_STEP)
     this.value = 10
+    this.body = [[0, 1, 0], [1, 0, 1]]
   }
 }

@@ -52,16 +52,17 @@ export default {
         if (!player.isAlive) {
           return;
         }
-        const body = player.body
+        const body = player.body;
         ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
         for (let y = 0; y < body.length; y++) {
           for (let x = 0; x < body[y].length; x++) {
-            if(body[y][x]) ctx.fillRect(
-              (x * gridsize) + player.pos.x,
-              (y * gridsize) + player.pos.y,
-                 gridsize,
+            if (body[y][x])
+              ctx.fillRect(
+                x * gridsize + player.pos.x,
+                y * gridsize + player.pos.y,
+                gridsize,
                 gridsize
-            );
+              );
           }
         }
       });
@@ -75,15 +76,15 @@ export default {
         const body = ast.body;
         for (let y = 0; y < body.length; y++) {
           for (let x = 0; x < body[y].length; x++) {
-            if(body[y][x]) ctx.fillRect(
-              (x * gridsize) + ast.pos.x,
-              (y * gridsize) + ast.pos.y,
-                 gridsize,
+            if (body[y][x])
+              ctx.fillRect(
+                x * gridsize + ast.pos.x,
+                y * gridsize + ast.pos.y,
+                gridsize,
                 gridsize
-            );
+              );
           }
         }
-        //ctx.fillRect(ast.pos.x, ast.pos.y, 3 * gridsize, 3 * gridsize);
       });
     },
     paintMissiles(state) {
@@ -97,7 +98,18 @@ export default {
 
         ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
         player.weapons.missiles.forEach(mis => {
-          ctx.fillRect(mis.pos.x, mis.pos.y, gridsize, gridsize);
+          const body = mis.body;
+          for (let y = 0; y < body.length; y++) {
+            for (let x = 0; x < body[y].length; x++) {
+              if (body[y][x])
+                ctx.fillRect(
+                  x * gridsize + mis.pos.x,
+                  y * gridsize + mis.pos.y,
+                  gridsize,
+                  gridsize
+                );
+            }
+          }
         });
       });
     }

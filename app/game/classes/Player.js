@@ -14,7 +14,7 @@ module.exports = class Player extends Client {
     this.weapons = new Missiles()
     this.isAlive = true
     this.left = false
-    this.body = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0], [0, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
+    this.body = [[0, 0, 1, 0, 0], [0, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
   }
 
   reset() {
@@ -124,7 +124,14 @@ module.exports = class Player extends Client {
     if (this.keys.spacebar) {
       const x = this.left ? 1 : 3
       this.left = !this.left
-      const pos = Vector.add(this.pos, new Vector(x * GRID_SIZE, 0))
+      
+      let y = 0
+      if (this.vel.y < 0) {
+        y = -10 
+      }
+
+
+      const pos = Vector.add(this.pos, new Vector(x * GRID_SIZE, y))
       this.weapons.generateMissile(pos)
     }
   }

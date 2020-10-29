@@ -1,13 +1,14 @@
 const Vector = require("./Vector")
 const { ASTEROID_STEP, GAME_WIDTH } = require("../constants")
-
+const asteroidBlueprints = require("../blueprints/asteroids")
 module.exports = class Asteroid {
   constructor(pos) {
     this.pos = !pos ? Vector.random(0, GAME_WIDTH, 0, 0) : new Vector(pos.x, pos.y)
     this.vel = new Vector(0, ASTEROID_STEP)
     this.health = 0
+    this.initHealth = 0
     this.destroid = false
-    this.body = [[0, 0, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 1, 1], [0, 1, 1, 1, 1], [0, 1, 1, 0, 0]]
+    this.body = JSON.parse(JSON.stringify(asteroidBlueprints[1])) // clone blueprint and create new memory reference.
   }
 
   static createAsteroid(pos) {
@@ -22,7 +23,7 @@ module.exports = class Asteroid {
     this.health--
     this.vel = Vector.add(this.vel, new Vector(0, -0.05))
 
-    if (this.health < 4) {
+    if (this.health < Math.ceil(this.initHealth * 0.25)) {
       this.destroid = true
     }
   }
@@ -35,6 +36,7 @@ module.exports = class Asteroid {
         if (body[y][x]) health++
       }
     }
+    this.initHealth = health
     this.health = health
   }
 

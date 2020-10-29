@@ -22,7 +22,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("client/createGame", 'Dave')
-    this.$store.dispatch("game/startRound")
+    //this.$store.dispatch("game/startRound")
   }
 };
 </script>
