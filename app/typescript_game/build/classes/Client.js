@@ -1,5 +1,6 @@
 "use strict";
-module.exports = class Client {
+Object.defineProperty(exports, "__esModule", { value: true });
+class Client {
     constructor({ socketId, name, roomName, playerNumber, host }) {
         this.socketId = socketId;
         this.name = name;
@@ -10,4 +11,5 @@ module.exports = class Client {
     getRoomName() {
         return this.roomName;
     }
-};
+}
+exports.default = Client;

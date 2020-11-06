@@ -1,10 +1,10 @@
-const Asteroid = require("./Asteroid")
-const Vector = require("./Vector")
-const { GRID_SIZE } = require("../constants")
+import Asteroid from "./Asteroid"
+import Vector from "./Vector"
+import { GRID_SIZE } from "../constants"
 
-module.exports = class AsteroidField {
+export default class AsteroidField {
   constructor() {
-    this.asteroids = [Asteroid.createAsteroid({x: 200, y: 200})]
+    this.asteroids = [Asteroid.createAsteroid({ x: 200, y: 200 })]
     this.sequence = null
     this._s = null
   }
@@ -44,7 +44,7 @@ module.exports = class AsteroidField {
 
     this.asteroids.forEach((ast) => {
       const newPos = Vector.add(ast.pos, ast.vel)
-      const newY = newPos.getY()
+      const newY = newPos.y
       if (newY + GRID_SIZE > 600) {
         ast.destroy()
       } else {

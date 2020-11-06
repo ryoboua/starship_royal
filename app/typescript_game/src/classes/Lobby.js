@@ -1,5 +1,6 @@
-const Player = require("./Player")
-module.exports = class Lobby {
+import Player from "./Player"
+
+export default class Lobby {
     constructor() {
         this.players = {}
         this.roundActive = false

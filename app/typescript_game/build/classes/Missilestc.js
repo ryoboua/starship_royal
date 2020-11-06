@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Missile_1 = __importDefault(require("./Missile"));
 const Vector_1 = __importDefault(require("./Vector"));
 const constants_1 = require("../constants");
-module.exports = class Missiles {
+class Missiles {
     constructor() {
         this.missiles = [];
     }
@@ -55,4 +55,5 @@ module.exports = class Missiles {
     removeMissiles(missArr) {
         this.missiles = this.missiles.filter((mis, i) => !missArr.includes(i));
     }
-};
+}
+exports.default = Missiles;

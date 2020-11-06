@@ -1,7 +1,7 @@
-const { GRID_SIZE, ROUND_TIME } = require("../constants")
-const Lobby = require("./Lobby")
-const Level = require("./Level")
-const AsteroidField = require("./AsteroidField")
+import { GRID_SIZE, ROUND_TIME } from "../constants"
+import Lobby from "./Lobby"
+import Level from "./Level"
+import AsteroidField from "./AsteroidField"
 
 module.exports = class Game extends Lobby {
   constructor() {

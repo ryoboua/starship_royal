@@ -1,4 +1,4 @@
-module.exports = class Level {
+export default class Level {
   constructor({ number, numOfAsteroids, asteroidFieldTimeInterval }) {
     this.number = number
     this.numOfAsteroids = numOfAsteroids

@@ -1,7 +1,8 @@
-const Vector = require("./Vector")
-const { ASTEROID_STEP, GAME_WIDTH } = require("../constants")
-const asteroidBlueprints = require("../blueprints/asteroids")
-module.exports = class Asteroid {
+import Vector from "./Vector"
+import { ASTEROID_STEP, GAME_WIDTH } from "../constants"
+import asteroidBlueprints from "../blueprints/asteroids"
+
+export default class Asteroid {
   constructor(pos) {
     this.pos = !pos ? Vector.random(0, GAME_WIDTH, 0, 0) : new Vector(pos.x, pos.y)
     this.vel = new Vector(0, ASTEROID_STEP)

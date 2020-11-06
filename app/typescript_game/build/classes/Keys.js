@@ -1,5 +1,6 @@
 "use strict";
-module.exports = class Keys {
+Object.defineProperty(exports, "__esModule", { value: true });
+class Keys {
     constructor() {
         this.up = false;
         this.down = false;
@@ -47,4 +48,5 @@ module.exports = class Keys {
             this.spacebar = false;
         }
     }
-};
+}
+exports.default = Keys;

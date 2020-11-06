@@ -1,7 +1,7 @@
-const Missile = require("./Missile")
-const Vector = require("./Vector")
+import Missile from "./Missile"
+import Vector from "./Vector"
 
-const { GRID_SIZE } = require("../constants")
+import { GRID_SIZE } from "../constants"
 
 module.exports = class Missiles {
   constructor() {
@@ -20,8 +20,8 @@ module.exports = class Missiles {
 
     this.missiles.forEach((mis, missileIndex) => {
       const newPos = Vector.sub(mis.pos, mis.vel)
-      const newY = newPos.getY()
-      const newX = newPos.getX()
+      const newY = newPos.y
+      const newX = newPos.x
 
       asteroidField.asteroids.forEach((ast, asteroidIndex) => {
         const body = ast.body;

@@ -1,15 +1,19 @@
 "use strict";
-const { GRID_SIZE, ROUND_TIME } = require("../constants");
-const Lobby = require("./Lobby");
-const Level = require("./Level");
-const AsteroidField = require("./AsteroidField");
-module.exports = class Game extends Lobby {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("../constants");
+const Lobby_1 = __importDefault(require("./Lobby"));
+const Level_1 = __importDefault(require("./Level"));
+const AsteroidField_1 = __importDefault(require("./AsteroidField"));
+module.exports = class Game extends Lobby_1.default {
     constructor() {
         super();
         this.levels = [];
-        this.asteroidField = new AsteroidField();
-        this.gridsize = GRID_SIZE;
-        this.timer = ROUND_TIME;
+        this.asteroidField = new AsteroidField_1.default();
+        this.gridsize = constants_1.GRID_SIZE;
+        this.timer = constants_1.ROUND_TIME;
         this._context = null;
     }
     static createGameState(players, context) {
@@ -19,8 +23,8 @@ module.exports = class Game extends Lobby {
         return game;
     }
     resetState() {
-        this.timer = ROUND_TIME;
-        this.asteroidField = new AsteroidField();
+        this.timer = constants_1.ROUND_TIME;
+        this.asteroidField = new AsteroidField_1.default();
         Object.values(this.players).forEach((player) => player.reset());
     }
     setFrontEndContext(context) {
@@ -65,7 +69,7 @@ module.exports = class Game extends Lobby {
             .sort((a, b) => b.score - a.score);
     }
     addLevel(level) {
-        level = new Level(level);
+        level = new Level_1.default(level);
         this.levels.push(level);
     }
     decrementTimer() {

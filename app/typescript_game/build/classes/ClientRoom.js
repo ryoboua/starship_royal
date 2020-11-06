@@ -1,8 +1,12 @@
 "use strict";
-const { SEQUENCE_LENGTH } = require("../constants");
-const Lobby = require("./Lobby");
-const { randomNumBetween } = require("../utils");
-module.exports = class clientRoom extends Lobby {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("../constants");
+const Lobby_1 = __importDefault(require("./Lobby"));
+const utils_1 = require("../utils");
+class clientRoom extends Lobby_1.default {
     constructor() {
         super();
         this._emit = null;
@@ -21,9 +25,10 @@ module.exports = class clientRoom extends Lobby {
     }
     generateSequence() {
         const sequence = [];
-        for (let i = 0; i < SEQUENCE_LENGTH; i++) {
-            sequence.push(Math.floor(randomNumBetween(0, SEQUENCE_LENGTH)));
+        for (let i = 0; i < constants_1.SEQUENCE_LENGTH; i++) {
+            sequence.push(Math.floor(utils_1.randomNumBetween(0, constants_1.SEQUENCE_LENGTH)));
         }
         return sequence;
     }
-};
+}
+exports.default = clientRoom;

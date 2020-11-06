@@ -1,10 +1,10 @@
-const Client = require("./Client")
-const Vector = require("./Vector")
-const Keys = require("./Keys")
-const Missiles = require("./Missiles")
-const { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } = require("../constants")
+import Client from "./Client"
+import Vector from "./Vector"
+import Keys from "./Keys"
+import Missiles from "./Missiles"
+import { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } from "../constants"
 
-module.exports = class Player extends Client {
+export default class Player extends Client {
   constructor(client) {
     super({ ...client })
     this.score = 0
@@ -124,10 +124,10 @@ module.exports = class Player extends Client {
     if (this.keys.spacebar) {
       const x = this.left ? 1 : 3
       this.left = !this.left
-      
+
       let y = 0
       if (this.vel.y < 0) {
-        y = -10 
+        y = -10
       }
 
 

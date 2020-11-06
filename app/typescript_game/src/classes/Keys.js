@@ -1,4 +1,4 @@
-module.exports = class Keys {
+export default class Keys {
   constructor() {
     this.up = false
     this.down = false

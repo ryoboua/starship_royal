@@ -1,4 +1,4 @@
-module.exports = class Client {
+export default class Client {
   constructor({ socketId, name, roomName, playerNumber, host }) {
     this.socketId = socketId
     this.name = name

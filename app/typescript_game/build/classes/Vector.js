@@ -1,39 +1,37 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const { randomNumBetween } = require("../utils");
-module.exports = class Vector {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+class Vector {
+    constructor(_x, _y) {
+        this._x = _x;
+        this._y = _y;
     }
-    static add(vector1, vector2) {
-        return new Vector(vector1.x + vector2.x, vector1.y + vector2.y);
+    static add(v1, v2) {
+        return new Vector(v1.x + v2.x, v1.y + v2.y);
     }
-    static mult(vector, scalar) {
-        return new Vector(vector.x * scalar, vector.y * scalar);
+    static sub(v1, v2) {
+        return new Vector(v1.x - v2.x, v1.y - v2.y);
     }
-    static div(vector, scalar) {
-        return new Vector(vector.x / scalar, vector.y / scalar);
+    static random(minX, maxX, minY, maxY) {
+        return new Vector(randomNumBetween(minX, maxX), randomNumBetween(minY, maxY));
     }
-    static sub(vector1, vector2) {
-        return new Vector(vector1.x - vector2.x, vector1.y - vector2.y);
+    set x(x) {
+        this._x = x;
     }
-    dot(vector) {
-        return this.x * vector.x + this.y * vector.y;
+    get x() {
+        return this._x;
     }
-    getTangent() {
-        return new Vector(-this.y, this.x);
+    set y(y) {
+        this._y = y;
     }
-    mag() {
-        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
-    }
-    copy() {
-        return new Vector(this.x, this.y);
+    get y() {
+        return this._y;
     }
     setX(x) {
-        this.x = x;
+        this._x = x;
     }
     setY(y) {
-        this.y = y;
+        this._y = y;
     }
     getX() {
         return this.x;
@@ -41,7 +39,5 @@ module.exports = class Vector {
     getY() {
         return this.y;
     }
-    static random(minX, maxX, minY, maxY) {
-        return new Vector(randomNumBetween(minX, maxX), randomNumBetween(minY, maxY));
-    }
-};
+}
+exports.default = Vector;

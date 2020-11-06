@@ -1,15 +1,19 @@
 "use strict";
-const Vector = require("./Vector");
-const { ASTEROID_STEP, GAME_WIDTH } = require("../constants");
-const asteroidBlueprints = require("../blueprints/asteroids");
-module.exports = class Asteroid {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const Vector_1 = __importDefault(require("./Vector"));
+const constants_1 = require("../constants");
+const asteroids_1 = __importDefault(require("../blueprints/asteroids"));
+class Asteroid {
     constructor(pos) {
-        this.pos = !pos ? Vector.random(0, GAME_WIDTH, 0, 0) : new Vector(pos.x, pos.y);
-        this.vel = new Vector(0, ASTEROID_STEP);
+        this.pos = !pos ? Vector_1.default.random(0, constants_1.GAME_WIDTH, 0, 0) : new Vector_1.default(pos.x, pos.y);
+        this.vel = new Vector_1.default(0, constants_1.ASTEROID_STEP);
         this.health = 0;
         this.initHealth = 0;
         this.destroid = false;
-        this.body = JSON.parse(JSON.stringify(asteroidBlueprints[1]));
+        this.body = JSON.parse(JSON.stringify(asteroids_1.default[1]));
     }
     static createAsteroid(pos) {
         const ast = new Asteroid(pos);
@@ -19,7 +23,7 @@ module.exports = class Asteroid {
     breakPiece(y, x) {
         this.body[y][x] = 0;
         this.health--;
-        this.vel = Vector.add(this.vel, new Vector(0, -0.05));
+        this.vel = Vector_1.default.add(this.vel, new Vector_1.default(0, -0.05));
         if (this.health < Math.ceil(this.initHealth * 0.25)) {
             this.destroid = true;
         }
@@ -45,4 +49,5 @@ module.exports = class Asteroid {
     destroy() {
         this.destroid = true;
     }
-};
+}
+exports.default = Asteroid;

@@ -1,8 +1,8 @@
-const { SEQUENCE_LENGTH } = require("../constants")
-const Lobby = require("./Lobby")
-const { randomNumBetween } = require("../utils")
+import { SEQUENCE_LENGTH } from "../constants"
+import Lobby from "./Lobby"
+import { randomNumBetween } from "../utils"
 
-module.exports = class clientRoom extends Lobby {
+export default class clientRoom extends Lobby {
   constructor() {
     super()
     this._emit = null

@@ -1,6 +1,10 @@
 "use strict";
-const Player = require("./Player");
-module.exports = class Lobby {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const Player_1 = __importDefault(require("./Player"));
+class Lobby {
     constructor() {
         this.players = {};
         this.roundActive = false;
@@ -9,7 +13,7 @@ module.exports = class Lobby {
         if (Object.keys(this.players).some(socketId => socketId === player.socketId)) {
             return;
         }
-        player = new Player(player);
+        player = new Player_1.default(player);
         this.players[player.socketId] = player;
     }
     removePlayer(socketId) {
@@ -24,4 +28,5 @@ module.exports = class Lobby {
     isRoundActive() {
         return this.roundActive;
     }
-};
+}
+exports.default = Lobby;
