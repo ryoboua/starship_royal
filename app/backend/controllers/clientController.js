@@ -1,4 +1,4 @@
-const Client = require("../../game/classes/Client")
+const Client = require("../../typescript_game/build/classes/Client")
 const {
   ROUND_ACTIVE,
   KEY_DOWN,
@@ -12,7 +12,7 @@ const {
   startRound,
   endRound,
   isRoundActive
-} = require("../../game/controllers/clientRoomController")
+} = require("../../typescript_game/build/controllers/clientRoomController")
 const { makeid } = require("../utils")
 
 const clientList = new Map()
