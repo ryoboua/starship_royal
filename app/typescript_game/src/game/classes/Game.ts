@@ -1,8 +1,7 @@
 import Lobby from "./Lobby"
 import AsteroidField from "./AsteroidField"
 import { IClient, IGame, Level } from "./Interfaces";
-
-const { GRID_SIZE, ROUND_TIME } = require("../constants")
+import { GRID_SIZE, ROUND_TIME } from "../constants"
 
 export default class Game extends Lobby implements IGame {
   levels: Array<Level>
@@ -100,6 +99,7 @@ export default class Game extends Lobby implements IGame {
 
   endRound() {
     this.resetState()
+
   }
 
   getCurrentLevel(): number {

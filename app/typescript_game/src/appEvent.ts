@@ -1,29 +1,28 @@
-module.exports = {
-    // frontend mutations
-    SET_CLIENT: "SET_CLIENT",
-    CREATE_GAME: "CREATE_GAME",
-    JOIN_GAME: "JOIN_GAME",
-    DISCONNECT: "disconnect",
+// frontend mutations
+export const SET_CLIENT = "SET_CLIENT"
+export const CREATE_GAME = "CREATE_GAME"
+export const JOIN_GAME = "JOIN_GAME"
+export const DISCONNECT = "disconnect"
 
-    ADD_PLAYER: "ADD_PLAYER",
-    REMOVE_PLAYER: "REMOVE_PLAYER",
+export const ADD_PLAYER = "ADD_PLAYER"
+export const REMOVE_PLAYER = "REMOVE_PLAYER"
 
-    START_ROUND: "START_ROUND",
-    END_ROUND: "END_ROUND",
-    ROUND_ACTIVE: "ROUND_ACTIVE",
-    GAME_ACTIVE: "GAME_ACTIVE",
-    ROUND_OVER: "ROUND_OVER", //*****/
+export const START_ROUND = "START_ROUND"
+export const END_ROUND = "END_ROUND"
+export const ROUND_ACTIVE = "ROUND_ACTIVE"
+export const GAME_ACTIVE = "GAME_ACTIVE"
+export const ROUND_OVER = "ROUND_OVER" //*****/
 
-    KEY_DOWN: "KEY_DOWN",
-    KEY_UP: "KEY_UP",
+export const KEY_DOWN = "KEY_DOWN"
+export const KEY_UP = "KEY_UP"
 
-    SET_GAME_TYPE: "SET_GAME_TYPE",
-    DISPLAY_MSG: "DISPLAY_MSG",
+export const SET_GAME_TYPE = "SET_GAME_TYPE"
+export const DISPLAY_MSG = "DISPLAY_MSG"
 
-    GAME_STATE_UPDATE: "GAME_STATE_UPDATE",
-    LOAD_LEVEL: "LOAD_LEVEL",
-    PLAYER_DEAD: "PLAYER_DEAD",
+export const GAME_STATE_UPDATE = "GAME_STATE_UPDATE"
+export const LOAD_LEVEL = "LOAD_LEVEL"
+export const PLAYER_DEAD = "PLAYER_DEAD"
 
-    COUNTDOWN: "COUNTDOWN",
-    GAME_OVER: "GAME_OVER",
-}
+export const COUNTDOWN = "COUNTDOWN"
+export const GAME_OVER = "GAME_OVER"
+

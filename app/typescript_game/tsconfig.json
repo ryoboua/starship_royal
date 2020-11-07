@@ -24,6 +24,8 @@
         "allowJs": true
     },
     "include": [
-        "src/**/*"
+        "src/game/**/*",
+        "src/backend/**/*",
+        "src/appEvent.ts"
     ]
 }

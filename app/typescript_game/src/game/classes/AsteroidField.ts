@@ -3,7 +3,7 @@ import Vector from "./Vector"
 import { IAsteroidField } from "./Interfaces"
 import { Point2D } from "./Interfaces"
 import { Sequence } from "./Types"
-const { GRID_SIZE } = require("../constants")
+import { GRID_SIZE } from "../constants"
 
 export default class AsteroidField implements IAsteroidField {
     asteroids: Array<Asteroid>

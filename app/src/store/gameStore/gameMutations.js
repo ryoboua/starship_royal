@@ -6,7 +6,7 @@ import {
     gameHandleKeyUp,
     handleStartRound,
     handleDeadPlayer
-} from "../../../typescript_game/build/controllers/gameController"
+} from "../../../typescript_game/build/game/controllers/gameController"
 import {
     SET_GAME_TYPE,
     CREATE_GAME,

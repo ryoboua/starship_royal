@@ -4,7 +4,7 @@ import Keys from "./Keys"
 import Missiles from "./Missiles"
 import { IPlayer, IClient } from "./Interfaces"
 import AsteroidField from "./AsteroidField";
-const { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } = require("../constants")
+import { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } from "../constants"
 
 export default class Player extends Client implements IPlayer {
   score: number

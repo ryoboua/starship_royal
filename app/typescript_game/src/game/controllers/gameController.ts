@@ -9,9 +9,8 @@ import {
   ROUND_OVER,
   LOAD_LEVEL,
   COUNTDOWN,
-} from "../appEvent"
+} from "../../appEvent"
 import { IClient, Level } from "../classes/Interfaces"
-import Vector from "../classes/Vector"
 import { Sequence } from "../classes/Types"
 const MAX_LEVEL = levelParams.length
 
@@ -55,7 +54,7 @@ export function gameHandleKeyUp(game: Game, keyCode: number, socketId: string) {
   player.updateVelocityKeyUp(keyCode)
 }
 
-async function handleStartRound(game: Game, sequence: Sequence) {
+export async function handleStartRound(game: Game, sequence: Sequence) {
   if (game.isRoundActive()) {
     return
   }
