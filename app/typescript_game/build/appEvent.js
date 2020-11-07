@@ -1,23 +1,23 @@
 "use strict";
-module.exports = {
-    SET_CLIENT: "SET_CLIENT",
-    CREATE_GAME: "CREATE_GAME",
-    JOIN_GAME: "JOIN_GAME",
-    DISCONNECT: "disconnect",
-    ADD_PLAYER: "ADD_PLAYER",
-    REMOVE_PLAYER: "REMOVE_PLAYER",
-    START_ROUND: "START_ROUND",
-    END_ROUND: "END_ROUND",
-    ROUND_ACTIVE: "ROUND_ACTIVE",
-    GAME_ACTIVE: "GAME_ACTIVE",
-    ROUND_OVER: "ROUND_OVER",
-    KEY_DOWN: "KEY_DOWN",
-    KEY_UP: "KEY_UP",
-    SET_GAME_TYPE: "SET_GAME_TYPE",
-    DISPLAY_MSG: "DISPLAY_MSG",
-    GAME_STATE_UPDATE: "GAME_STATE_UPDATE",
-    LOAD_LEVEL: "LOAD_LEVEL",
-    PLAYER_DEAD: "PLAYER_DEAD",
-    COUNTDOWN: "COUNTDOWN",
-    GAME_OVER: "GAME_OVER",
-};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GAME_OVER = exports.COUNTDOWN = exports.PLAYER_DEAD = exports.LOAD_LEVEL = exports.GAME_STATE_UPDATE = exports.DISPLAY_MSG = exports.SET_GAME_TYPE = exports.KEY_UP = exports.KEY_DOWN = exports.ROUND_OVER = exports.GAME_ACTIVE = exports.ROUND_ACTIVE = exports.END_ROUND = exports.START_ROUND = exports.REMOVE_PLAYER = exports.ADD_PLAYER = exports.DISCONNECT = exports.JOIN_GAME = exports.CREATE_GAME = exports.SET_CLIENT = void 0;
+exports.SET_CLIENT = "SET_CLIENT";
+exports.CREATE_GAME = "CREATE_GAME";
+exports.JOIN_GAME = "JOIN_GAME";
+exports.DISCONNECT = "disconnect";
+exports.ADD_PLAYER = "ADD_PLAYER";
+exports.REMOVE_PLAYER = "REMOVE_PLAYER";
+exports.START_ROUND = "START_ROUND";
+exports.END_ROUND = "END_ROUND";
+exports.ROUND_ACTIVE = "ROUND_ACTIVE";
+exports.GAME_ACTIVE = "GAME_ACTIVE";
+exports.ROUND_OVER = "ROUND_OVER";
+exports.KEY_DOWN = "KEY_DOWN";
+exports.KEY_UP = "KEY_UP";
+exports.SET_GAME_TYPE = "SET_GAME_TYPE";
+exports.DISPLAY_MSG = "DISPLAY_MSG";
+exports.GAME_STATE_UPDATE = "GAME_STATE_UPDATE";
+exports.LOAD_LEVEL = "LOAD_LEVEL";
+exports.PLAYER_DEAD = "PLAYER_DEAD";
+exports.COUNTDOWN = "COUNTDOWN";
+exports.GAME_OVER = "GAME_OVER";
