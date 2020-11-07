@@ -4,6 +4,7 @@ node_modules
 /typescript_game/build
 /typescript_game/types
 /typescript_game/build/*
+/typescript_game/build/*.js
 /typescript_game/build/**/*
 
 # local env files
