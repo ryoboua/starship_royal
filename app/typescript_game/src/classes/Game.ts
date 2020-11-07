@@ -1,7 +1,7 @@
 import { GRID_SIZE, ROUND_TIME } from "../constants"
 import Lobby from "./Lobby"
 import AsteroidField from "./AsteroidField"
-import { IClient, IGame } from "./Interfaces";
+import { IClient, IGame, Level } from "./Interfaces";
 
 module.exports = class Game extends Lobby implements IGame {
   levels: Array<Level>

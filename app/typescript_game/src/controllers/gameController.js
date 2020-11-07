@@ -1,16 +1,16 @@
-const Game = require("../classes/Game")
-const { FRAME_RATE } = require("../constants")
-const { GAME_OVER_REASONS } = require("../constants")
-const levelParams = require("../levels")
-const MAX_LEVEL = levelParams.length
-const {
+import Game from "../classes/Game"
+import { FRAME_RATE } from "../constants"
+import { GAME_OVER_REASONS } from "../constants"
+import levelParams from "../levels"
+import {
   GAME_STATE_UPDATE,
   GAME_OVER,
   GAME_ACTIVE,
   ROUND_OVER,
   LOAD_LEVEL,
   COUNTDOWN,
-} = require("../appEvent")
+} from "../appEvent"
+const MAX_LEVEL = levelParams.length
 
 function createGame(players, context) {
   return Game.createGameState(players, context)
@@ -63,6 +63,7 @@ async function handleStartRound(game, sequence) {
     return
   }
   level = levelParams[level]
+  console.log(level)
   game.addLevel(level)
   const initialGameState = game.getGameState()
   game.commit(LOAD_LEVEL, { level, initialGameState })

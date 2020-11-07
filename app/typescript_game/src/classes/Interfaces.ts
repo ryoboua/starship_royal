@@ -3,6 +3,7 @@ import Keys from "./Keys"
 import Missiles from "./Missiles"
 import Asteroid from "./Asteroid"
 import { Sequence } from "./Types"
+import AsteroidField from "./AsteroidField"
 
 export interface Point2D {
     x: number,
@@ -54,4 +55,17 @@ export interface IMissile {
     vel: Vector
     value: number
     body: Array<Array<number>>
+}
+
+export interface IGame {
+    levels: Array<Level>
+    asteroidField: AsteroidField
+    gridsize: number
+    timer: number
+    _context: any
+}
+
+export interface Event {
+    eventName: string,
+    data?: any
 }

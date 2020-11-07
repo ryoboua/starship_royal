@@ -2,6 +2,7 @@
 node_modules
 /dist
 typescript_game/build
+typescript_game/types
 
 # local env files
 .env.local
