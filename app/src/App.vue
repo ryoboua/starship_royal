@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <StartMenu v-if="false" />
+    <StartMenu v-if="!roomName" />
     <Main v-else />
 
     <Modal v-if="showModal" @close="closeModal">
@@ -11,26 +11,26 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex"
-import StartMenu from "./components/StartMenu.vue"
-import Main from "./components/Main.vue"
-import Modal from "./components/Modal.vue"
+import { mapState, mapMutations } from "vuex";
+import StartMenu from "./components/StartMenu.vue";
+import Main from "./components/Main.vue";
+import Modal from "./components/Modal.vue";
 
 export default {
   name: "App",
   components: {
     StartMenu,
     Main,
-    Modal,
+    Modal
   },
   computed: mapState({
-    roomName: (state) => state.client.roomName,
-    showModal: (state) => state.modal.showModal,
-    header: (state) => state.modal.header,
-    body: (state) => state.modal.body,
+    roomName: state => state.client.roomName,
+    showModal: state => state.modal.showModal,
+    header: state => state.modal.header,
+    body: state => state.modal.body
   }),
-  methods: mapMutations("modal", ["closeModal"]),
-}
+  methods: mapMutations("modal", ["closeModal"])
+};
 </script>
 
 <style scoped lang="scss">

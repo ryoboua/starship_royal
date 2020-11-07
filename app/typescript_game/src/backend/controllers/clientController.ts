@@ -20,7 +20,6 @@ import {
 const clientList = new Map()
 
 export function handleNewGame(socket: socketIO.Socket, name: string, initGameEmitter: any, resFn: any) {
-
   const roomName = makeid(5)
   socket.join(roomName, (err) => {
     if (err) {
@@ -97,7 +96,7 @@ export function handleKeyDown(socket: socketIO.Socket, keyCode: number) {
   //   console.log(e)
   //   return
   // }
-  socket.to(roomName).broadcast.emit(KEY_DOWN, { keyCode, socketId: socket.id })
+  socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_DOWN, data: { keyCode, socketId: socket.id } })
 }
 
 export function handleKeyUp(socket: socketIO.Socket, keyCode: number) {
@@ -117,7 +116,7 @@ export function handleKeyUp(socket: socketIO.Socket, keyCode: number) {
   //   console.log(e)
   //   return
   // }
-  socket.to(roomName).broadcast.emit(KEY_UP, { keyCode, socketId: socket.id })
+  socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_UP, data: { keyCode, socketId: socket.id } })
 }
 
 export function handleStartRound(socket: socketIO.Socket) {
@@ -156,5 +155,5 @@ export function handleDeadPlayer(socket: socketIO.Socket, deadPlayerSocketId: st
   if (!isRoundActive(roomName)) {
     return
   }
-  socket.to(roomName).broadcast.emit(PLAYER_DEAD, deadPlayerSocketId)
+  socket.to(roomName).broadcast.emit("ACTION", { mutation: PLAYER_DEAD, data: deadPlayerSocketId })
 }

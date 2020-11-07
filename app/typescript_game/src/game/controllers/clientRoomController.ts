@@ -21,7 +21,7 @@ export function addPlayer(roomName: string, client: Client, socket: socketIO.Soc
   room.addPlayer(client)
   const players = room.getPlayerList()
   resFn({ client, players })
-  socket.to(roomName).broadcast.emit(ADD_PLAYER, client)
+  socket.to(roomName).broadcast.emit("ACTION", { mutation: ADD_PLAYER, data: client })
 }
 
 export function removePlayer(roomName: string, socketId: string) {

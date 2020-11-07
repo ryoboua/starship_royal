@@ -21,7 +21,7 @@ export default {
     SidePanel
   },
   mounted() {
-    this.$store.dispatch("client/createGame", "Dave");
+    //this.$store.dispatch("client/createGame", "Dave");
     //this.$store.dispatch("game/startRound")
   }
 };
