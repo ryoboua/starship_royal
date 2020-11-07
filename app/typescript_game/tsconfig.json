@@ -24,7 +24,6 @@
         "allowJs": true
     },
     "include": [
-        "game/**/*",
-        "backend/**/*"
+        "src/**/*"
     ]
 }
