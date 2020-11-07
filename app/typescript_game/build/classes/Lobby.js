@@ -9,11 +9,11 @@ class Lobby {
         this.players = {};
         this.roundActive = false;
     }
-    addPlayer(player) {
-        if (Object.keys(this.players).some(socketId => socketId === player.socketId)) {
+    addPlayer(client) {
+        if (Object.keys(this.players).some(socketId => socketId === client.socketId)) {
             return;
         }
-        player = new Player_1.default(player);
+        const player = new Player_1.default(client);
         this.players[player.socketId] = player;
     }
     removePlayer(socketId) {

@@ -1,5 +1,6 @@
 "use strict";
-module.exports = [
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = [
     {
         number: 1,
         numOfAsteroids: 2,

@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../constants");
 const Lobby_1 = __importDefault(require("./Lobby"));
-const Level_1 = __importDefault(require("./Level"));
 const AsteroidField_1 = __importDefault(require("./AsteroidField"));
 module.exports = class Game extends Lobby_1.default {
     constructor() {
@@ -30,10 +29,10 @@ module.exports = class Game extends Lobby_1.default {
     setFrontEndContext(context) {
         this._context = context;
     }
-    dispatch(eventName, data = null) {
+    dispatch(eventName, data) {
         this._context.dispatch(eventName, data);
     }
-    commit(eventName, data = null) {
+    commit(eventName, data) {
         this._context.commit(eventName, data);
     }
     gameLoop() {
@@ -69,7 +68,6 @@ module.exports = class Game extends Lobby_1.default {
             .sort((a, b) => b.score - a.score);
     }
     addLevel(level) {
-        level = new Level_1.default(level);
         this.levels.push(level);
     }
     decrementTimer() {

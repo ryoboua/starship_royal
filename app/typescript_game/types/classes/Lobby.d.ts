@@ -1,9 +1,14 @@
+import { IClient } from "./Interfaces";
+import Player from "./Player";
 export default class Lobby {
-    players: {};
+    players: {
+        [socketId: string]: Player;
+    };
     roundActive: boolean;
-    addPlayer(player: any): void;
-    removePlayer(socketId: any): void;
-    getPlayerList(): any[];
-    setRoundStatus(b: any): void;
+    constructor();
+    addPlayer(client: IClient): void;
+    removePlayer(socketId: string): void;
+    getPlayerList(): Array<Player>;
+    setRoundStatus(b: boolean): void;
     isRoundActive(): boolean;
 }

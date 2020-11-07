@@ -1,9 +1,15 @@
 import { GRID_SIZE, ROUND_TIME } from "../constants"
 import Lobby from "./Lobby"
-import Level from "./Level"
 import AsteroidField from "./AsteroidField"
+import { IClient, IGame } from "./Interfaces";
 
-module.exports = class Game extends Lobby {
+module.exports = class Game extends Lobby implements IGame {
+  levels: Array<Level>
+  asteroidField: AsteroidField
+  gridsize: number
+  timer: number
+  _context: any
+
   constructor() {
     super()
     this.levels = []
@@ -13,7 +19,7 @@ module.exports = class Game extends Lobby {
     this._context = null
   }
 
-  static createGameState(players, context) {
+  static createGameState(players: Array<IClient>, context: any) {
     const game = new Game()
 
     players.forEach(player => game.addPlayer(player))
@@ -32,11 +38,11 @@ module.exports = class Game extends Lobby {
     this._context = context
   }
 
-  dispatch(eventName, data = null) {
+  dispatch(eventName: string, data?: any) {
     this._context.dispatch(eventName, data)
   }
 
-  commit(eventName, data = null) {
+  commit(eventName: string, data?: any) {
     this._context.commit(eventName, data)
   }
 
@@ -80,8 +86,7 @@ module.exports = class Game extends Lobby {
       .sort((a, b) => b.score - a.score)
   }
 
-  addLevel(level) {
-    level = new Level(level)
+  addLevel(level: Level) {
     this.levels.push(level)
   }
 
@@ -96,11 +101,11 @@ module.exports = class Game extends Lobby {
     this.resetState()
   }
 
-  getCurrentLevel() {
+  getCurrentLevel(): number {
     return this.levels.length
   }
 
-  destroyShip(socketId) {
+  destroyShip(socketId: string) {
     const player = this.players[socketId]
 
     if (!player) {
@@ -110,7 +115,7 @@ module.exports = class Game extends Lobby {
     player.selfDestruct()
   }
 
-  isLocal(socketId) {
+  isLocal(socketId: string): boolean {
     return this._context.rootState.client.socketId === socketId
   }
 }

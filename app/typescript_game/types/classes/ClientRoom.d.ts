@@ -1,8 +1,9 @@
+import Lobby from "./Lobby";
+import { IClient } from "./Interfaces";
 export default class clientRoom extends Lobby {
-    static createClientRoom(clients: any, emitter: any): clientRoom;
-    _emit: any;
+    constructor();
+    static createClientRoom(clients: Array<IClient>, emitter: any): clientRoom;
     setGameEmitter(emit: any): void;
-    emit(mutation: any, data?: any): void;
+    emit(mutation: any, data?: null): void;
     generateSequence(): number[];
 }
-import Lobby from "./Lobby";

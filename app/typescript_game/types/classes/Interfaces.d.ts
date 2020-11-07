@@ -14,7 +14,7 @@ export interface IKeys {
     right: boolean;
     spacebar: boolean;
 }
-export interface ILevel {
+export interface Level {
     number: number;
     numOfAsteroids: number;
     asteroidFieldTimeInterval: number;
