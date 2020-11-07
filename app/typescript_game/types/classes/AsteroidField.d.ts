@@ -1,16 +1,17 @@
-export default class AsteroidField {
-    asteroids: Asteroid[];
-    sequence: Generator<any, void, unknown> | null;
-    _s: any;
-    generateAsteroid(numOfAsteroids: any): void;
-    generateAsteroidPositionFromSequence(): {
-        x: any;
-        y: number;
-    };
+import Asteroid from "./Asteroid";
+import { IAsteroidField } from "./Interfaces";
+import { Point2D } from "./Interfaces";
+import { Sequence } from "./Types";
+export default class AsteroidField implements IAsteroidField {
+    asteroids: Array<Asteroid>;
+    sequence: Generator | null;
+    _s: Sequence;
+    constructor();
+    generateAsteroid(numOfAsteroids: number): void;
+    generateAsteroidPositionFromSequence(): Point2D;
     updatePosition(): void;
     removeDestroidAsteroids(): void;
-    setSequence(sequence: any): void;
+    setSequence(sequence: Sequence): void;
     resetSequenceGenerator(): void;
-    sequenceGenerator(): Generator<any, void, unknown>;
+    sequenceGenerator(): Generator<number, void, unknown>;
 }
-import Asteroid from "./Asteroid";

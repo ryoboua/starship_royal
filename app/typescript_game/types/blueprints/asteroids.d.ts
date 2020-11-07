@@ -1,2 +1,2 @@
-declare var _default: number[][][];
+declare const _default: number[][][];
 export default _default;

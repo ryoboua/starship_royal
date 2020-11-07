@@ -1,15 +1,10 @@
-export default class Client {
-    constructor({ socketId, name, roomName, playerNumber, host }: {
-        socketId: any;
-        name: any;
-        roomName: any;
-        playerNumber: any;
-        host: any;
-    });
-    socketId: any;
-    name: any;
-    roomName: any;
-    playerNumber: any;
+import { IClient } from "./Interfaces";
+export default class Client implements IClient {
+    socketId: string;
+    name: string;
+    roomName: string;
+    playerNumber: number;
     host: boolean;
-    getRoomName(): any;
+    constructor({ socketId, name, roomName, playerNumber, host }: IClient);
+    getRoomName(): string;
 }

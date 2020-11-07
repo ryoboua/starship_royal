@@ -8,7 +8,7 @@ const Vector_1 = __importDefault(require("./Vector"));
 const constants_1 = require("../constants");
 class AsteroidField {
     constructor() {
-        this.asteroids = [Asteroid_1.default.createAsteroid({ x: 200, y: 200 })];
+        this.asteroids = [];
         this.sequence = null;
         this._s = null;
     }
@@ -18,9 +18,10 @@ class AsteroidField {
         }
         const newLine = [];
         for (let i = 0; i < numOfAsteroids; i++) {
-            let pos = null;
+            let pos;
             if (this.sequence) {
-                pos = this.generateAsteroidPositionFromSequence();
+                const { x, y } = this.generateAsteroidPositionFromSequence();
+                pos = new Vector_1.default(x, y);
             }
             const ast = Asteroid_1.default.createAsteroid(pos);
             newLine.push(ast);
@@ -28,6 +29,9 @@ class AsteroidField {
         this.asteroids.push(...newLine);
     }
     generateAsteroidPositionFromSequence() {
+        if (!this.sequence) {
+            return { x: 0, y: 0 };
+        }
         const { value, done } = this.sequence.next();
         const pos = { x: value ? value : 25, y: 0 };
         if (done) {
@@ -66,10 +70,12 @@ class AsteroidField {
     }
     *sequenceGenerator() {
         let index = 0;
-        while (index < this._s.length) {
-            yield this._s[index++];
+        if (this._s) {
+            while (index < this._s.length) {
+                yield this._s[index++];
+            }
+            return;
         }
-        return;
     }
 }
 exports.default = AsteroidField;

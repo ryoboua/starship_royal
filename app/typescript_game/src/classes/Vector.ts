@@ -1,7 +1,14 @@
-const { randomNumBetween } = require("../utils")
-export default class Vector {
+import { randomNumBetween } from "../utils"
+import { Point2D } from "./Interfaces"
 
-    constructor(private _x: number, private _y: number) { }
+
+export default class Vector implements Point2D {
+    x: number
+    y: number
+    constructor(x: number, y: number) {
+        this.x = x
+        this.y = y
+    }
 
     static add(v1: Vector, v2: Vector) {
         return new Vector(v1.x + v2.x, v1.y + v2.y)
@@ -18,24 +25,24 @@ export default class Vector {
         )
     }
 
-    set x(x: number) {
-        this._x = x
-    }
-    get x() {
-        return this._x
-    }
-    set y(y: number) {
-        this._y = y
-    }
-    get y() {
-        return this._y
-    }
+    // set x(x: number) {
+    //     this._x = x
+    // }
+    // get x() {
+    //     return this._x
+    // }
+    // set y(y: number) {
+    //     this._y = y
+    // }
+    // get y() {
+    //     return this._y
+    // }
 
     setX(x: number) {
-        this._x = x
+        this.x = x
     }
     setY(y: number) {
-        this._y = y
+        this.y = y
     }
     getX() {
         return this.x

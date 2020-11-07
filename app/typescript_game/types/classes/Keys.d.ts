@@ -1,9 +1,11 @@
-export default class Keys {
+import { IKeys } from "./Interfaces";
+export default class Keys implements IKeys {
     up: boolean;
     down: boolean;
     left: boolean;
     right: boolean;
     spacebar: boolean;
-    updateKeysDown(keyCode: any): void;
-    updateKeysUp(keyCode: any): void;
+    constructor();
+    updateKeysDown(keyCode: number): void;
+    updateKeysUp(keyCode: number): void;
 }

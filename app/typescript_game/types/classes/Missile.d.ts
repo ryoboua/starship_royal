@@ -1,8 +1,9 @@
 import Vector from "./Vector";
-export default class Missile {
-    private pos;
-    private vel;
-    private value;
-    private body;
+import { IMissile } from "./Interfaces";
+export default class Missile implements IMissile {
+    pos: Vector;
+    vel: Vector;
+    value: number;
+    body: Array<Array<number>>;
     constructor(pos: Vector);
 }

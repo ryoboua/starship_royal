@@ -1,21 +1,24 @@
-export default class Player extends Client {
-    constructor(client: any);
+import Client from "./Client";
+import Vector from "./Vector";
+import Keys from "./Keys";
+import Missiles from "./Missiles";
+import { IPlayer, IClient } from "./Interfaces";
+import AsteroidField from "./AsteroidField";
+export default class Player extends Client implements IPlayer {
     score: number;
     pos: Vector;
     vel: Vector;
     keys: Keys;
-    weapons: any;
+    weapons: Missiles;
     isAlive: boolean;
     left: boolean;
-    body: number[][];
+    body: Array<Array<number>>;
+    constructor(client: IClient);
     reset(): void;
     selfDestruct(): void;
-    updatePosition(asteroidField: any, isLocal: any): void;
-    updateSpaceshipPosition(asteroidField: any, isLocal: any): void;
-    updateVelocityKeyDown(keyCode: any): void;
-    updateVelocityKeyUp(keyCode: any): void;
+    updatePosition(asteroidField: AsteroidField, isLocal: boolean): void;
+    updateSpaceshipPosition(asteroidField: AsteroidField, isLocal: boolean): void;
+    updateVelocityKeyDown(keyCode: number): void;
+    updateVelocityKeyUp(keyCode: number): void;
     fireMissile(): void;
 }
-import Client from "./Client";
-import Vector from "./Vector";
-import Keys from "./Keys";

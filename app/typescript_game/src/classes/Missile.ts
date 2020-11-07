@@ -1,12 +1,14 @@
 import Vector from "./Vector"
 import { MISSILE_STEP } from "../constants"
+import { IMissile } from "./Interfaces"
 
 
-export default class Missile {
-    private pos: Vector
-    private vel: Vector
-    private value: number
-    private body: Array<Array<number>>
+
+export default class Missile implements IMissile {
+    pos: Vector
+    vel: Vector
+    value: number
+    body: Array<Array<number>>
 
     constructor(pos: Vector) {
         this.pos = pos

@@ -50,7 +50,7 @@ class Missiles {
             }
         });
         this.removeMissiles(missilesToRemove);
-        return missilesToRemove.length;
+        return;
     }
     removeMissiles(missArr) {
         this.missiles = this.missiles.filter((mis, i) => !missArr.includes(i));

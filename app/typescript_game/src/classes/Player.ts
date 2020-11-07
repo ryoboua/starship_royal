@@ -2,10 +2,21 @@ import Client from "./Client"
 import Vector from "./Vector"
 import Keys from "./Keys"
 import Missiles from "./Missiles"
+import { IPlayer, IClient } from "./Interfaces"
 import { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } from "../constants"
+import AsteroidField from "./AsteroidField";
 
-export default class Player extends Client {
-  constructor(client) {
+export default class Player extends Client implements IPlayer {
+  score: number
+  pos: Vector
+  vel: Vector
+  keys: Keys
+  weapons: Missiles
+  isAlive: boolean
+  left: boolean
+  body: Array<Array<number>>
+
+  constructor(client: IClient) {
     super({ ...client })
     this.score = 0
     this.pos = new Vector(client.playerNumber * 200, 500)
@@ -29,17 +40,12 @@ export default class Player extends Client {
     this.isAlive = false
   }
 
-  updatePosition(asteroidField, isLocal) {
-    const numOfDestroyedAsteroids = this.weapons.updateMissilePositions(
-      asteroidField
-    )
-    if (numOfDestroyedAsteroids) {
-      this.score += numOfDestroyedAsteroids * ASTEROID_VALUE
-    }
+  updatePosition(asteroidField: AsteroidField, isLocal: boolean) {
+    this.weapons.updateMissilePositions(asteroidField)
     this.updateSpaceshipPosition(asteroidField, isLocal)
   }
 
-  updateSpaceshipPosition(asteroidField, isLocal) {
+  updateSpaceshipPosition(asteroidField: AsteroidField, isLocal: boolean) {
     const newPos = Vector.add(this.pos, this.vel)
     const newX = newPos.getX()
     const newY = newPos.getY()
@@ -76,7 +82,7 @@ export default class Player extends Client {
     this.pos = newPos
   }
 
-  updateVelocityKeyDown(keyCode) {
+  updateVelocityKeyDown(keyCode: number) {
     if (!keyCode) {
       return
     }
@@ -98,7 +104,7 @@ export default class Player extends Client {
     }
   }
 
-  updateVelocityKeyUp(keyCode) {
+  updateVelocityKeyUp(keyCode: number) {
     if (!keyCode) {
       return
     }

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const { randomNumBetween } = require("../utils");
+const utils_1 = require("../utils");
 class Vector {
-    constructor(_x, _y) {
-        this._x = _x;
-        this._y = _y;
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
     }
     static add(v1, v2) {
         return new Vector(v1.x + v2.x, v1.y + v2.y);
@@ -13,25 +13,13 @@ class Vector {
         return new Vector(v1.x - v2.x, v1.y - v2.y);
     }
     static random(minX, maxX, minY, maxY) {
-        return new Vector(randomNumBetween(minX, maxX), randomNumBetween(minY, maxY));
-    }
-    set x(x) {
-        this._x = x;
-    }
-    get x() {
-        return this._x;
-    }
-    set y(y) {
-        this._y = y;
-    }
-    get y() {
-        return this._y;
+        return new Vector(utils_1.randomNumBetween(minX, maxX), utils_1.randomNumBetween(minY, maxY));
     }
     setX(x) {
-        this._x = x;
+        this.x = x;
     }
     setY(y) {
-        this._y = y;
+        this.y = y;
     }
     getX() {
         return this.x;

@@ -17,7 +17,7 @@ export default class Missiles {
         if (!this.missiles.length) {
             return
         }
-        const missilesToRemove = []
+        const missilesToRemove: Array<number> = []
 
         this.missiles.forEach((mis, missileIndex) => {
             const newPos = Vector.sub(mis.pos, mis.vel)
@@ -56,10 +56,10 @@ export default class Missiles {
         })
 
         this.removeMissiles(missilesToRemove)
-        return missilesToRemove.length
+        return
     }
 
-    removeMissiles(missArr) {
+    removeMissiles(missArr: Array<Missile>) {
         this.missiles = this.missiles.filter(
             (mis, i) => !missArr.includes(i)
         )

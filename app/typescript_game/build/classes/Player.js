@@ -31,10 +31,7 @@ class Player extends Client_1.default {
         this.isAlive = false;
     }
     updatePosition(asteroidField, isLocal) {
-        const numOfDestroyedAsteroids = this.weapons.updateMissilePositions(asteroidField);
-        if (numOfDestroyedAsteroids) {
-            this.score += numOfDestroyedAsteroids * constants_1.ASTEROID_VALUE;
-        }
+        this.weapons.updateMissilePositions(asteroidField);
         this.updateSpaceshipPosition(asteroidField, isLocal);
     }
     updateSpaceshipPosition(asteroidField, isLocal) {

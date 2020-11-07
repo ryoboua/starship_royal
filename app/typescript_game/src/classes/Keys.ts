@@ -1,4 +1,13 @@
-export default class Keys {
+import { IKeys } from "./Interfaces"
+
+
+export default class Keys implements IKeys {
+  public up
+  public down
+  public left
+  public right
+  public spacebar
+
   constructor() {
     this.up = false
     this.down = false
@@ -7,7 +16,7 @@ export default class Keys {
     this.spacebar = false
   }
 
-  updateKeysDown(keyCode) {
+  updateKeysDown(keyCode: number) {
     if (!keyCode) {
       return
     }
@@ -33,7 +42,7 @@ export default class Keys {
     }
   }
 
-  updateKeysUp(keyCode) {
+  updateKeysUp(keyCode: number) {
     if (!keyCode) {
       return
     }

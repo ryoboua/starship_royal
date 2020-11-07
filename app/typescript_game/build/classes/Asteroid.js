@@ -8,7 +8,7 @@ const constants_1 = require("../constants");
 const asteroids_1 = __importDefault(require("../blueprints/asteroids"));
 class Asteroid {
     constructor(pos) {
-        this.pos = !pos ? Vector_1.default.random(0, constants_1.GAME_WIDTH, 0, 0) : new Vector_1.default(pos.x, pos.y);
+        this.pos = pos ? pos : Vector_1.default.random(0, constants_1.GAME_WIDTH, 0, 0);
         this.vel = new Vector_1.default(0, constants_1.ASTEROID_STEP);
         this.health = 0;
         this.initHealth = 0;
