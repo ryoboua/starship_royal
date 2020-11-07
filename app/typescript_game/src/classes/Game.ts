@@ -4,7 +4,7 @@ import { IClient, IGame, Level } from "./Interfaces";
 
 const { GRID_SIZE, ROUND_TIME } = require("../constants")
 
-module.exports = class Game extends Lobby implements IGame {
+export default class Game extends Lobby implements IGame {
   levels: Array<Level>
   asteroidField: AsteroidField
   gridsize: number
@@ -18,8 +18,6 @@ module.exports = class Game extends Lobby implements IGame {
     this.gridsize = GRID_SIZE
     this.timer = ROUND_TIME
     this._context = null
-
-    console.log(GRID_SIZE)
   }
 
   static createGameState(players: Array<IClient>, context: any) {
