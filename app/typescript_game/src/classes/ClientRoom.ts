@@ -1,7 +1,8 @@
-import { SEQUENCE_LENGTH } from "../constants"
 import Lobby from "./Lobby"
 import { randomNumBetween } from "../utils"
 import { IClient } from "./Interfaces"
+
+const { SEQUENCE_LENGTH } = require("../constants")
 
 export default class clientRoom extends Lobby {
   constructor() {

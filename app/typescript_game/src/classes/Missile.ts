@@ -1,6 +1,6 @@
 import Vector from "./Vector"
-import { MISSILE_STEP } from "../constants"
 import { IMissile } from "./Interfaces"
+const { MISSILE_STEP } = require("../constants")
 
 
 
