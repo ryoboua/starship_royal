@@ -21,15 +21,15 @@ export default {
   components: {
     StartMenu,
     Main,
-    Modal
+    Modal,
   },
   computed: mapState({
-    roomName: state => state.client.roomName,
-    showModal: state => state.modal.showModal,
-    header: state => state.modal.header,
-    body: state => state.modal.body
+    roomName: (state) => state.client.roomName,
+    showModal: (state) => state.modal.showModal,
+    header: (state) => state.modal.header,
+    body: (state) => state.modal.body,
   }),
-  methods: mapMutations("modal", ["closeModal"])
+  methods: mapMutations("modal", ["closeModal"]),
 };
 </script>
 

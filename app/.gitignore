@@ -1,11 +1,10 @@
 .DS_Store
 node_modules
 /dist
-/typescript_game/build
-/typescript_game/types
-/typescript_game/build/*
-/typescript_game/build/*.js
-/typescript_game/build/**/*
+/jsBackend
+/jsBackend/*
+/jsBackend/**/*
+
 
 # local env files
 .env.local
