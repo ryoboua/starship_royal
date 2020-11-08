@@ -20,6 +20,10 @@ export interface KeysModel {
     right: boolean
     spacebar: boolean
 }
+export interface KeyEvent {
+    keyCode: number,
+    socketId: string
+}
 
 export interface Level {
     number: number
