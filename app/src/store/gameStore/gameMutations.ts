@@ -23,7 +23,7 @@ import {
     ADD_PLAYER,
     REMOVE_PLAYER,
     PLAYER_DEAD,
-} from "../../../appEvent"
+} from "../../../appEvents"
 import { GameType } from '../../../types'
 
 export default {

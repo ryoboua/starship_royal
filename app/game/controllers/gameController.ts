@@ -9,7 +9,7 @@ import {
   ROUND_OVER,
   LOAD_LEVEL,
   COUNTDOWN,
-} from "../../appEvent"
+} from "../../appEvents"
 import { ClientModel, Level, StoreContext } from "../../interfaces"
 import { Sequence } from "../../types"
 const MAX_LEVEL = levelParams.length

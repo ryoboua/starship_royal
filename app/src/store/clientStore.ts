@@ -2,7 +2,7 @@ import {
   SET_CLIENT,
   CREATE_GAME,
   JOIN_GAME,
-} from "../../appEvent"
+} from "../../appEvents"
 import { SocketType as Socket } from "../../types"
 
 import { ClientModel, StoreContext } from "../../interfaces";

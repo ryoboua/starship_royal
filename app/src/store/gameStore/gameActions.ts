@@ -7,7 +7,7 @@ import {
     DISPLAY_MSG,
     PLAYER_DEAD,
     END_ROUND
-} from "../../../appEvent"
+} from "../../../appEvents"
 
 import { ClientModel, StoreContext } from "../../../interfaces";
 import { GameType, SocketType as Socket } from "../../../types";

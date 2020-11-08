@@ -31,7 +31,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "appEvent.ts"
+    "appEvents.ts",
+    "interfaces.ts",
+    "types.ts"
   ],
   "exclude": [
     "node_modules"
