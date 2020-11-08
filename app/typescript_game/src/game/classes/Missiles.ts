@@ -2,6 +2,7 @@ import Missile from "./Missile"
 import Vector from "./Vector"
 
 import { GRID_SIZE } from "../constants"
+import AsteroidField from "./AsteroidField"
 
 export default class Missiles {
     private missiles: Array<Missile>
@@ -13,7 +14,7 @@ export default class Missiles {
         this.missiles.push(new Missile(pos))
     }
 
-    updateMissilePositions(asteroidField): void {
+    updateMissilePositions(asteroidField: AsteroidField): void {
         if (!this.missiles.length) {
             return
         }
