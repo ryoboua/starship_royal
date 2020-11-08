@@ -43,10 +43,11 @@ type GameType = "single" | "multi";
 
 export default defineComponent({
   name: "StartMenu",
-  setup(props) {
+  setup() {
     let name = ref<string>("");
     let roomName = ref<string>("");
     let type = ref<GameType>("single");
+
     const errors: IErrors = reactive({
       roomName: false,
       name: false,
