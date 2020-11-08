@@ -24,9 +24,10 @@ import {
     REMOVE_PLAYER,
     PLAYER_DEAD,
 } from "../../../appEvent"
+import { GameType } from '../../../types'
 
 export default {
-    [SET_GAME_TYPE](state, type) {
+    [SET_GAME_TYPE](state: { type: GameType }, type: GameType) {
         state.type = type
     },
     [CREATE_GAME](state, { players, context }) {

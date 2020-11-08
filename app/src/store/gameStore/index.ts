@@ -1,9 +1,11 @@
 import mutations from "./gameMutations"
 import actions from "./gameActions"
 
-export default (socket) => ({
-  namespaced: true,
-  state: {
+import { SocketType as Socket } from "./../../../types"
+import { GameStore } from "./../../../interfaces"
+
+function initState(): GameStore {
+  return {
     _gameInstance: null,
     gameActive: false,
     gameState: null,
@@ -14,7 +16,11 @@ export default (socket) => ({
     playerScores: [],
     screen: '',
     disableStartBtn: false,
-  },
+  }
+}
+export default (socket: Socket) => ({
+  namespaced: true,
+  state: initState(),
   mutations,
   actions: actions(socket)
 }

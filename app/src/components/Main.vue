@@ -19,6 +19,10 @@ export default {
     Canvas,
     InformationScreen,
     SidePanel
+  },
+  mounted() {
+    //this.$store.dispatch("client/createGame", "Dave");
+    //this.$store.dispatch("game/startRound")
   }
 };
 </script>

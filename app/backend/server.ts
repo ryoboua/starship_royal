@@ -1,8 +1,5 @@
-const io = require("socket.io")()
-io.serveClient(false);
-io.listen(3000)
-
-const {
+import socketIO from "socket.io"
+import {
   handleNewGame,
   joinRoom,
   handleKeyDown,
@@ -11,8 +8,8 @@ const {
   handleStartRound,
   handleEndRound,
   handleDeadPlayer,
-} = require("./controllers/clientController")
-const {
+} from "./controllers/clientController.js"
+import {
   CREATE_GAME,
   START_ROUND,
   JOIN_GAME,
@@ -21,10 +18,16 @@ const {
   DISCONNECT,
   PLAYER_DEAD,
   END_ROUND
-} = require("../appEvent")
+} from "../appEvent"
 
-function initGameEmitter(roomName) {
-  return (commit) =>
+const io = socketIO()
+
+io.serveClient(false);
+io.listen(3000)
+
+
+function initGameEmitter(roomName: string) {
+  return (commit: any) =>
     io.sockets.in(roomName).emit("ACTION", commit)
 }
 
@@ -38,7 +41,7 @@ io.on("connection", (socket) => {
   socket.on(KEY_UP, (keyCode) => handleKeyUp(socket, keyCode))
   socket.on(PLAYER_DEAD, (deadPlayerSocketId) => handleDeadPlayer(socket, deadPlayerSocketId))
 
-  function handleJoinRoom({ roomName, name }, resFn) {
+  function handleJoinRoom({ roomName, name }: { roomName: string, name: string }, resFn: any): void {
     const room = io.sockets.adapter.rooms[roomName]
 
     let allUsers

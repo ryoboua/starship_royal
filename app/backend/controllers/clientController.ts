@@ -1,24 +1,25 @@
-const Client = require("../../game/classes/Client")
-const {
-  ROUND_ACTIVE,
-  KEY_DOWN,
-  KEY_UP,
-  PLAYER_DEAD,
-} = require("../../appEvent")
-const {
+import Client from "../../game/classes/Client"
+import { SocketType as Socket } from "../../types"
+
+import {
   createRoom,
   addPlayer,
   removePlayer,
   startRound,
   endRound,
   isRoundActive
-} = require("../../game/controllers/clientRoomController")
-const { makeid } = require("../utils")
+} from "../../game/controllers/clientRoomController"
+import { makeid } from "../utils"
+import {
+  ROUND_ACTIVE,
+  KEY_DOWN,
+  KEY_UP,
+  PLAYER_DEAD,
+} from "../../appEvent"
 
 const clientList = new Map()
 
-function handleNewGame(socket, name, initGameEmitter, resFn) {
-
+export function handleNewGame(socket: Socket, name: string, initGameEmitter: any, resFn: any) {
   const roomName = makeid(5)
   socket.join(roomName, (err) => {
     if (err) {
@@ -40,7 +41,7 @@ function handleNewGame(socket, name, initGameEmitter, resFn) {
   })
 }
 
-function joinRoom(socket, roomName, name, numClients, resFn) {
+export function joinRoom(socket: Socket, roomName: string, name: string, numClients: number, resFn: any) {
   if (isRoundActive(roomName)) {
     const err = {
       header: `Unable to join while round active`,
@@ -61,6 +62,7 @@ function joinRoom(socket, roomName, name, numClients, resFn) {
       name,
       roomName,
       playerNumber,
+      host: false
     })
 
     clientList.set(client.socketId, client)
@@ -68,7 +70,7 @@ function joinRoom(socket, roomName, name, numClients, resFn) {
   })
 }
 
-function handleDisconnect(socket) {
+export function handleDisconnect(socket: Socket) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -77,7 +79,7 @@ function handleDisconnect(socket) {
   clientList.delete(socket.id)
 }
 
-function handleKeyDown(socket, keyCode) {
+export function handleKeyDown(socket: Socket, keyCode: number) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -88,16 +90,16 @@ function handleKeyDown(socket, keyCode) {
     return
   }
 
-  try {
-    keyCode = parseInt(keyCode)
-  } catch (e) {
-    console.log(e)
-    return
-  }
-  socket.to(roomName).broadcast.emit(KEY_DOWN, { keyCode, socketId: socket.id })
+  // try {
+  //   keyCode = parseInt(keyCode)
+  // } catch (e) {
+  //   console.log(e)
+  //   return
+  // }
+  socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_DOWN, data: { keyCode, socketId: socket.id } })
 }
 
-function handleKeyUp(socket, keyCode) {
+export function handleKeyUp(socket: Socket, keyCode: number) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -108,16 +110,16 @@ function handleKeyUp(socket, keyCode) {
     return
   }
 
-  try {
-    keyCode = parseInt(keyCode)
-  } catch (e) {
-    console.log(e)
-    return
-  }
-  socket.to(roomName).broadcast.emit(KEY_UP, { keyCode, socketId: socket.id })
+  // try {
+  //   keyCode = parseInt(keyCode)
+  // } catch (e) {
+  //   console.log(e)
+  //   return
+  // }
+  socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_UP, data: { keyCode, socketId: socket.id } })
 }
 
-function handleStartRound(socket) {
+export function handleStartRound(socket: Socket) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -130,7 +132,7 @@ function handleStartRound(socket) {
   startRound(roomName)
 }
 
-function handleEndRound(socket) {
+export function handleEndRound(socket: Socket) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -143,7 +145,7 @@ function handleEndRound(socket) {
   endRound(roomName)
 }
 
-function handleDeadPlayer(socket, deadPlayerSocketId) {
+export function handleDeadPlayer(socket: Socket, deadPlayerSocketId: string) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -153,16 +155,5 @@ function handleDeadPlayer(socket, deadPlayerSocketId) {
   if (!isRoundActive(roomName)) {
     return
   }
-  socket.to(roomName).broadcast.emit(PLAYER_DEAD, deadPlayerSocketId)
-}
-
-module.exports = {
-  joinRoom,
-  handleNewGame,
-  handleKeyDown,
-  handleKeyUp,
-  handleDisconnect,
-  handleStartRound,
-  handleEndRound,
-  handleDeadPlayer,
+  socket.to(roomName).broadcast.emit("ACTION", { mutation: PLAYER_DEAD, data: deadPlayerSocketId })
 }

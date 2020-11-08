@@ -1,14 +1,16 @@
-const { SEQUENCE_LENGTH } = require("../constants")
-const Lobby = require("./Lobby")
-const { randomNumBetween } = require("../utils")
+import Lobby from "./Lobby"
+import { randomNumBetween } from "../utils"
+import { ClientModel } from "../../interfaces"
 
-module.exports = class clientRoom extends Lobby {
+const { SEQUENCE_LENGTH } = require("../constants")
+
+export default class clientRoom extends Lobby {
   constructor() {
     super()
     this._emit = null
   }
 
-  static createClientRoom(clients, emitter) {
+  static createClientRoom(clients: Array<ClientModel>, emitter) {
     const room = new clientRoom()
 
     clients.forEach(client => room.addPlayer(client))

@@ -1,4 +1,13 @@
-module.exports = class Keys {
+import { KeysModel } from "../../interfaces"
+
+
+export default class Keys implements KeysModel {
+  public up
+  public down
+  public left
+  public right
+  public spacebar
+
   constructor() {
     this.up = false
     this.down = false
@@ -7,7 +16,7 @@ module.exports = class Keys {
     this.spacebar = false
   }
 
-  updateKeysDown(keyCode) {
+  updateKeysDown(keyCode: number) {
     if (!keyCode) {
       return
     }
@@ -33,7 +42,7 @@ module.exports = class Keys {
     }
   }
 
-  updateKeysUp(keyCode) {
+  updateKeysUp(keyCode: number) {
     if (!keyCode) {
       return
     }

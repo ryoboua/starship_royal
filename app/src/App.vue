@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex"
-import StartMenu from "./components/StartMenu.vue"
-import Main from "./components/Main.vue"
-import Modal from "./components/Modal.vue"
+import { mapState, mapMutations } from "vuex";
+import StartMenu from "./components/StartMenu.vue";
+import Main from "./components/Main.vue";
+import Modal from "./components/Modal.vue";
 
 export default {
   name: "App",
@@ -30,7 +30,7 @@ export default {
     body: (state) => state.modal.body,
   }),
   methods: mapMutations("modal", ["closeModal"]),
-}
+};
 </script>
 
 <style scoped lang="scss">

@@ -1,11 +1,22 @@
-const Client = require("./Client")
-const Vector = require("./Vector")
-const Keys = require("./Keys")
-const Missiles = require("./Missiles")
-const { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } = require("../constants")
+import Client from "./Client"
+import Vector from "./Vector"
+import Keys from "./Keys"
+import Missiles from "./Missiles"
+import { PlayerModel, ClientModel } from "../../interfaces"
+import AsteroidField from "./AsteroidField";
+import { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } from "../constants"
 
-module.exports = class Player extends Client {
-  constructor(client) {
+export default class Player extends Client implements PlayerModel {
+  score: number
+  pos: Vector
+  vel: Vector
+  keys: Keys
+  weapons: Missiles
+  isAlive: boolean
+  left: boolean
+  body: Array<Array<number>>
+
+  constructor(client: ClientModel) {
     super({ ...client })
     this.score = 0
     this.pos = new Vector(client.playerNumber * 200, 500)
@@ -13,6 +24,8 @@ module.exports = class Player extends Client {
     this.keys = new Keys()
     this.weapons = new Missiles()
     this.isAlive = true
+    this.left = false
+    this.body = [[0, 0, 1, 0, 0], [0, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
   }
 
   reset() {
@@ -27,35 +40,30 @@ module.exports = class Player extends Client {
     this.isAlive = false
   }
 
-  updatePosition(asteroidField, isLocal) {
-    const numOfDestroyedAsteroids = this.weapons.updateMissilePositions(
-      asteroidField
-    )
-    if (numOfDestroyedAsteroids) {
-      this.score += numOfDestroyedAsteroids * ASTEROID_VALUE
-    }
+  updatePosition(asteroidField: AsteroidField, isLocal: boolean) {
+    this.weapons.updateMissilePositions(asteroidField)
     this.updateSpaceshipPosition(asteroidField, isLocal)
   }
 
-  updateSpaceshipPosition(asteroidField, isLocal) {
+  updateSpaceshipPosition(asteroidField: AsteroidField, isLocal: boolean) {
     const newPos = Vector.add(this.pos, this.vel)
     const newX = newPos.getX()
     const newY = newPos.getY()
 
-    if (isLocal) {
-      const hit = asteroidField.asteroids.some(
-        (ast) =>
-          newX <= ast.pos.x + GRID_SIZE &&
-          newX + GRID_SIZE >= ast.pos.x &&
-          newY <= ast.pos.y + GRID_SIZE &&
-          newY + GRID_SIZE >= ast.pos.y
-      )
+    // if (isLocal) {
+    //   const hit = asteroidField.asteroids.some(
+    //     (ast) =>
+    //       newX <= ast.pos.x + GRID_SIZE &&
+    //       newX + GRID_SIZE >= ast.pos.x &&
+    //       newY <= ast.pos.y + GRID_SIZE &&
+    //       newY + GRID_SIZE >= ast.pos.y
+    //   )
 
-      if (hit) {
-        this.isAlive = false
-        return
-      }
-    }
+    //   if (hit) {
+    //     this.isAlive = false
+    //     return
+    //   }
+    // }
 
 
     //check if player is in game bounderies
@@ -74,7 +82,7 @@ module.exports = class Player extends Client {
     this.pos = newPos
   }
 
-  updateVelocityKeyDown(keyCode) {
+  updateVelocityKeyDown(keyCode: number) {
     if (!keyCode) {
       return
     }
@@ -96,7 +104,7 @@ module.exports = class Player extends Client {
     }
   }
 
-  updateVelocityKeyUp(keyCode) {
+  updateVelocityKeyUp(keyCode: number) {
     if (!keyCode) {
       return
     }
@@ -120,7 +128,16 @@ module.exports = class Player extends Client {
 
   fireMissile() {
     if (this.keys.spacebar) {
-      const pos = Vector.add(this.pos, new Vector(0, -2 * GRID_SIZE))
+      const x = this.left ? 1 : 3
+      this.left = !this.left
+
+      let y = 0
+      if (this.vel.y < 0) {
+        y = -10
+      }
+
+
+      const pos = Vector.add(this.pos, new Vector(x * GRID_SIZE, y))
       this.weapons.generateMissile(pos)
     }
   }

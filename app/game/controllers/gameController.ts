@@ -1,36 +1,38 @@
-const Game = require("../classes/Game")
-const { FRAME_RATE } = require("../constants")
-const { GAME_OVER_REASONS } = require("../constants")
-const levelParams = require("../levels")
-const MAX_LEVEL = levelParams.length
-const {
+import Game from "../classes/Game"
+import { FRAME_RATE } from "../constants"
+import { GAME_OVER_REASONS } from "../constants"
+import levelParams from "../levels"
+import {
   GAME_STATE_UPDATE,
   GAME_OVER,
   GAME_ACTIVE,
   ROUND_OVER,
   LOAD_LEVEL,
   COUNTDOWN,
-} = require("../../appEvent")
+} from "../../appEvent"
+import { ClientModel, Level, StoreContext } from "../../interfaces"
+import { Sequence } from "../../types"
+const MAX_LEVEL = levelParams.length
 
-function createGame(players, context) {
+export function createGame(players: Array<ClientModel>, context: StoreContext) {
   return Game.createGameState(players, context)
 }
 
-function addPlayer(game, player) {
+export function addPlayer(game: Game, player: ClientModel) {
   game.addPlayer(player)
   return game.getPlayerList()
 }
 
-function removePlayer(game, socketId) {
+export function removePlayer(game: Game, socketId: string) {
   game.removePlayer(socketId)
   return game.getPlayerList()
 }
 
-function handleDeadPlayer(game, socketId) {
+export function handleDeadPlayer(game: Game, socketId: string) {
   game.destroyShip(socketId)
 }
 
-function gameHandleKeyDown(game, keyCode, socketId) {
+export function gameHandleKeyDown(game: Game, keyCode: number, socketId: string) {
   const player = game.players[socketId]
 
   if (!player) {
@@ -41,7 +43,7 @@ function gameHandleKeyDown(game, keyCode, socketId) {
   player.updateVelocityKeyDown(keyCode)
 }
 
-function gameHandleKeyUp(game, keyCode, socketId) {
+export function gameHandleKeyUp(game: Game, keyCode: number, socketId: string) {
   const player = game.players[socketId]
 
   if (!player) {
@@ -52,12 +54,12 @@ function gameHandleKeyUp(game, keyCode, socketId) {
   player.updateVelocityKeyUp(keyCode)
 }
 
-async function handleStartRound(game, sequence) {
+export async function handleStartRound(game: Game, sequence: Sequence) {
   if (game.isRoundActive()) {
     return
   }
 
-  let level = game.getCurrentLevel()
+  let level: number | Level = game.getCurrentLevel()
   if (level >= MAX_LEVEL) {
     console.log('end game')
     return
@@ -66,11 +68,11 @@ async function handleStartRound(game, sequence) {
   game.addLevel(level)
   const initialGameState = game.getGameState()
   game.commit(LOAD_LEVEL, { level, initialGameState })
-  await initiateCountdown(game)
+  //await initiateCountdown(game)
   startGameInterval(game, sequence)
 }
 
-function initiateCountdown(game) {
+function initiateCountdown(game: Game) {
   return new Promise((resolve) => {
     let count = 5
     const countdownIntervalId = setInterval(
@@ -87,7 +89,7 @@ function initiateCountdown(game) {
   })
 }
 
-function startGameInterval(game, sequence) {
+function startGameInterval(game: Game, sequence: Sequence) {
   if (game.isRoundActive()) {
     return
   }
@@ -131,10 +133,10 @@ function startGameInterval(game, sequence) {
         player.fireMissile()
       }
     })
-  }, 300)
+  }, 150)
 }
 
-function processGameOver(gameOverReason, game) {
+function processGameOver(gameOverReason: number, game: Game) {
   if (!gameOverReason || !game) {
     return
   }
@@ -159,16 +161,6 @@ function processGameOver(gameOverReason, game) {
 
 }
 
-function generateGameInfoRawHtml(reason) {
+function generateGameInfoRawHtml(reason: number) {
   return `<h1>${GAME_OVER_REASONS[reason]}</h1>`
-}
-
-module.exports = {
-  createGame,
-  addPlayer,
-  removePlayer,
-  gameHandleKeyDown,
-  gameHandleKeyUp,
-  handleStartRound,
-  handleDeadPlayer,
 }

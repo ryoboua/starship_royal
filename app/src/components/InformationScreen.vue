@@ -27,7 +27,7 @@ export default {
       ? "<h3>Click Start Button To Start Round</h3>"
       : "<h3 v-else>Waiting For Host To Start Round</h3>";
 
-    this.displayMsg(msg);
+    //this.displayMsg(msg);
   }
 };
 </script>

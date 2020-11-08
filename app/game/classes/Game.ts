@@ -1,9 +1,15 @@
-const { GRID_SIZE, ROUND_TIME } = require("../constants")
-const Lobby = require("./Lobby")
-const Level = require("./Level")
-const AsteroidField = require("./AsteroidField")
+import Lobby from "./Lobby"
+import AsteroidField from "./AsteroidField"
+import { ClientModel, GameModel, Level, StoreContext, GameState } from "../../interfaces";
+import { GRID_SIZE, ROUND_TIME } from "../constants"
 
-module.exports = class Game extends Lobby {
+export default class Game extends Lobby implements GameModel {
+  levels: Array<Level>
+  asteroidField: AsteroidField
+  gridsize: number
+  timer: number
+  _context: any
+
   constructor() {
     super()
     this.levels = []
@@ -13,7 +19,7 @@ module.exports = class Game extends Lobby {
     this._context = null
   }
 
-  static createGameState(players, context) {
+  static createGameState(players: Array<ClientModel>, context: any) {
     const game = new Game()
 
     players.forEach(player => game.addPlayer(player))
@@ -28,15 +34,15 @@ module.exports = class Game extends Lobby {
     Object.values(this.players).forEach((player) => player.reset())
   }
 
-  setFrontEndContext(context) {
+  setFrontEndContext(context: StoreContext) {
     this._context = context
   }
 
-  dispatch(eventName, data = null) {
+  dispatch(eventName: string, data?: any) {
     this._context.dispatch(eventName, data)
   }
 
-  commit(eventName, data = null) {
+  commit(eventName: string, data?: any) {
     this._context.commit(eventName, data)
   }
 
@@ -55,13 +61,13 @@ module.exports = class Game extends Lobby {
       return 1
     }
 
-    if (!this.timer) {
-      return 2
-    }
+    // if (!this.timer) {
+    //   return 2
+    // }
     return
   }
 
-  getGameState() {
+  getGameState(): GameState {
     return {
       players: this.players,
       asteroidField: this.asteroidField,
@@ -80,8 +86,7 @@ module.exports = class Game extends Lobby {
       .sort((a, b) => b.score - a.score)
   }
 
-  addLevel(level) {
-    level = new Level(level)
+  addLevel(level: Level) {
     this.levels.push(level)
   }
 
@@ -94,13 +99,14 @@ module.exports = class Game extends Lobby {
 
   endRound() {
     this.resetState()
+
   }
 
-  getCurrentLevel() {
+  getCurrentLevel(): number {
     return this.levels.length
   }
 
-  destroyShip(socketId) {
+  destroyShip(socketId: string) {
     const player = this.players[socketId]
 
     if (!player) {
@@ -110,7 +116,7 @@ module.exports = class Game extends Lobby {
     player.selfDestruct()
   }
 
-  isLocal(socketId) {
+  isLocal(socketId: string): boolean {
     return this._context.rootState.client.socketId === socketId
   }
 }
