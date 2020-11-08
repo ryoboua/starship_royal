@@ -4,11 +4,11 @@ import Missiles from "./game/classes/Missiles"
 import Asteroid from "./game/classes/Asteroid"
 import Player from "./game/classes/PLayer"
 import Game from "./game/classes/Game"
-import { Sequence, GameType } from "./types"
 import AsteroidField from "./game/classes/AsteroidField"
+import { Sequence, GameType } from "./types"
 
 export interface Point2D {
-    x: number,
+    x: number
     y: number
 }
 
@@ -72,7 +72,7 @@ export interface GameModel {
 }
 
 export interface Event {
-    eventName: string,
+    eventName: string
     data?: any
 }
 
@@ -80,34 +80,39 @@ export interface joinGameResponse {
     (): { res: any, err: any }
 }
 
-export interface StoreContext { rootState: { [propName: string]: any; }; state: { [propName: string]: any; }; commit: (...args: any[]) => void; dispatch: (...args: any[]) => void; }
+export interface StoreContext {
+    rootState: { [propName: string]: any; }
+    state: { [propName: string]: any }
+    commit: (...args: any[]) => void
+    dispatch: (...args: any[]) => void
+}
 
 type PlayerScores = Array<{
-    name: string,
-    score: number,
+    name: string
+    score: number
 }>
 
 
 export interface GameStore {
-    _gameInstance: Game | null,
-    gameActive: boolean,
+    _gameInstance: Game | null
+    gameActive: boolean
     gameState: GameState | null
-    type: GameType,
-    level: Object,
-    timer: number | null,
-    players: Array<ClientModel>,
-    playerScores: PlayerScores,
-    screen: string,
+    type: GameType
+    level: Object
+    timer: number | null
+    players: Array<ClientModel>
+    playerScores: PlayerScores
+    screen: string
     disableStartBtn: boolean
 
 
 }
 
 export interface GameState {
-    players: Players,
+    players: Players
     asteroidField: AsteroidField,
-    gridsize: number,
-    timer: number,
+    gridsize: number
+    timer: number
     playerScores: PlayerScores
 
 }
