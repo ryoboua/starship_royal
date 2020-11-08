@@ -1,9 +1,10 @@
 .DS_Store
 node_modules
 /dist
-/jsBackend
-/jsBackend/*
-/jsBackend/**/*
+backend/*.js
+backend/**/*.js
+game/*.js
+game/**/*.js
 
 
 # local env files
