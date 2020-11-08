@@ -5,6 +5,9 @@ backend/*.js
 backend/**/*.js
 game/*.js
 game/**/*.js
+appEvent.js
+types.js
+interfaces.js
 
 
 # local env files

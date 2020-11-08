@@ -1,20 +1,23 @@
 {
-  "name": "appvue2typescript",
+  "name": "starshiproyal",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "backend": "nodemon ./backend/server.js"
+    "backend": "npx nodemon ./backend/server.js",
+    "tscwatch": "tsc -p tsconfig.backend.json"
   },
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-socket.io": "^3.0.10",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "@types/socket.io": "^2.1.11",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",

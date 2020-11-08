@@ -1,11 +1,11 @@
 import Asteroid from "./Asteroid"
 import Vector from "./Vector"
-import { IAsteroidField } from "./Interfaces"
-import { Point2D } from "./Interfaces"
-import { Sequence } from "./Types"
+import { AsteroidFieldModel } from "../../interfaces"
+import { Point2D } from "../../interfaces"
+import { Sequence } from "../../types"
 import { GRID_SIZE } from "../constants"
 
-export default class AsteroidField implements IAsteroidField {
+export default class AsteroidField implements AsteroidFieldModel {
     asteroids: Array<Asteroid>
     sequence: Generator | null
     _s: Sequence

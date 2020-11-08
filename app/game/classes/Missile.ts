@@ -1,10 +1,10 @@
 import Vector from "./Vector"
-import { IMissile } from "./Interfaces"
+import { MissileModel } from "../../interfaces"
 import { MISSILE_STEP } from "../constants"
 
 
 
-export default class Missile implements IMissile {
+export default class Missile implements MissileModel {
     pos: Vector
     vel: Vector
     value: number

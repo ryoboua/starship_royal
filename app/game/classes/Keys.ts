@@ -1,7 +1,7 @@
-import { IKeys } from "./Interfaces"
+import { KeysModel } from "../../interfaces"
 
 
-export default class Keys implements IKeys {
+export default class Keys implements KeysModel {
   public up
   public down
   public left

@@ -1,9 +1,9 @@
 import Lobby from "./Lobby"
 import AsteroidField from "./AsteroidField"
-import { IClient, IGame, Level } from "./Interfaces";
+import { ClientModel, GameModel, Level } from "../../interfaces";
 import { GRID_SIZE, ROUND_TIME } from "../constants"
 
-export default class Game extends Lobby implements IGame {
+export default class Game extends Lobby implements GameModel {
   levels: Array<Level>
   asteroidField: AsteroidField
   gridsize: number
@@ -19,7 +19,7 @@ export default class Game extends Lobby implements IGame {
     this._context = null
   }
 
-  static createGameState(players: Array<IClient>, context: any) {
+  static createGameState(players: Array<ClientModel>, context: any) {
     const game = new Game()
 
     players.forEach(player => game.addPlayer(player))

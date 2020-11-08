@@ -10,15 +10,15 @@ import {
   LOAD_LEVEL,
   COUNTDOWN,
 } from "../../appEvent"
-import { IClient, Level } from "../classes/Interfaces"
-import { Sequence } from "../classes/Types"
+import { ClientModel, Level, StoreContext } from "../../interfaces"
+import { Sequence } from "../../types"
 const MAX_LEVEL = levelParams.length
 
-export function createGame(players: Array<IClient>, context) {
+export function createGame(players: Array<ClientModel>, context: StoreContext) {
   return Game.createGameState(players, context)
 }
 
-export function addPlayer(game: Game, player: IClient) {
+export function addPlayer(game: Game, player: ClientModel) {
   game.addPlayer(player)
   return game.getPlayerList()
 }

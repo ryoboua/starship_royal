@@ -2,11 +2,11 @@ import Client from "./Client"
 import Vector from "./Vector"
 import Keys from "./Keys"
 import Missiles from "./Missiles"
-import { IPlayer, IClient } from "./Interfaces"
+import { PlayerModel, ClientModel } from "../../interfaces"
 import AsteroidField from "./AsteroidField";
 import { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } from "../constants"
 
-export default class Player extends Client implements IPlayer {
+export default class Player extends Client implements PlayerModel {
   score: number
   pos: Vector
   vel: Vector
@@ -16,7 +16,7 @@ export default class Player extends Client implements IPlayer {
   left: boolean
   body: Array<Array<number>>
 
-  constructor(client: IClient) {
+  constructor(client: ClientModel) {
     super({ ...client })
     this.score = 0
     this.pos = new Vector(client.playerNumber * 200, 500)

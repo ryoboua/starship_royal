@@ -1,14 +1,14 @@
-import { IClient } from "./Interfaces"
+import { ClientModel } from "../../interfaces"
 
 
-export default class Client implements IClient {
+export default class Client implements ClientModel {
   socketId
   name: string
   roomName: string
   playerNumber: number
   host: boolean
 
-  constructor({ socketId, name, roomName, playerNumber, host }: IClient) {
+  constructor({ socketId, name, roomName, playerNumber, host }: ClientModel) {
     this.socketId = socketId
     this.name = name
     this.roomName = roomName

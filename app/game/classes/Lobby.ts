@@ -1,4 +1,4 @@
-import { IClient } from "./Interfaces"
+import { ClientModel } from "../../interfaces"
 import Player from "./Player"
 
 export default class Lobby {
@@ -9,7 +9,7 @@ export default class Lobby {
         this.roundActive = false
     }
 
-    addPlayer(client: IClient) {
+    addPlayer(client: ClientModel) {
         if (Object.keys(this.players).some(socketId => socketId === client.socketId)) {
             return
         }
