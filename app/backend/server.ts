@@ -9,7 +9,10 @@ import {
   handleEndRound,
   handleDeadPlayer,
 } from "./controllers/clientController.js"
-import {
+
+import Mutations from "../mutations"
+
+const {
   CREATE_GAME,
   START_ROUND,
   JOIN_GAME,
@@ -18,7 +21,7 @@ import {
   DISCONNECT,
   PLAYER_DEAD,
   END_ROUND
-} from "../appEvents"
+} = Mutations
 
 const io = socketIO()
 

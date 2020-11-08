@@ -7,7 +7,8 @@ import {
     handleStartRound,
     handleDeadPlayer
 } from "../../../game/controllers/gameController"
-import {
+import Mutations from "../../../mutations"
+const {
     SET_GAME_TYPE,
     CREATE_GAME,
     START_ROUND,
@@ -23,7 +24,7 @@ import {
     ADD_PLAYER,
     REMOVE_PLAYER,
     PLAYER_DEAD,
-} from "../../../appEvents"
+} = Mutations
 import { GameType } from '../../../types'
 
 export default {

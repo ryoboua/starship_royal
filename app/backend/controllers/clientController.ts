@@ -1,6 +1,5 @@
 import Client from "../../game/classes/Client"
 import { SocketType as Socket } from "../../types"
-
 import {
   createRoom,
   addPlayer,
@@ -10,12 +9,14 @@ import {
   isRoundActive
 } from "../../game/controllers/clientRoomController"
 import { makeid } from "../utils"
-import {
+import Mutations from "../../mutations"
+
+const {
   ROUND_ACTIVE,
   KEY_DOWN,
   KEY_UP,
   PLAYER_DEAD,
-} from "../../appEvents"
+} = Mutations
 
 const clientList = new Map()
 

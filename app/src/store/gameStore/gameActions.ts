@@ -1,20 +1,18 @@
-import {
-    SET_GAME_TYPE,
+import Mutations from "../../../mutations"
+import { ClientModel, StoreContext, Action } from "../../../interfaces";
+import { GameType, SocketType as Socket } from "../../../types";
+
+const { SET_GAME_TYPE,
     CREATE_GAME,
     START_ROUND,
     KEY_DOWN,
     KEY_UP,
     DISPLAY_MSG,
     PLAYER_DEAD,
-    END_ROUND
-} from "../../../appEvents"
-
-import { ClientModel, StoreContext } from "../../../interfaces";
-import { GameType, SocketType as Socket } from "../../../types";
-
+    END_ROUND, } = Mutations
 
 export default (socket: Socket) => ({
-    BACKEND_ACTION(context: StoreContext, { mutation, data }) {
+    BACKEND_ACTION(context: StoreContext, { mutation, data }: Action) {
         context.commit(mutation, data)
     },
     createGame(context: StoreContext, players: ClientModel) {

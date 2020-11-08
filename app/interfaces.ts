@@ -6,6 +6,7 @@ import Player from "./game/classes/PLayer"
 import Game from "./game/classes/Game"
 import AsteroidField from "./game/classes/AsteroidField"
 import { Sequence, GameType } from "./types"
+import Mutations from "./mutations"
 
 export interface Point2D {
     x: number
@@ -115,6 +116,11 @@ export interface GameState {
     timer: number
     playerScores: PlayerScores
 
+}
+
+export interface Action {
+    mutation: Mutations
+    data?: any
 }
 
 

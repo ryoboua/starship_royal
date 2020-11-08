@@ -9,7 +9,7 @@
     "backend": "nodemon ./backend/server.js",
     "tscwatch": "tsc -p tsconfig.backend.json",
     "cleangame": "cd game && find . -name \"*.js\" -type f -delete",
-    "clean": " npm run cleangame && rm types.js interfaces.js appEvents.js"
+    "clean": " npm run cleangame && rm types.js interfaces.js mutations.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
