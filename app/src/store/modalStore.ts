@@ -1,17 +1,21 @@
+import { Modal, ModalStore } from "../../interfaces";
+
+const initState: ModalStore = {
+  showModal: false,
+  header: "",
+  body: "",
+}
+
 export default {
   namespaced: true,
-  state: {
-    showModal: false,
-    header: "",
-    body: "",
-  },
+  state: initState,
   mutations: {
-    closeModal(state) {
+    closeModal(state: ModalStore) {
       state.header = ""
       state.body = ""
       state.showModal = false
     },
-    setAndShowModal(state, { header, body }) {
+    setAndShowModal(state: ModalStore, { header, body }: Modal) {
       state.header = header
       state.body = body
       state.showModal = true

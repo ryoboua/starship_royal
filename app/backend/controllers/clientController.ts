@@ -9,6 +9,7 @@ import {
   isRoundActive
 } from "../../game/controllers/clientRoomController"
 import { makeid } from "../utils"
+import { joinGameResponseCallBack } from "../../interfaces"
 import Mutations from "../../mutations"
 
 const {
@@ -42,10 +43,11 @@ export function handleNewGame(socket: Socket, name: string, initGameEmitter: any
   })
 }
 
-export function joinRoom(socket: Socket, roomName: string, name: string, numClients: number, resFn: any) {
+export function joinRoom(socket: Socket, roomName: string, name: string, numClients: number, resFn: joinGameResponseCallBack) {
   if (isRoundActive(roomName)) {
     const err = {
       header: `Unable to join while round active`,
+      body: "",
     }
     return resFn(null, err)
   }

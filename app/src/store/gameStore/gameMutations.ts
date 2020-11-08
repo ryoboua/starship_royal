@@ -32,7 +32,7 @@ export default {
     [SET_GAME_TYPE](state: GameStore, type: GameType) {
         state.type = type
     },
-    [CREATE_GAME](state: GameStore, { players, context }: { players: Array<ClientModel>, context: StoreContext }) {
+    [CREATE_GAME](state: GameStore, { players, context }: { players: ClientModel[], context: StoreContext }) {
         state.players = players
         state._gameInstance = createGame(players, context)
     },

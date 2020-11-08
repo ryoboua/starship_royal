@@ -1,3 +1,4 @@
+import { joinGameResponseCallBack } from "./../../interfaces"
 import { SocketType as Socket } from "./../../types"
 import Room from "../classes/ClientRoom"
 import Client from "../classes/Client"
@@ -14,7 +15,7 @@ export function createRoom(roomName: string, players: Array<Client>, emit: any) 
   rooms.set(roomName, Room.createClientRoom(players, emit))
 }
 
-export function addPlayer(roomName: string, client: Client, socket: Socket, resFn: any) {
+export function addPlayer(roomName: string, client: Client, socket: Socket, resFn: joinGameResponseCallBack) {
   if (!rooms.has(roomName)) {
     return
   }

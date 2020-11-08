@@ -9,8 +9,8 @@ export const SEQUENCE_LENGTH = 1000
 export const GAME_HEIGHT = 600
 export const ASTEROID_VALUE = 10
 export const ROUND_TIME = 30
-export const GAME_OVER_REASONS = {
-  1: "ALL DEAD",
-  2: "TIMER ENDED",
+export enum GAME_OVER_REASONS {
+  "ALL DEAD" = 1,
+  "TIMER ENDED",
 }
 

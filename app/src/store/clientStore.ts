@@ -1,6 +1,7 @@
 import { SocketType as Socket } from "../../types"
-import { ClientModel, StoreContext } from "../../interfaces";
+import { ClientModel, Modal, StoreContext } from "../../interfaces";
 import Mutations from "../../mutations"
+import { joinGameResponse } from "../../interfaces"
 
 const {
   SET_CLIENT,
@@ -45,9 +46,9 @@ export default (socket: Socket) => ({
     },
     joinGame(context: StoreContext, nameAndRoomName: { name: string, roomName: string }) {
       if (context.rootState.game.type === 'multi') {
-        socket.emit(JOIN_GAME, nameAndRoomName, (res, err) => {
+        socket.emit(JOIN_GAME, nameAndRoomName, (res: joinGameResponse, err: Modal) => {
           if (err) {
-            return context.commit("modal/setAndShowModal", err, { root: true })
+            context.commit("modal/setAndShowModal", err, { root: true })
           } else if (res) {
             const { client, players } = res
             context.commit(SET_CLIENT, client)

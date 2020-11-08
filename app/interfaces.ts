@@ -81,8 +81,13 @@ export interface Event {
     data?: any
 }
 
+export type joinGameResponseCallBack = {
+    (res: joinGameResponse | null, err?: Modal): void
+}
+
 export interface joinGameResponse {
-    (): { res: any, err: any }
+    client: ClientModel
+    players: Players
 }
 
 export interface StoreContext {
@@ -125,6 +130,17 @@ export interface GameState {
 export interface Action {
     mutation: Mutations
     data?: any
+}
+
+export interface ModalStore {
+    showModal: boolean
+    header: string
+    body: string
+}
+
+export interface Modal {
+    header: string
+    body: string
 }
 
 

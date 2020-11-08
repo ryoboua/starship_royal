@@ -10,6 +10,7 @@ import {
   handleDeadPlayer,
 } from "./controllers/clientController.js"
 
+import { joinGameResponseCallBack } from "../interfaces"
 import Mutations from "../mutations"
 
 const {
@@ -44,7 +45,7 @@ io.on("connection", (socket) => {
   socket.on(KEY_UP, (keyCode) => handleKeyUp(socket, keyCode))
   socket.on(PLAYER_DEAD, (deadPlayerSocketId) => handleDeadPlayer(socket, deadPlayerSocketId))
 
-  function handleJoinRoom({ roomName, name }: { roomName: string, name: string }, resFn: any): void {
+  function handleJoinRoom({ roomName, name }: { roomName: string, name: string }, resFn: joinGameResponseCallBack): void {
     const room = io.sockets.adapter.rooms[roomName]
 
     let allUsers
