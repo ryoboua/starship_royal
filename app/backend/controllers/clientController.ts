@@ -15,7 +15,7 @@ import {
   KEY_DOWN,
   KEY_UP,
   PLAYER_DEAD,
-} from "../../appEvent"
+} from "../../appEvents"
 
 const clientList = new Map()
 

@@ -8,9 +8,8 @@
     "lint": "vue-cli-service lint",
     "backend": "nodemon ./backend/server.js",
     "tscwatch": "tsc -p tsconfig.backend.json",
-    "cleanbackend": "cd backend && find . -name \"*.js\" -type f -delete",
     "cleangame": "cd game && find . -name \"*.js\" -type f -delete",
-    "clean": "npm run cleanbackend && npm run cleangame && rm types.js interfaces.js appEvents.js"
+    "clean": " npm run cleangame && rm types.js interfaces.js appEvents.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",

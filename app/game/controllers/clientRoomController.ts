@@ -4,7 +4,7 @@ import {
   ADD_PLAYER,
   REMOVE_PLAYER,
   START_ROUND,
-} from "../../appEvent"
+} from "../../appEvents"
 import Client from "../classes/Client"
 
 const rooms = new Map()

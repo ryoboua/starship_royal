@@ -18,7 +18,7 @@ import {
   DISCONNECT,
   PLAYER_DEAD,
   END_ROUND
-} from "../appEvent"
+} from "../appEvents"
 
 const io = socketIO()
 
