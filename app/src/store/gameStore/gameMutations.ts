@@ -7,6 +7,8 @@ import {
     handleStartRound,
     handleDeadPlayer
 } from "../../../game/controllers/gameController"
+import { GameType, Sequence } from '../../../types'
+import { GameStore, GameState, ClientModel, KeyEvent, Level, StoreContext } from "../../../interfaces"
 import Mutations from "../../../mutations"
 const {
     SET_GAME_TYPE,
@@ -25,60 +27,77 @@ const {
     REMOVE_PLAYER,
     PLAYER_DEAD,
 } = Mutations
-import { GameType } from '../../../types'
 
 export default {
-    [SET_GAME_TYPE](state: { type: GameType }, type: GameType) {
+    [SET_GAME_TYPE](state: GameStore, type: GameType) {
         state.type = type
     },
-    [CREATE_GAME](state, { players, context }) {
+    [CREATE_GAME](state: GameStore, { players, context }: { players: Array<ClientModel>, context: StoreContext }) {
         state.players = players
         state._gameInstance = createGame(players, context)
     },
-    [START_ROUND](state, sequence) {
+    [START_ROUND](state: GameStore, sequence: Sequence) {
+        if (!state._gameInstance) {
+            return
+        }
         state.disableStartBtn = true
         handleStartRound(state._gameInstance, sequence)
     },
-    [LOAD_LEVEL](state, { level, initialGameState }) {
+    [LOAD_LEVEL](state: GameStore, { level, initialGameState }: { level: Level, initialGameState: GameState }) {
         state.level = level;
         state.timer = initialGameState.timer;
         state.gameState = initialGameState
     },
-    [GAME_ACTIVE](state, b) {
+    [GAME_ACTIVE](state: GameStore, b: boolean) {
         state.gameActive = b
     },
-    [GAME_STATE_UPDATE](state, gameState) {
+    [GAME_STATE_UPDATE](state: GameStore, gameState: GameState) {
         state.gameState = gameState
         state.playerScores = gameState.playerScores;
         state.timer = gameState.timer;
     },
-    [KEY_DOWN](state, { keyCode, socketId }) {
+    [KEY_DOWN](state: GameStore, { keyCode, socketId }: KeyEvent) {
+        if (!state._gameInstance) {
+            return
+        }
         gameHandleKeyDown(state._gameInstance, keyCode, socketId)
     },
-    [KEY_UP](state, { keyCode, socketId }) {
+    [KEY_UP](state: GameStore, { keyCode, socketId }: KeyEvent) {
+        if (!state._gameInstance) {
+            return
+        }
         gameHandleKeyUp(state._gameInstance, keyCode, socketId)
     },
-    [COUNTDOWN](state, count) {
+    [COUNTDOWN](state: GameStore, count: string) {
         state.screen = count
     },
-    [DISPLAY_MSG](state, msg) {
+    [DISPLAY_MSG](state: GameStore, msg: string) {
         state.screen = msg
     },
-    [ROUND_OVER](state, msg) {
-        state.screen = msg
-        state.disableStartBtn = false
-    },
-    [GAME_OVER](state, msg) {
+    [ROUND_OVER](state: GameStore, msg: string) {
         state.screen = msg
         state.disableStartBtn = false
     },
-    [ADD_PLAYER](state, player) {
+    [GAME_OVER](state: GameStore, msg: string) {
+        state.screen = msg
+        state.disableStartBtn = false
+    },
+    [ADD_PLAYER](state: GameStore, player: ClientModel) {
+        if (!state._gameInstance) {
+            return
+        }
         state.players = addPlayer(state._gameInstance, player)
     },
-    [REMOVE_PLAYER](state, socketId) {
+    [REMOVE_PLAYER](state: GameStore, socketId: string) {
+        if (!state._gameInstance) {
+            return
+        }
         state.players = removePlayer(state._gameInstance, socketId)
     },
-    [PLAYER_DEAD](state, socketId) {
+    [PLAYER_DEAD](state: GameStore, socketId: string) {
+        if (!state._gameInstance) {
+            return
+        }
         handleDeadPlayer(state._gameInstance, socketId)
     },
 }
