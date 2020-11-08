@@ -1,6 +1,6 @@
 import Lobby from "./Lobby"
 import AsteroidField from "./AsteroidField"
-import { ClientModel, GameModel, Level } from "../../interfaces";
+import { ClientModel, GameModel, Level, StoreContext, GameState } from "../../interfaces";
 import { GRID_SIZE, ROUND_TIME } from "../constants"
 
 export default class Game extends Lobby implements GameModel {
@@ -34,7 +34,7 @@ export default class Game extends Lobby implements GameModel {
     Object.values(this.players).forEach((player) => player.reset())
   }
 
-  setFrontEndContext(context) {
+  setFrontEndContext(context: StoreContext) {
     this._context = context
   }
 
@@ -67,7 +67,7 @@ export default class Game extends Lobby implements GameModel {
     return
   }
 
-  getGameState() {
+  getGameState(): GameState {
     return {
       players: this.players,
       asteroidField: this.asteroidField,

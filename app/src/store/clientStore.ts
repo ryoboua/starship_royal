@@ -3,7 +3,7 @@ import {
   CREATE_GAME,
   JOIN_GAME,
 } from "../../appEvent"
-import socketIO from "socket.io"
+import { SocketType as Socket } from "../../types"
 
 import { ClientModel, StoreContext } from "../../interfaces";
 function initState(): ClientModel {
@@ -12,10 +12,10 @@ function initState(): ClientModel {
     playerNumber: null,
     host: null,
     roomName: '',
-    socketId: null
+    socketId: ''
   }
 }
-export default (socket: socketIO.Socket) => ({
+export default (socket: Socket) => ({
   namespaced: true,
   state: initState(),
   mutations: {

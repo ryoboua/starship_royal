@@ -1,8 +1,8 @@
-import { ClientModel } from "../../interfaces"
+import { ClientModel, PlayerModel, Players } from "../../interfaces"
 import Player from "./Player"
 
 export default class Lobby {
-    players: { [socketId: string]: Player }
+    players: Players
     roundActive: boolean
     constructor() {
         this.players = {}

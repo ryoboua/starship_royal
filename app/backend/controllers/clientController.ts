@@ -1,5 +1,5 @@
 import Client from "../../game/classes/Client"
-import socketIO from "socket.io"
+import { SocketType as Socket } from "../../types"
 
 import {
   createRoom,
@@ -19,7 +19,7 @@ import {
 
 const clientList = new Map()
 
-export function handleNewGame(socket: socketIO.Socket, name: string, initGameEmitter: any, resFn: any) {
+export function handleNewGame(socket: Socket, name: string, initGameEmitter: any, resFn: any) {
   const roomName = makeid(5)
   socket.join(roomName, (err) => {
     if (err) {
@@ -41,7 +41,7 @@ export function handleNewGame(socket: socketIO.Socket, name: string, initGameEmi
   })
 }
 
-export function joinRoom(socket: socketIO.Socket, roomName: string, name: string, numClients: number, resFn: any) {
+export function joinRoom(socket: Socket, roomName: string, name: string, numClients: number, resFn: any) {
   if (isRoundActive(roomName)) {
     const err = {
       header: `Unable to join while round active`,
@@ -70,7 +70,7 @@ export function joinRoom(socket: socketIO.Socket, roomName: string, name: string
   })
 }
 
-export function handleDisconnect(socket: socketIO.Socket) {
+export function handleDisconnect(socket: Socket) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -79,7 +79,7 @@ export function handleDisconnect(socket: socketIO.Socket) {
   clientList.delete(socket.id)
 }
 
-export function handleKeyDown(socket: socketIO.Socket, keyCode: number) {
+export function handleKeyDown(socket: Socket, keyCode: number) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -99,7 +99,7 @@ export function handleKeyDown(socket: socketIO.Socket, keyCode: number) {
   socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_DOWN, data: { keyCode, socketId: socket.id } })
 }
 
-export function handleKeyUp(socket: socketIO.Socket, keyCode: number) {
+export function handleKeyUp(socket: Socket, keyCode: number) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -119,7 +119,7 @@ export function handleKeyUp(socket: socketIO.Socket, keyCode: number) {
   socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_UP, data: { keyCode, socketId: socket.id } })
 }
 
-export function handleStartRound(socket: socketIO.Socket) {
+export function handleStartRound(socket: Socket) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -132,7 +132,7 @@ export function handleStartRound(socket: socketIO.Socket) {
   startRound(roomName)
 }
 
-export function handleEndRound(socket: socketIO.Socket) {
+export function handleEndRound(socket: Socket) {
   if (!clientList.has(socket.id)) {
     return
   }
@@ -145,7 +145,7 @@ export function handleEndRound(socket: socketIO.Socket) {
   endRound(roomName)
 }
 
-export function handleDeadPlayer(socket: socketIO.Socket, deadPlayerSocketId: string) {
+export function handleDeadPlayer(socket: Socket, deadPlayerSocketId: string) {
   if (!clientList.has(socket.id)) {
     return
   }

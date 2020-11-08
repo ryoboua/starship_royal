@@ -9,11 +9,11 @@ import {
     END_ROUND
 } from "../../../appEvent"
 
-import socketIO from "socket.io"
 import { ClientModel, StoreContext } from "../../../interfaces";
+import { GameType, SocketType as Socket } from "../../../types";
 
 
-export default (socket: socketIO.Socket) => ({
+export default (socket: Socket) => ({
     BACKEND_ACTION(context: StoreContext, { mutation, data }) {
         context.commit(mutation, data)
     },
@@ -60,7 +60,7 @@ export default (socket: socketIO.Socket) => ({
     setGameType(context: StoreContext, type: GameType) {
         context.commit(SET_GAME_TYPE, type)
     },
-    playerDead(context, socketId) {
+    playerDead(context: StoreContext, socketId: string) {
         if (context.state.type === 'multi' && context.state._gameInstance.isRoundActive()) {
             socket.emit(PLAYER_DEAD, socketId)
         }

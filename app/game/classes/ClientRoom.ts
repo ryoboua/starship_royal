@@ -1,6 +1,6 @@
 import Lobby from "./Lobby"
 import { randomNumBetween } from "../utils"
-import { IClient } from "./Interfaces"
+import { ClientModel } from "../../interfaces"
 
 const { SEQUENCE_LENGTH } = require("../constants")
 
@@ -10,7 +10,7 @@ export default class clientRoom extends Lobby {
     this._emit = null
   }
 
-  static createClientRoom(clients: Array<IClient>, emitter) {
+  static createClientRoom(clients: Array<ClientModel>, emitter) {
     const room = new clientRoom()
 
     clients.forEach(client => room.addPlayer(client))

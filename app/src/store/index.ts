@@ -3,10 +3,10 @@ import Vuex from "vuex"
 import client from "./clientStore"
 import game from "./gameStore"
 import modal from "./modalStore"
-import socketIO from "socket.io"
+import { SocketType as Socket } from "../../types"
 
 Vue.use(Vuex)
 
-export default (socket: socketIO.Socket) => new Vuex.Store({
+export default (socket: Socket) => new Vuex.Store({
   modules: { client: client(socket), game: game(socket), modal },
 })

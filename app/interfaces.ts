@@ -2,7 +2,9 @@ import Vector from "./game/classes/Vector"
 import Keys from "./game/classes/Keys"
 import Missiles from "./game/classes/Missiles"
 import Asteroid from "./game/classes/Asteroid"
-import { Sequence } from "./types"
+import Player from "./game/classes/PLayer"
+import Game from "./game/classes/Game"
+import { Sequence, GameType } from "./types"
 import AsteroidField from "./game/classes/AsteroidField"
 
 export interface Point2D {
@@ -25,7 +27,7 @@ export interface Level {
 }
 
 export interface ClientModel {
-    socketId: string | null
+    socketId: string
     name: string
     roomName: string
     playerNumber: number | null
@@ -43,6 +45,10 @@ export interface PlayerModel {
     left: boolean
     body: Array<Array<number>>
 }
+export interface Players {
+    [socketId: string]: Player
+}
+
 
 export interface AsteroidFieldModel {
     asteroids: Array<Asteroid>
@@ -75,4 +81,36 @@ export interface joinGameResponse {
 }
 
 export interface StoreContext { rootState: { [propName: string]: any; }; state: { [propName: string]: any; }; commit: (...args: any[]) => void; dispatch: (...args: any[]) => void; }
+
+type PlayerScores = Array<{
+    name: string,
+    score: number,
+}>
+
+
+export interface GameStore {
+    _gameInstance: Game | null,
+    gameActive: boolean,
+    gameState: GameState | null
+    type: GameType,
+    level: Object,
+    timer: number | null,
+    players: Array<ClientModel>,
+    playerScores: PlayerScores,
+    screen: string,
+    disableStartBtn: boolean
+
+
+}
+
+export interface GameState {
+    players: Players,
+    asteroidField: AsteroidField,
+    gridsize: number,
+    timer: number,
+    playerScores: PlayerScores
+
+}
+
+
 
