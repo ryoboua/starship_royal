@@ -52,7 +52,7 @@ export default (socket: Socket) => ({
         context.commit(KEY_UP, { keyCode, socketId })
 
     },
-    displayMsg(context: StoreContext, msg) {
+    displayMsg(context: StoreContext, msg: string) {
         context.commit(DISPLAY_MSG, msg)
     },
     setGameType(context: StoreContext, type: GameType) {
