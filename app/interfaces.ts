@@ -9,9 +9,6 @@ import AsteroidField from "./game/classes/AsteroidField"
 import { Sequence, GameType } from "./types"
 import Mutations from "./mutations"
 
-
-// game/classes interfaces and types
-
 export interface Point2D {
     x: number
     y: number

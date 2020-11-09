@@ -10,15 +10,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script>
 import { mapState, mapMutations } from "vuex";
 import StartMenu from "./components/StartMenu.vue";
 import Main from "./components/Main.vue";
 import Modal from "./components/Modal.vue";
-import { RootState } from "../interfaces";
 
-export default Vue.extend({
+export default {
   name: "App",
   components: {
     StartMenu,
@@ -26,13 +24,13 @@ export default Vue.extend({
     Modal,
   },
   computed: mapState({
-    roomName: (state: RootState) => state.client.roomName,
-    showModal: (state: RootState) => state.modal.showModal,
-    header: (state: RootState) => state.modal.header,
-    body: (state: RootState) => state.modal.body,
+    roomName: (state) => state.client.roomName,
+    showModal: (state) => state.modal.showModal,
+    header: (state) => state.modal.header,
+    body: (state) => state.modal.body,
   }),
   methods: mapMutations("modal", ["closeModal"]),
-});
+};
 </script>
 
 <style scoped lang="scss">

@@ -8,24 +8,23 @@
   </main>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script>
 import InformationScreen from "./InformationScreen.vue";
 import Canvas from "./Canvas.vue";
 import SidePanel from "./SidePanel.vue";
 
-export default Vue.extend({
+export default {
   name: "Main",
   components: {
     Canvas,
     InformationScreen,
-    SidePanel,
+    SidePanel
   },
   mounted() {
     //this.$store.dispatch("client/createGame", "Dave");
     //this.$store.dispatch("game/startRound")
-  },
-});
+  }
+};
 </script>
 
 <style lang="scss" scoped>
