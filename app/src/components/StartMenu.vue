@@ -32,31 +32,33 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import { mapState, mapActions } from "vuex";
+import { RootState } from "../../interfaces";
 
-export default {
-  name: "StartMenu",
+export default Vue.extend({
+  name: "StartMenu" as string,
   computed: mapState({
-    type: state => state.game.type
+    type: (state: RootState) => state.game.type,
   }),
   data() {
     return {
-      roomName: "",
-      name: "",
+      roomName: "" as string,
+      name: "" as string,
       errors: {
-        roomName: false,
-        name: false
-      }
+        roomName: false as boolean,
+        name: false as boolean,
+      },
     };
   },
   watch: {
-    roomName: function() {
+    roomName: function () {
       this.errors.roomName = false;
     },
-    name: function() {
+    name: function () {
       this.errors.name = false;
-    }
+    },
   },
   methods: {
     ...mapActions("game", ["setGameType"]),
@@ -84,10 +86,10 @@ export default {
       }
       this.joinGame({
         roomName: this.roomName,
-        name: this.name
+        name: this.name,
       });
-    }
-  }
+    },
+  },
   // sockets: {
   //   connect: function() {
   //     console.log("socket connected");
@@ -96,7 +98,7 @@ export default {
   //     console.log("disconnect");
   //   }
   // }
-};
+});
 </script>
 
 <style scoped lang="scss">

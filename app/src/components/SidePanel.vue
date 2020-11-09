@@ -33,25 +33,27 @@
   </aside>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import { mapState, mapActions } from "vuex";
+import { RootState } from "../../interfaces";
 
-export default {
+export default Vue.extend({
   name: "SidePanel",
   computed: {
     ...mapState({
-      name: state => state.client.name,
-      playerNumber: state => state.client.playerNumber,
-      roomName: state => state.client.roomName,
-      isHost: state => state.client.host,
-      gameActive: state => state.game.gameActive,
-      players: state => state.game.players,
-      type: state => state.game.type,
-      level: state => state.game.level,
-      timer: state => state.game.timer,
-      playerScores: state => state.game.playerScores,
-      disableStartBtn: state => state.game.disableStartBtn
-    })
+      name: (state: RootState) => state.client.name,
+      playerNumber: (state: RootState) => state.client.playerNumber,
+      roomName: (state: RootState) => state.client.roomName,
+      isHost: (state: RootState) => state.client.host,
+      gameActive: (state: RootState) => state.game.gameActive,
+      players: (state: RootState) => state.game.players,
+      type: (state: RootState) => state.game.type,
+      level: (state: RootState) => state.game.level,
+      timer: (state: RootState) => state.game.timer,
+      playerScores: (state: RootState) => state.game.playerScores,
+      disableStartBtn: (state: RootState) => state.game.disableStartBtn,
+    }),
   },
   methods: {
     ...mapActions("game", ["startRound", "displayMsg"]),
@@ -61,9 +63,9 @@ export default {
     },
     clearGameScreenInformation() {
       this.displayMsg("");
-    }
-  }
-};
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>

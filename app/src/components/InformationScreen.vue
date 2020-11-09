@@ -5,22 +5,22 @@
     class="game_screen__information"
   ></div>
 </template>
-<script>
+<script lang="ts">
+import Vue from "vue";
 import { mapState, mapActions } from "vuex";
+import { RootState } from "../../interfaces";
 
-export default {
+export default Vue.extend({
   name: "InformationScreen",
   computed: {
     ...mapState({
-      gameActive: state => state.game.gameActive,
-      screen: state => state.game.screen,
-      isHost: state => state.client.host
-    })
+      gameActive: (state: RootState) => state.game.gameActive,
+      screen: (state: RootState) => state.game.screen,
+      isHost: (state: RootState) => state.client.host,
+    }),
   },
   methods: {
-    ...mapActions("game", [
-      "displayMsg"
-    ])
+    ...mapActions("game", ["displayMsg"]),
   },
   mounted() {
     const msg = this.isHost
@@ -28,8 +28,8 @@ export default {
       : "<h3 v-else>Waiting For Host To Start Round</h3>";
 
     //this.displayMsg(msg);
-  }
-};
+  },
+});
 </script>
 <style lang="scss" scoped>
 .game_screen__information {

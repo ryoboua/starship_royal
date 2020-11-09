@@ -1,26 +1,29 @@
 <template>
   <canvas ref="canvas"></canvas>
 </template>
-<script>
+<script lang="ts">
+import Vue from "vue";
 import { mapState, mapActions } from "vuex";
+import { RootState } from "../../interfaces";
+import Player from "../../game/classes/Player";
 
-export default {
+export default Vue.extend({
   name: "Canvas",
   data() {
     return {
       BG_COLOUR: "#231f20",
       SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
       ASTEROID_COLOUR: "#cdc9c3",
-      MISSILE_COLOUR: "#FF6347"
+      MISSILE_COLOUR: "#FF6347",
     };
   },
   computed: mapState({
-    gameState: state => state.game.gameState
+    gameState: (state: RootState) => state.game.gameState,
   }),
   watch: {
     gameState(value) {
       requestAnimationFrame(() => this.paintGame(value));
-    }
+    },
   },
   methods: {
     ...mapActions("game", ["handleKeyDown", "handleKeyUp"]),
@@ -48,7 +51,7 @@ export default {
       const ctx = this.$refs.canvas.getContext("2d");
       const { players, gridsize } = state;
 
-      Object.values(players).forEach(player => {
+      Object.values(players).forEach((player: Player) => {
         if (!player.isAlive) {
           return;
         }
@@ -72,7 +75,7 @@ export default {
       const { asteroidField, gridsize } = state;
 
       ctx.fillStyle = this.ASTEROID_COLOUR;
-      asteroidField.asteroids.forEach(ast => {
+      asteroidField.asteroids.forEach((ast) => {
         const body = ast.body;
         for (let y = 0; y < body.length; y++) {
           for (let x = 0; x < body[y].length; x++) {
@@ -91,13 +94,13 @@ export default {
       const ctx = this.$refs.canvas.getContext("2d");
       const { players, gridsize } = state;
 
-      Object.values(players).forEach(player => {
+      Object.values(players).forEach((player) => {
         if (!player.weapons.missiles.length || !player.isAlive) {
           return;
         }
 
         ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
-        player.weapons.missiles.forEach(mis => {
+        player.weapons.missiles.forEach((mis) => {
           const body = mis.body;
           for (let y = 0; y < body.length; y++) {
             for (let x = 0; x < body[y].length; x++) {
@@ -112,7 +115,7 @@ export default {
           }
         });
       });
-    }
+    },
   },
   mounted() {
     document.addEventListener("keydown", this.keydown);
@@ -126,8 +129,8 @@ export default {
 
     ctx.fillStyle = this.BG_COLOUR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-};
+  },
+});
 </script>
 <style lang="scss" scoped>
 canvas {
