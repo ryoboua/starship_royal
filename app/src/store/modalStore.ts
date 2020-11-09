@@ -1,6 +1,6 @@
 import { Modal, ModalStore } from "../../interfaces";
 
-const initState: ModalStore = {
+const state: ModalStore = {
   showModal: false,
   header: "",
   body: "",
@@ -8,7 +8,7 @@ const initState: ModalStore = {
 
 export default {
   namespaced: true,
-  state: initState,
+  state,
   mutations: {
     closeModal(state: ModalStore) {
       state.header = ""

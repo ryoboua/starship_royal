@@ -1,6 +1,7 @@
 import Vector from "./Vector"
 import { ASTEROID_STEP, GAME_WIDTH } from "../constants"
 import asteroidBlueprints from "../blueprints/asteroids"
+import { Blueprint } from "../../interfaces"
 
 export default class Asteroid {
     public pos: Vector
@@ -8,7 +9,7 @@ export default class Asteroid {
     public health: number
     public initHealth: number
     public destroid: boolean
-    public body
+    public body: Blueprint
     constructor(pos?: Vector) {
         this.pos = pos ? pos : Vector.random(0, GAME_WIDTH, 0, 0)
         this.vel = new Vector(0, ASTEROID_STEP)

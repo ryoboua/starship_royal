@@ -2,7 +2,7 @@ import Game from "../classes/Game"
 import { FRAME_RATE } from "../constants"
 import { GAME_OVER_REASONS } from "../constants"
 import levelParams from "../levels"
-import { ClientModel, Level, StoreContext } from "../../interfaces"
+import { ClientModel, Level, GameActionContext } from "../../interfaces"
 import { Sequence } from "../../types"
 import Mutations from "../../mutations"
 const {
@@ -15,7 +15,7 @@ const {
 } = Mutations
 const MAX_LEVEL = levelParams.length
 
-export function createGame(players: Array<ClientModel>, context: StoreContext) {
+export function createGame(players: Array<ClientModel>, context: GameActionContext) {
   return Game.createGameState(players, context)
 }
 

@@ -1,5 +1,5 @@
 import Mutations from "../../../mutations"
-import { ClientModel, StoreContext, Action } from "../../../interfaces";
+import { ClientModel, GameActionContext, BackendCommit } from "../../../interfaces";
 import { GameType, SocketType as Socket } from "../../../types";
 
 const { SET_GAME_TYPE,
@@ -12,14 +12,14 @@ const { SET_GAME_TYPE,
     END_ROUND, } = Mutations
 
 export default (socket: Socket) => ({
-    BACKEND_ACTION(context: StoreContext, { mutation, data }: Action) {
+    BACKEND_ACTION(context: GameActionContext, { mutation, data }: BackendCommit) {
         context.commit(mutation, data)
     },
-    createGame(context: StoreContext, players: ClientModel) {
+    createGame(context: GameActionContext, players: ClientModel) {
         context.commit(CREATE_GAME, { players, context })
     },
-    startRound(context: StoreContext) {
-        if (context.state._gameInstance.isRoundActive()) {
+    startRound(context: GameActionContext) {
+        if (context.state._gameInstance?.isRoundActive()) {
             return
         }
 
@@ -31,35 +31,35 @@ export default (socket: Socket) => ({
             socket.emit(START_ROUND)
         }
     },
-    endRound(context: StoreContext) {
+    endRound(context: GameActionContext) {
         if (context.state.type === 'multi' && context.rootState.client.host) {
             socket.emit(END_ROUND)
         }
     },
-    handleKeyDown(context: StoreContext, keyCode: number) {
+    handleKeyDown(context: GameActionContext, keyCode: number) {
         const socketId = context.rootState.client.socketId
-        if (context.state.type === 'multi' && context.state._gameInstance.isRoundActive()) {
+        if (context.state.type === 'multi' && context.state._gameInstance?.isRoundActive()) {
             socket.emit(KEY_DOWN, keyCode)
         }
         context.commit(KEY_DOWN, { keyCode, socketId })
 
     },
-    handleKeyUp(context: StoreContext, keyCode: number) {
+    handleKeyUp(context: GameActionContext, keyCode: number) {
         const socketId = context.rootState.client.socketId
-        if (context.state.type === 'multi' && context.state._gameInstance.isRoundActive()) {
+        if (context.state.type === 'multi' && context.state._gameInstance?.isRoundActive()) {
             socket.emit(KEY_UP, keyCode)
         }
         context.commit(KEY_UP, { keyCode, socketId })
 
     },
-    displayMsg(context: StoreContext, msg: string) {
+    displayMsg(context: GameActionContext, msg: string) {
         context.commit(DISPLAY_MSG, msg)
     },
-    setGameType(context: StoreContext, type: GameType) {
+    setGameType(context: GameActionContext, type: GameType) {
         context.commit(SET_GAME_TYPE, type)
     },
-    playerDead(context: StoreContext, socketId: string) {
-        if (context.state.type === 'multi' && context.state._gameInstance.isRoundActive()) {
+    playerDead(context: GameActionContext, socketId: string) {
+        if (context.state.type === 'multi' && context.state._gameInstance?.isRoundActive()) {
             socket.emit(PLAYER_DEAD, socketId)
         }
     },

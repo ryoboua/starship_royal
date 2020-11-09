@@ -60,7 +60,7 @@ export default class Missiles {
         return
     }
 
-    removeMissiles(missArr: Array<Missile>) {
+    removeMissiles(missArr: Array<number>) {
         this.missiles = this.missiles.filter(
             (mis, i) => !missArr.includes(i)
         )

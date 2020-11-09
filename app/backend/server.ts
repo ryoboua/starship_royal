@@ -10,7 +10,7 @@ import {
   handleDeadPlayer,
 } from "./controllers/clientController.js"
 
-import { joinGameResponseCallBack } from "../interfaces"
+import { joinGameResponseCallBack, BackendCommit, ClientRoomEmitter } from "../interfaces"
 import Mutations from "../mutations"
 
 const {
@@ -29,11 +29,14 @@ const io = socketIO()
 io.serveClient(false);
 io.listen(3000)
 
+let initGameEmitter: ClientRoomEmitter
 
-function initGameEmitter(roomName: string) {
-  return (commit: any) =>
+initGameEmitter = function (roomName: string) {
+  return function (commit: BackendCommit): void {
     io.sockets.in(roomName).emit("ACTION", commit)
+  }
 }
+
 
 io.on("connection", (socket) => {
   socket.on(CREATE_GAME, (name, resFn) => handleNewGame(socket, name, initGameEmitter, resFn))

@@ -4,23 +4,22 @@ import actions from "./gameActions"
 import { SocketType as Socket } from "./../../../types"
 import { GameStore } from "./../../../interfaces"
 
-function initState(): GameStore {
-  return {
-    _gameInstance: null,
-    gameActive: false,
-    gameState: null,
-    type: 'single',
-    level: {},
-    timer: null,
-    players: [],
-    playerScores: [],
-    screen: '',
-    disableStartBtn: false,
-  }
+const state: GameStore = {
+  _gameInstance: null,
+  gameActive: false,
+  gameState: null,
+  type: 'single',
+  level: {},
+  timer: null,
+  players: [],
+  playerScores: [],
+  screen: '',
+  disableStartBtn: false,
+
 }
 export default (socket: Socket) => ({
   namespaced: true,
-  state: initState(),
+  state,
   mutations,
   actions: actions(socket)
 }

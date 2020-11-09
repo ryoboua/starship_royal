@@ -1,30 +1,33 @@
 import Lobby from "./Lobby"
 import { randomNumBetween } from "../utils"
-import { ClientModel } from "../../interfaces"
+import { ClientModel, Emit } from "../../interfaces"
+import Mutations from "../../mutations"
 
 const { SEQUENCE_LENGTH } = require("../constants")
 
 export default class clientRoom extends Lobby {
+  private _emit: Emit | null
   constructor() {
     super()
     this._emit = null
   }
 
-  static createClientRoom(clients: Array<ClientModel>, emitter) {
+  static createClientRoom(clients: ClientModel[], emit: Emit) {
     const room = new clientRoom()
 
     clients.forEach(client => room.addPlayer(client))
-    room.setGameEmitter(emitter)
+    room.setGameEmitter(emit)
 
     return room
   }
 
-  setGameEmitter(emit) {
+  setGameEmitter(emit: Emit) {
     this._emit = emit
   }
 
-  emit(mutation, data = null) {
-    this._emit({ mutation, data })
+  emit(mutation: Mutations, data = null) {
+    if (this._emit)
+      this._emit({ mutation, data })
   }
 
   generateSequence() {

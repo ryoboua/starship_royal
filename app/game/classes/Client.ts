@@ -2,7 +2,7 @@ import { ClientModel } from "../../interfaces"
 
 
 export default class Client implements ClientModel {
-  socketId
+  socketId: string
   name: string
   roomName: string
   playerNumber: number

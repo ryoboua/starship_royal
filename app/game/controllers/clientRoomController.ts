@@ -1,4 +1,4 @@
-import { joinGameResponseCallBack } from "./../../interfaces"
+import { joinGameResponseCallBack, Emit } from "./../../interfaces"
 import { SocketType as Socket } from "./../../types"
 import Room from "../classes/ClientRoom"
 import Client from "../classes/Client"
@@ -11,7 +11,7 @@ const {
 
 const rooms = new Map()
 
-export function createRoom(roomName: string, players: Array<Client>, emit: any) {
+export function createRoom(roomName: string, players: Array<Client>, emit: Emit) {
   rooms.set(roomName, Room.createClientRoom(players, emit))
 }
 

@@ -12,6 +12,7 @@
     "clean": " npm run cleangame && rm types.js interfaces.js mutations.js"
   },
   "dependencies": {
+    "@types/socket.io-client": "^1.4.34",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-socket.io": "^3.0.10",

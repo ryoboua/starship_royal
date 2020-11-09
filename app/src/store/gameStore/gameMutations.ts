@@ -8,7 +8,7 @@ import {
     handleDeadPlayer
 } from "../../../game/controllers/gameController"
 import { GameType, Sequence } from '../../../types'
-import { GameStore, GameState, ClientModel, KeyEvent, Level, StoreContext } from "../../../interfaces"
+import { GameStore, GameState, ClientModel, KeyEvent, Level, GameActionContext } from "../../../interfaces"
 import Mutations from "../../../mutations"
 const {
     SET_GAME_TYPE,
@@ -32,7 +32,7 @@ export default {
     [SET_GAME_TYPE](state: GameStore, type: GameType) {
         state.type = type
     },
-    [CREATE_GAME](state: GameStore, { players, context }: { players: ClientModel[], context: StoreContext }) {
+    [CREATE_GAME](state: GameStore, { players, context }: { players: ClientModel[], context: GameActionContext }) {
         state.players = players
         state._gameInstance = createGame(players, context)
     },

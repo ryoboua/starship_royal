@@ -1,8 +1,9 @@
+import { ActionContext, Commit } from "vuex";
 import Vector from "./game/classes/Vector"
 import Keys from "./game/classes/Keys"
 import Missiles from "./game/classes/Missiles"
 import Asteroid from "./game/classes/Asteroid"
-import Player from "./game/classes/PLayer"
+import Player from "./game/classes/Player"
 import Game from "./game/classes/Game"
 import AsteroidField from "./game/classes/AsteroidField"
 import { Sequence, GameType } from "./types"
@@ -35,10 +36,14 @@ export interface ClientModel {
     socketId: string
     name: string
     roomName: string
-    playerNumber: number | null
+    playerNumber: number
     host: boolean | null
 
 }
+
+export type Blueprint = Array<Array<number>>
+
+
 
 export interface PlayerModel {
     score: number
@@ -48,7 +53,7 @@ export interface PlayerModel {
     weapons: Missiles
     isAlive: boolean
     left: boolean
-    body: Array<Array<number>>
+    body: Blueprint
 }
 export interface Players {
     [socketId: string]: Player
@@ -65,7 +70,7 @@ export interface MissileModel {
     pos: Vector
     vel: Vector
     value: number
-    body: Array<Array<number>>
+    body: Blueprint
 }
 
 export interface GameModel {
@@ -90,18 +95,12 @@ export interface joinGameResponse {
     players: Players
 }
 
-export interface StoreContext {
-    rootState: { [propName: string]: any; }
-    state: { [propName: string]: any }
-    commit: (...args: any[]) => void
-    dispatch: (...args: any[]) => void
-}
-
 type PlayerScores = Array<{
     name: string
     score: number
 }>
 
+export interface ClientStore extends ClientModel { }
 
 export interface GameStore {
     _gameInstance: Game | null
@@ -110,7 +109,7 @@ export interface GameStore {
     type: GameType
     level: Object
     timer: number | null
-    players: Array<ClientModel>
+    players: ClientModel[]
     playerScores: PlayerScores
     screen: string
     disableStartBtn: boolean
@@ -127,10 +126,13 @@ export interface GameState {
 
 }
 
-export interface Action {
+export interface BackendCommit {
     mutation: Mutations
     data?: any
 }
+
+export type ClientRoomEmitter = (roomName: string) => Emit
+export type Emit = (commit: BackendCommit) => void
 
 export interface ModalStore {
     showModal: boolean
@@ -143,5 +145,14 @@ export interface Modal {
     body: string
 }
 
+export interface RootState {
+    client: ClientStore
+    game: GameStore
+    modal: ModalStore
+}
+
+export type GameActionContext = ActionContext<GameStore, RootState>
+
+export type testCommit = Commit
 
 

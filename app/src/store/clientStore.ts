@@ -1,7 +1,8 @@
 import { SocketType as Socket } from "../../types"
-import { ClientModel, Modal, StoreContext } from "../../interfaces";
+import { ClientModel, ClientStore, Modal, RootState } from "../../interfaces";
 import Mutations from "../../mutations"
 import { joinGameResponse } from "../../interfaces"
+import { ActionContext } from "vuex";
 
 const {
   SET_CLIENT,
@@ -9,20 +10,19 @@ const {
   JOIN_GAME,
 } = Mutations
 
-function initState(): ClientModel {
-  return {
-    name: "",
-    playerNumber: null,
-    host: null,
-    roomName: '',
-    socketId: ''
-  }
+const state: ClientStore = {
+  name: "",
+  playerNumber: 1,
+  host: null,
+  roomName: '',
+  socketId: '',
 }
+
 export default (socket: Socket) => ({
   namespaced: true,
-  state: initState(),
+  state,
   mutations: {
-    [SET_CLIENT](state: ClientModel, client: ClientModel) {
+    [SET_CLIENT](state: ClientStore, client: ClientModel) {
       state.name = client.name
       state.playerNumber = client.playerNumber
       state.host = client.host
@@ -31,7 +31,7 @@ export default (socket: Socket) => ({
     },
   },
   actions: {
-    createGame(context: StoreContext, name: string) {
+    createGame(context: ActionContext<ClientModel, RootState>, name: string) {
       if (context.rootState.game.type === 'single') {
         const client = { name, socketId: 'CQkNTGUIzzrQGVYuAAAB', roomName: 'local', playerNumber: 1, host: true }
         context.commit(SET_CLIENT, client)
@@ -44,7 +44,7 @@ export default (socket: Socket) => ({
         });
       }
     },
-    joinGame(context: StoreContext, nameAndRoomName: { name: string, roomName: string }) {
+    joinGame(context: ActionContext<ClientModel, RootState>, nameAndRoomName: { name: string, roomName: string }) {
       if (context.rootState.game.type === 'multi') {
         socket.emit(JOIN_GAME, nameAndRoomName, (res: joinGameResponse, err: Modal) => {
           if (err) {

@@ -2,11 +2,11 @@ import { KeysModel } from "../../interfaces"
 
 
 export default class Keys implements KeysModel {
-  public up
-  public down
-  public left
-  public right
-  public spacebar
+  public up: boolean
+  public down: boolean
+  public left: boolean
+  public right: boolean
+  public spacebar: boolean
 
   constructor() {
     this.up = false

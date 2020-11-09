@@ -9,7 +9,7 @@ import {
   isRoundActive
 } from "../../game/controllers/clientRoomController"
 import { makeid } from "../utils"
-import { joinGameResponseCallBack } from "../../interfaces"
+import { joinGameResponseCallBack, ClientRoomEmitter } from "../../interfaces"
 import Mutations from "../../mutations"
 
 const {
@@ -21,7 +21,8 @@ const {
 
 const clientList = new Map()
 
-export function handleNewGame(socket: Socket, name: string, initGameEmitter: any, resFn: any) {
+
+export function handleNewGame(socket: Socket, name: string, initGameEmitter: ClientRoomEmitter, resFn: any) {
   const roomName = makeid(5)
   socket.join(roomName, (err) => {
     if (err) {
