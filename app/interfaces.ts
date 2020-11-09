@@ -1,4 +1,4 @@
-import { ActionContext, Commit } from "vuex";
+import { ActionContext } from "vuex";
 import Vector from "./game/classes/Vector"
 import Keys from "./game/classes/Keys"
 import Missiles from "./game/classes/Missiles"
@@ -43,8 +43,6 @@ export interface ClientModel {
 
 export type Blueprint = Array<Array<number>>
 
-
-
 export interface PlayerModel {
     score: number
     pos: Vector
@@ -61,7 +59,7 @@ export interface Players {
 
 
 export interface AsteroidFieldModel {
-    asteroids: Array<Asteroid>
+    asteroids: Asteroid[]
     sequence: Generator | null
     readonly _s: Sequence
 }
@@ -74,31 +72,32 @@ export interface MissileModel {
 }
 
 export interface GameModel {
-    levels: Array<Level>
+    levels: Level[]
     asteroidField: AsteroidField
     gridsize: number
     timer: number
     _context: any
 }
 
-export interface Event {
-    eventName: string
-    data?: any
-}
-
-export type joinGameResponseCallBack = {
-    (res: joinGameResponse | null, err?: Modal): void
-}
-
-export interface joinGameResponse {
-    client: ClientModel
-    players: Players
-}
-
 type PlayerScores = Array<{
     name: string
     score: number
 }>
+
+///Modal
+
+export interface ModalStore {
+    showModal: boolean
+    header: string
+    body: string
+}
+
+export interface Modal {
+    header: string
+    body: string
+}
+
+//// Frontend Store 
 
 export interface ClientStore extends ClientModel { }
 
@@ -126,25 +125,6 @@ export interface GameState {
 
 }
 
-export interface BackendCommit {
-    mutation: Mutations
-    data?: any
-}
-
-export type ClientRoomEmitter = (roomName: string) => Emit
-export type Emit = (commit: BackendCommit) => void
-
-export interface ModalStore {
-    showModal: boolean
-    header: string
-    body: string
-}
-
-export interface Modal {
-    header: string
-    body: string
-}
-
 export interface RootState {
     client: ClientStore
     game: GameStore
@@ -153,6 +133,22 @@ export interface RootState {
 
 export type GameActionContext = ActionContext<GameStore, RootState>
 
-export type testCommit = Commit
 
+// Frontend - Backend payload contracts
 
+export type joinGameResponseCallBack = {
+    (res: joinGameResponse | null, err?: Modal): void
+}
+
+export interface joinGameResponse {
+    client: ClientModel
+    players: Players
+}
+
+export interface BackendCommit {
+    mutation: Mutations
+    data?: any
+}
+
+export type ClientRoomEmitter = (roomName: string) => Emit
+export type Emit = (commit: BackendCommit) => void
