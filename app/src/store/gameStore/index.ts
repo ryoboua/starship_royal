@@ -1,7 +1,7 @@
 import mutations from "./gameMutations"
 import actions from "./gameActions"
 
-import { SocketType as Socket } from "./../../../types"
+import { FrontendSocket } from "./../../../types"
 import { GameStore } from "./../../../interfaces"
 
 const state: GameStore = {
@@ -17,7 +17,7 @@ const state: GameStore = {
   disableStartBtn: false,
 
 }
-export default (socket: Socket) => ({
+export default (socket: FrontendSocket) => ({
   namespaced: true,
   state,
   mutations,

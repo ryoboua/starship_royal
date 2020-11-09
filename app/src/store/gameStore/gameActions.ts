@@ -1,6 +1,6 @@
 import Mutations from "../../../mutations"
 import { ClientModel, GameActionContext, BackendCommit } from "../../../interfaces";
-import { GameType, SocketType as Socket } from "../../../types";
+import { GameType, FrontendSocket } from "../../../types";
 
 const { SET_GAME_TYPE,
     CREATE_GAME,
@@ -11,7 +11,7 @@ const { SET_GAME_TYPE,
     PLAYER_DEAD,
     END_ROUND, } = Mutations
 
-export default (socket: Socket) => ({
+export default (socket: FrontendSocket) => ({
     BACKEND_ACTION(context: GameActionContext, { mutation, data }: BackendCommit) {
         context.commit(mutation, data)
     },

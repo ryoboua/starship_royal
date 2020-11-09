@@ -1,4 +1,4 @@
-import { SocketType as Socket } from "../../types"
+import { FrontendSocket } from "../../types"
 import { ClientModel, ClientStore, Modal, RootState } from "../../interfaces";
 import Mutations from "../../mutations"
 import { joinGameResponse } from "../../interfaces"
@@ -18,7 +18,7 @@ const state: ClientStore = {
   socketId: '',
 }
 
-export default (socket: Socket) => ({
+export default (socket: FrontendSocket) => ({
   namespaced: true,
   state,
   mutations: {

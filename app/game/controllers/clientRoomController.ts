@@ -1,5 +1,5 @@
 import { joinGameResponseCallBack, Emit } from "./../../interfaces"
-import { SocketType as Socket } from "./../../types"
+import { BackendSocket } from "./../../types"
 import Room from "../classes/ClientRoom"
 import Client from "../classes/Client"
 import Mutations from "../../mutations"
@@ -15,7 +15,7 @@ export function createRoom(roomName: string, players: Array<Client>, emit: Emit)
   rooms.set(roomName, Room.createClientRoom(players, emit))
 }
 
-export function addPlayer(roomName: string, client: Client, socket: Socket, resFn: joinGameResponseCallBack) {
+export function addPlayer(roomName: string, client: Client, socket: BackendSocket, resFn: joinGameResponseCallBack) {
   if (!rooms.has(roomName)) {
     return
   }
@@ -36,14 +36,14 @@ export function removePlayer(roomName: string, socketId: string) {
   room.emit(REMOVE_PLAYER, socketId)
 }
 
-function gameKeyDown(client: Client, keyCode: number, socket: Socket) {
+function gameKeyDown(client: Client, keyCode: number, socket: BackendSocket) {
   const roomName = client.roomName
   if (!rooms.has(roomName)) {
     return
   }
 }
 
-function gameKeyUp(client: Client, keyCode: number, socket: Socket) {
+function gameKeyUp(client: Client, keyCode: number, socket: BackendSocket) {
   const roomName = client.roomName
   if (!rooms.has(roomName)) {
     return

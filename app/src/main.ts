@@ -3,7 +3,7 @@ import App from "./App.vue"
 import initStore from "./store"
 import VueSocketIO from 'vue-socket.io'
 import SocketIOClient from 'socket.io-client'
-import { ClientSocket } from '../types'
+import { FrontendSocket } from '../types'
 
 Vue.config.productionTip = false
 
@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "production") {
   url = "http://159.203.17.103"
 }
 
-const socket: ClientSocket = SocketIOClient(url, {
+const socket: FrontendSocket = SocketIOClient(url, {
   autoConnect: false
 });
 
