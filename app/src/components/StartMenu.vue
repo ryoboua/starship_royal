@@ -38,7 +38,7 @@ import { mapState, mapActions } from "vuex";
 export default {
   name: "StartMenu",
   computed: mapState({
-    type: state => state.game.type
+    type: (state) => state.game.type,
   }),
   data() {
     return {
@@ -46,17 +46,17 @@ export default {
       name: "",
       errors: {
         roomName: false,
-        name: false
-      }
+        name: false,
+      },
     };
   },
   watch: {
-    roomName: function() {
+    roomName: function () {
       this.errors.roomName = false;
     },
-    name: function() {
+    name: function () {
       this.errors.name = false;
-    }
+    },
   },
   methods: {
     ...mapActions("game", ["setGameType"]),
@@ -84,10 +84,10 @@ export default {
       }
       this.joinGame({
         roomName: this.roomName,
-        name: this.name
+        name: this.name,
       });
-    }
-  }
+    },
+  },
   // sockets: {
   //   connect: function() {
   //     console.log("socket connected");
