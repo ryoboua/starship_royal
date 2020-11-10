@@ -1,6 +1,6 @@
-import Mutations from "../../../mutations"
-import { ClientModel, GameActionContext, BackendCommit } from "../../../interfaces";
-import { GameType, FrontendSocket } from "../../../types";
+import Mutations from "../../../shared/mutations"
+import { ClientModel, GameActionContext, BackendCommit } from "../../../shared/interfaces";
+import { GameType, FrontendSocket } from "../../../shared/types";
 
 const { SET_GAME_TYPE,
     CREATE_GAME,

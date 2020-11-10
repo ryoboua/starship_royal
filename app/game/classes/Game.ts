@@ -1,6 +1,6 @@
-import Lobby from "./Lobby"
+import Lobby from "../../shared/classes/Lobby"
 import AsteroidField from "./AsteroidField"
-import { ClientModel, GameModel, Level, GameActionContext as GameFrontEndContext, GameState } from "../../interfaces";
+import { ClientModel, GameModel, Level, GameActionContext as GameFrontEndContext, GameState } from "../../shared/interfaces";
 import { GRID_SIZE, ROUND_TIME } from "../constants"
 
 export default class Game extends Lobby implements GameModel {

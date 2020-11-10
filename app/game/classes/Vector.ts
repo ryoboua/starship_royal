@@ -1,5 +1,5 @@
-import { randomNumBetween } from "../utils"
-import { Point2D } from "../../interfaces"
+import { randomNumBetween } from "../../shared/utils"
+import { Point2D } from "../../shared/interfaces"
 
 
 export default class Vector implements Point2D {

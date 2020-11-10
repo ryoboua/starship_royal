@@ -1,9 +1,8 @@
 import Lobby from "./Lobby"
 import { randomNumBetween } from "../utils"
-import { ClientModel, Emit } from "../../interfaces"
-import Mutations from "../../mutations"
-
-const { SEQUENCE_LENGTH } = require("../constants")
+import { ClientModel, Emit } from "../interfaces"
+import Mutations from "../mutations"
+import { SEQUENCE_LENGTH } from "../../game/constants";
 
 export default class clientRoom extends Lobby {
   private _emit: Emit | null

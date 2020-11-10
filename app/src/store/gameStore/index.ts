@@ -1,8 +1,8 @@
 import mutations from "./gameMutations"
 import actions from "./gameActions"
 
-import { FrontendSocket } from "./../../../types"
-import { GameStore } from "./../../../interfaces"
+import { FrontendSocket } from "./../../../shared/types"
+import { GameStore } from "./../../../shared/interfaces"
 
 const state: GameStore = {
   _gameInstance: null,

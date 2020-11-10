@@ -1,10 +1,10 @@
-import Client from "./Client"
+import Client from "../../shared/classes/Client"
 import Vector from "./Vector"
 import Keys from "./Keys"
 import Missiles from "./Missiles"
-import { PlayerModel, ClientModel } from "../../interfaces"
+import { PlayerModel, ClientModel } from "../../shared/interfaces"
 import AsteroidField from "./AsteroidField";
-import { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } from "../constants"
+import { GRID_SIZE, SPACE_STEP } from "../constants"
 
 export default class Player extends Client implements PlayerModel {
   score: number

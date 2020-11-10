@@ -1,8 +1,8 @@
-import { joinGameResponseCallBack, Emit } from "./../../interfaces"
-import { BackendSocket } from "./../../types"
-import Room from "../classes/ClientRoom"
-import Client from "../classes/Client"
-import Mutations from "../../mutations"
+import { joinGameResponseCallBack, Emit } from "../../shared/interfaces"
+import { BackendSocket } from "../../shared/types"
+import Room from "../../shared/classes/ClientRoom"
+import Client from "../../shared/classes/Client"
+import Mutations from "../../shared/mutations"
 const {
   ADD_PLAYER,
   REMOVE_PLAYER,

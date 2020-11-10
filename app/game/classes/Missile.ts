@@ -1,5 +1,5 @@
 import Vector from "./Vector"
-import { MissileModel } from "../../interfaces"
+import { MissileModel } from "../../shared/interfaces"
 import { MISSILE_STEP } from "../constants"
 
 

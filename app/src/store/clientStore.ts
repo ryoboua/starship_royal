@@ -1,7 +1,6 @@
-import { FrontendSocket } from "../../types"
-import { ClientModel, ClientStore, Modal, RootState } from "../../interfaces";
-import Mutations from "../../mutations"
-import { joinGameResponse } from "../../interfaces"
+import { FrontendSocket } from "../../shared/types"
+import { ClientModel, ClientStore, Modal, RootState, joinGameResponse } from "../../shared/interfaces";
+import Mutations from "../../shared/mutations"
 import { ActionContext } from "vuex";
 
 const {

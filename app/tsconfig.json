@@ -31,9 +31,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "mutations.ts",
-    "interfaces.ts",
-    "types.ts"
+    "shared/**/*.ts"
   ],
   "exclude": [
     "node_modules"

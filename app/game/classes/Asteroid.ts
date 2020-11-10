@@ -1,7 +1,7 @@
 import Vector from "./Vector"
 import { ASTEROID_STEP, GAME_WIDTH } from "../constants"
 import asteroidBlueprints from "../blueprints/asteroids"
-import { Blueprint } from "../../interfaces"
+import { Blueprint } from "../../shared/interfaces"
 
 export default class Asteroid {
     public pos: Vector

@@ -3,7 +3,7 @@ import Vuex from "vuex"
 import client from "./clientStore"
 import game from "./gameStore"
 import modal from "./modalStore"
-import { FrontendSocket } from "../../types"
+import { FrontendSocket } from "../../shared/types"
 
 Vue.use(Vuex)
 

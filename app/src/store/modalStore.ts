@@ -1,4 +1,4 @@
-import { Modal, ModalStore } from "../../interfaces";
+import { Modal, ModalStore } from "../../shared/interfaces";
 
 const state: ModalStore = {
   showModal: false,

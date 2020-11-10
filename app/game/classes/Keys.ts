@@ -1,4 +1,4 @@
-import { KeysModel } from "../../interfaces"
+import { KeysModel } from "../../shared/interfaces"
 
 
 export default class Keys implements KeysModel {

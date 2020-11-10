@@ -1,11 +1,11 @@
 import { ActionContext } from "vuex";
-import Vector from "./game/classes/Vector"
-import Keys from "./game/classes/Keys"
-import Missiles from "./game/classes/Missiles"
-import Asteroid from "./game/classes/Asteroid"
-import Player from "./game/classes/Player"
-import Game from "./game/classes/Game"
-import AsteroidField from "./game/classes/AsteroidField"
+import Vector from "../game/classes/Vector"
+import Keys from "../game/classes/Keys"
+import Missiles from "../game/classes/Missiles"
+import Asteroid from "../game/classes/Asteroid"
+import Player from "../game/classes/Player"
+import Game from "../game/classes/Game"
+import AsteroidField from "../game/classes/AsteroidField"
 import { Sequence, GameType } from "./types"
 import Mutations from "./mutations"
 

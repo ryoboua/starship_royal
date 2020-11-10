@@ -2,9 +2,9 @@ import Game from "../classes/Game"
 import { FRAME_RATE } from "../constants"
 import { GAME_OVER_REASONS } from "../constants"
 import levelParams from "../levels"
-import { ClientModel, Level, GameActionContext } from "../../interfaces"
-import { Sequence } from "../../types"
-import Mutations from "../../mutations"
+import { ClientModel, Level, GameActionContext } from "../../shared/interfaces"
+import { Sequence } from "../../shared/types"
+import Mutations from "../../shared/mutations"
 const {
   GAME_STATE_UPDATE,
   GAME_OVER,

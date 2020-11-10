@@ -1,4 +1,4 @@
-import { ClientModel } from "../../interfaces"
+import { ClientModel } from "../../shared/interfaces"
 
 
 export default class Client implements ClientModel {

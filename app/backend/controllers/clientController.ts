@@ -1,5 +1,5 @@
-import Client from "../../game/classes/Client"
-import { BackendSocket } from "../../types"
+import Client from "../../shared/classes/Client"
+import { BackendSocket } from "../../shared/types"
 import {
   createRoom,
   addPlayer,
@@ -8,9 +8,9 @@ import {
   endRound,
   isRoundActive
 } from "../../game/controllers/clientRoomController"
-import { makeid } from "../utils"
-import { joinGameResponseCallBack, ClientRoomEmitter } from "../../interfaces"
-import Mutations from "../../mutations"
+import { makeid } from "../../shared/utils"
+import { joinGameResponseCallBack, ClientRoomEmitter } from "../../shared/interfaces"
+import Mutations from "../../shared/mutations"
 
 const {
   ROUND_ACTIVE,

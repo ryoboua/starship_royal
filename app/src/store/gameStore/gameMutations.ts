@@ -7,9 +7,9 @@ import {
     handleStartRound,
     handleDeadPlayer
 } from "../../../game/controllers/gameController"
-import { GameType, Sequence } from '../../../types'
-import { GameStore, GameState, ClientModel, KeyEvent, Level, GameActionContext } from "../../../interfaces"
-import Mutations from "../../../mutations"
+import { GameType, Sequence } from '../../../shared/types'
+import { GameStore, GameState, ClientModel, KeyEvent, Level, GameActionContext } from "../../../shared/interfaces"
+import Mutations from "../../../shared/mutations"
 const {
     SET_GAME_TYPE,
     CREATE_GAME,

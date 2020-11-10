@@ -1,5 +1,5 @@
-import { ClientModel, Players } from "../../interfaces"
-import Player from "./Player"
+import { ClientModel, Players } from "../interfaces"
+import Player from "../../game/classes/Player"
 
 export default class Lobby {
     players: Players

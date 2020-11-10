@@ -10,8 +10,8 @@ import {
   handleDeadPlayer,
 } from "./controllers/clientController.js"
 
-import { joinGameResponseCallBack, BackendCommit, ClientRoomEmitter } from "../interfaces"
-import Mutations from "../mutations"
+import { joinGameResponseCallBack, BackendCommit, ClientRoomEmitter } from "../shared/interfaces"
+import Mutations from "../shared/mutations"
 
 const {
   CREATE_GAME,

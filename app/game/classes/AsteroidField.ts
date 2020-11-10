@@ -1,8 +1,7 @@
 import Asteroid from "./Asteroid"
 import Vector from "./Vector"
-import { AsteroidFieldModel } from "../../interfaces"
-import { Point2D } from "../../interfaces"
-import { Sequence } from "../../types"
+import { AsteroidFieldModel, Point2D } from "../../shared/interfaces"
+import { Sequence } from "../../shared/types"
 import { GRID_SIZE } from "../constants"
 
 export default class AsteroidField implements AsteroidFieldModel {

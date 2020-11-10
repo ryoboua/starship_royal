@@ -3,7 +3,7 @@ import App from "./App.vue"
 import initStore from "./store"
 import VueSocketIO from 'vue-socket.io'
 import SocketIOClient from 'socket.io-client'
-import { FrontendSocket } from '../types'
+import { FrontendSocket } from '../shared/types'
 
 Vue.config.productionTip = false
 

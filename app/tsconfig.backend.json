@@ -22,11 +22,9 @@
         "allowJs": true
     },
     "include": [
-        "game/**/*",
-        "backend/**/*",
-        "mutations.ts",
-        "interface.ts",
-        "types.ts"
+        "game/**/*.ts",
+        "backend/**/*.ts",
+        "shared/**/*.ts"
     ],
     "exclude": [
         "node_modules"
