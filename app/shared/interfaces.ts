@@ -137,7 +137,7 @@ export type GameActionContext = ActionContext<GameStore, RootState>
 // Frontend - Backend payload contracts
 
 export type joinGameResponseCallBack = {
-    (res: joinGameResponse | null, err?: Modal): void
+    (payload: joinGameResponse | null, err?: Modal): void
 }
 
 export interface joinGameResponse {
