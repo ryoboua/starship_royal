@@ -11,16 +11,16 @@ export default {
       BG_COLOUR: "#231f20",
       SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
       ASTEROID_COLOUR: "#cdc9c3",
-      MISSILE_COLOUR: "#FF6347"
+      MISSILE_COLOUR: "#FF6347",
     };
   },
   computed: mapState({
-    gameState: state => state.game.gameState
+    gameState: (state) => state.game.gameState,
   }),
   watch: {
-    gameState(value) {
-      requestAnimationFrame(() => this.paintGame(value));
-    }
+    gameState(newState) {
+      requestAnimationFrame(() => this.paintGame(newState));
+    },
   },
   methods: {
     ...mapActions("game", ["handleKeyDown", "handleKeyUp"]),
@@ -48,21 +48,22 @@ export default {
       const ctx = this.$refs.canvas.getContext("2d");
       const { players, gridsize } = state;
 
-      Object.values(players).forEach(player => {
+      Object.values(players).forEach((player) => {
         if (!player.isAlive) {
           return;
         }
-        const body = player.body;
+        const { body } = player;
         ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
         for (let y = 0; y < body.length; y++) {
           for (let x = 0; x < body[y].length; x++) {
-            if (body[y][x])
+            if (body[y][x]) {
               ctx.fillRect(
                 x * gridsize + player.pos.x,
                 y * gridsize + player.pos.y,
                 gridsize,
                 gridsize
               );
+            }
           }
         }
       });
@@ -72,17 +73,18 @@ export default {
       const { asteroidField, gridsize } = state;
 
       ctx.fillStyle = this.ASTEROID_COLOUR;
-      asteroidField.asteroids.forEach(ast => {
-        const body = ast.body;
+      asteroidField.asteroids.forEach((ast) => {
+        const { body } = ast;
         for (let y = 0; y < body.length; y++) {
           for (let x = 0; x < body[y].length; x++) {
-            if (body[y][x])
+            if (body[y][x]) {
               ctx.fillRect(
                 x * gridsize + ast.pos.x,
                 y * gridsize + ast.pos.y,
                 gridsize,
                 gridsize
               );
+            }
           }
         }
       });
@@ -91,28 +93,29 @@ export default {
       const ctx = this.$refs.canvas.getContext("2d");
       const { players, gridsize } = state;
 
-      Object.values(players).forEach(player => {
+      Object.values(players).forEach((player) => {
         if (!player.weapons.missiles.length || !player.isAlive) {
           return;
         }
 
         ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
-        player.weapons.missiles.forEach(mis => {
-          const body = mis.body;
+        player.weapons.missiles.forEach((mis) => {
+          const { body } = mis;
           for (let y = 0; y < body.length; y++) {
             for (let x = 0; x < body[y].length; x++) {
-              if (body[y][x])
+              if (body[y][x]) {
                 ctx.fillRect(
                   x * gridsize + mis.pos.x,
                   y * gridsize + mis.pos.y,
                   gridsize,
                   gridsize
                 );
+              }
             }
           }
         });
       });
-    }
+    },
   },
   mounted() {
     document.addEventListener("keydown", this.keydown);
@@ -126,7 +129,7 @@ export default {
 
     ctx.fillStyle = this.BG_COLOUR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

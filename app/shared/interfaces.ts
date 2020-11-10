@@ -97,8 +97,9 @@ export interface Modal {
     body: string
 }
 
-//// Frontend Store 
+//// Frontend Store
 
+// tslint:disable no-empty-interface
 export interface ClientStore extends ClientModel { }
 
 export interface GameStore {

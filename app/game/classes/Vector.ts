@@ -1,10 +1,9 @@
 import { randomNumBetween } from "../../shared/utils"
 import { Point2D } from "../../shared/interfaces"
 
-
 export default class Vector implements Point2D {
-    x: number
-    y: number
+    public x: number
+    public y: number
     constructor(x: number, y: number) {
         this.x = x
         this.y = y
@@ -24,31 +23,4 @@ export default class Vector implements Point2D {
             randomNumBetween(minY, maxY)
         )
     }
-
-    // set x(x: number) {
-    //     this._x = x
-    // }
-    // get x() {
-    //     return this._x
-    // }
-    // set y(y: number) {
-    //     this._y = y
-    // }
-    // get y() {
-    //     return this._y
-    // }
-
-    setX(x: number) {
-        this.x = x
-    }
-    setY(y: number) {
-        this.y = y
-    }
-    getX() {
-        return this.x
-    }
-    getY() {
-        return this.y
-    }
-
 }

@@ -7,7 +7,7 @@ export default class Asteroid {
     public pos: Vector
     public vel: Vector
     public health: number
-    public initHealth: number
+    private initHealth: number
     public destroid: boolean
     public body: Blueprint
     constructor(pos?: Vector) {
@@ -46,14 +46,6 @@ export default class Asteroid {
         }
         this.initHealth = health
         this.health = health
-    }
-
-    getHealth() {
-        return this.health
-    }
-
-    isDestroyed() {
-        return this.destroid
     }
 
     destroy() {

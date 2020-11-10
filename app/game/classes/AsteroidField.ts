@@ -53,19 +53,18 @@ export default class AsteroidField implements AsteroidFieldModel {
         this.removeDestroidAsteroids()
 
         this.asteroids.forEach((ast) => {
-            const newPos = Vector.add(ast.pos, ast.vel)
-            const newY = newPos.y
-            if (newY + GRID_SIZE > 600) {
+            const pos = Vector.add(ast.pos, ast.vel)
+            if (pos.y + GRID_SIZE > 600) {
                 ast.destroy()
             } else {
-                ast.pos = newPos
+                ast.pos = pos
             }
         })
 
     }
 
     removeDestroidAsteroids(): void {
-        this.asteroids = this.asteroids.filter((ast) => !ast.isDestroyed())
+        this.asteroids = this.asteroids.filter((ast) => !ast.destroid)
     }
 
     setSequence(sequence: Sequence): void {
