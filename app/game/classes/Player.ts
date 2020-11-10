@@ -2,7 +2,7 @@ import Client from "../../shared/classes/Client"
 import Vector from "./Vector"
 import Keys from "./Keys"
 import Missiles from "./Missiles"
-import { PlayerModel, ClientModel } from "../../shared/interfaces"
+import { PlayerModel, ClientModel, Blueprint } from "../../shared/interfaces"
 import AsteroidField from "./AsteroidField";
 import { GRID_SIZE, SPACE_STEP } from "../constants"
 
@@ -14,7 +14,7 @@ export default class Player extends Client implements PlayerModel {
   weapons: Missiles
   isAlive: boolean
   left: boolean
-  body: Array<Array<number>>
+  body: Blueprint
 
   constructor(client: ClientModel) {
     super({ ...client })
@@ -63,7 +63,6 @@ export default class Player extends Client implements PlayerModel {
     //     return
     //   }
     // }
-
 
     //check if player is in game bounderies
     if (x - GRID_SIZE < 0) {
@@ -134,7 +133,6 @@ export default class Player extends Client implements PlayerModel {
       if (this.vel.y < 0) {
         y = -10
       }
-
 
       const pos = Vector.add(this.pos, new Vector(x * GRID_SIZE, y))
       this.weapons.generateMissile(pos)
