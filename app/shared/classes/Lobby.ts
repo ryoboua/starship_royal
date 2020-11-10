@@ -29,8 +29,4 @@ export default class Lobby {
     setRoundStatus(b: boolean) {
         this.roundActive = b
     }
-
-    isRoundActive(): boolean {
-        return this.roundActive
-    }
 }

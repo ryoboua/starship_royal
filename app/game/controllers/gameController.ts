@@ -56,7 +56,7 @@ export function gameHandleKeyUp(game: Game, keyCode: number, socketId: string) {
 }
 
 export async function handleStartRound(game: Game, sequence: Sequence) {
-  if (game.isRoundActive()) {
+  if (game.roundActive) {
     return
   }
 
@@ -91,7 +91,7 @@ function initiateCountdown(game: Game) {
 }
 
 function startGameInterval(game: Game, sequence: Sequence) {
-  if (game.isRoundActive()) {
+  if (game.roundActive) {
     return
   }
 

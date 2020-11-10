@@ -19,7 +19,7 @@ export default (socket: FrontendSocket) => ({
         context.commit(CREATE_GAME, { players, context })
     },
     startRound(context: GameActionContext) {
-        if (context.state._gameInstance?.isRoundActive()) {
+        if (context.state._gameInstance?.roundActive) {
             return
         }
 
@@ -38,7 +38,7 @@ export default (socket: FrontendSocket) => ({
     },
     handleKeyDown(context: GameActionContext, keyCode: number) {
         const socketId = context.rootState.client.socketId
-        if (context.state.type === 'multi' && context.state._gameInstance?.isRoundActive()) {
+        if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
             socket.emit(KEY_DOWN, keyCode)
         }
         context.commit(KEY_DOWN, { keyCode, socketId })
@@ -46,7 +46,7 @@ export default (socket: FrontendSocket) => ({
     },
     handleKeyUp(context: GameActionContext, keyCode: number) {
         const socketId = context.rootState.client.socketId
-        if (context.state.type === 'multi' && context.state._gameInstance?.isRoundActive()) {
+        if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
             socket.emit(KEY_UP, keyCode)
         }
         context.commit(KEY_UP, { keyCode, socketId })
@@ -59,7 +59,7 @@ export default (socket: FrontendSocket) => ({
         context.commit(SET_GAME_TYPE, type)
     },
     playerDead(context: GameActionContext, socketId: string) {
-        if (context.state.type === 'multi' && context.state._gameInstance?.isRoundActive()) {
+        if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
             socket.emit(PLAYER_DEAD, socketId)
         }
     },

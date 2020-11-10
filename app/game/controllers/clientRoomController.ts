@@ -73,5 +73,5 @@ export function isRoundActive(roomName: string) {
     return
   }
 
-  return rooms.get(roomName).isRoundActive()
+  return rooms.get(roomName).roundActive
 }
