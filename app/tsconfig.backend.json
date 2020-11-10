@@ -15,7 +15,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "watch": true,
-        // "outDir": "build",
+        "outDir": "jsBackend",
         "removeComments": true,
         "noImplicitReturns": true,
         "allowUnreachableCode": false,
@@ -24,7 +24,8 @@
     "include": [
         "game/**/*",
         "backend/**/*",
-        "appEvent.ts",
-        "interface.ts"
+        "mutations.ts",
+        "interface.ts",
+        "types.ts"
     ]
 }
