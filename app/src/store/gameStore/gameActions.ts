@@ -17,9 +17,11 @@ export default (socket: FrontendSocket) => ({
     BACKEND_ACTION(context: GameActionContext, { mutation, data }: BackendCommit) {
         context.commit(mutation, data)
     },
+
     createGame(context: GameActionContext, players: ClientModel) {
         context.commit(CREATE_GAME, { players, context })
     },
+
     startRound(context: GameActionContext) {
         if (context.state._gameInstance?.roundActive) {
             return
@@ -33,11 +35,13 @@ export default (socket: FrontendSocket) => ({
             socket.emit(START_ROUND)
         }
     },
+
     endRound(context: GameActionContext) {
         if (context.state.type === 'multi' && context.rootState.client.host) {
             socket.emit(END_ROUND)
         }
     },
+
     handleKeyDown(context: GameActionContext, keyCode: number) {
         const socketId = context.rootState.client.socketId
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
@@ -46,6 +50,7 @@ export default (socket: FrontendSocket) => ({
         context.commit(KEY_DOWN, { keyCode, socketId })
 
     },
+
     handleKeyUp(context: GameActionContext, keyCode: number) {
         const socketId = context.rootState.client.socketId
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
@@ -54,12 +59,15 @@ export default (socket: FrontendSocket) => ({
         context.commit(KEY_UP, { keyCode, socketId })
 
     },
+
     displayMsg(context: GameActionContext, msg: string) {
         context.commit(DISPLAY_MSG, msg)
     },
+
     setGameType(context: GameActionContext, type: GameType) {
         context.commit(SET_GAME_TYPE, type)
     },
+
     playerDead(context: GameActionContext, socketId: string) {
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
             socket.emit(PLAYER_DEAD, socketId)
