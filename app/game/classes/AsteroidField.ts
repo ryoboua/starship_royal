@@ -81,10 +81,10 @@ export default class AsteroidField implements AsteroidFieldModel {
     }
 
     *sequenceGenerator() {
-        let index = 0
+        let i = 0
         if (this._s) {
-            while (index < this._s.length) {
-                yield this._s[index++]
+            while (i < this._s.length) {
+                yield this._s[i++]
             }
             return
         }
