@@ -5,6 +5,7 @@ import levelParams from "../levels"
 import { ClientModel, Level, GameActionContext } from "../../shared/interfaces"
 import { Sequence } from "../../shared/types"
 import Mutations from "../../shared/mutations"
+
 const {
   GAME_STATE_UPDATE,
   GAME_OVER,
@@ -13,6 +14,7 @@ const {
   LOAD_LEVEL,
   COUNTDOWN,
 } = Mutations
+
 const MAX_LEVEL = levelParams.length
 
 export function createGame(players: Array<ClientModel>, context: GameActionContext) {

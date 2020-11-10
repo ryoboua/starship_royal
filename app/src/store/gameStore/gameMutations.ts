@@ -25,7 +25,7 @@ const {
     GAME_OVER,
     ADD_PLAYER,
     REMOVE_PLAYER,
-    PLAYER_DEAD,
+    PLAYER_DEAD
 } = Mutations
 
 export default {

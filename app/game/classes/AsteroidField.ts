@@ -5,7 +5,7 @@ import { Sequence } from "../../shared/types"
 import { GRID_SIZE } from "../constants"
 
 export default class AsteroidField implements AsteroidFieldModel {
-    asteroids: Array<Asteroid>
+    asteroids: Asteroid[]
     sequence: Generator | null
     _s: Sequence
 

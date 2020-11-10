@@ -2,14 +2,16 @@ import Mutations from "../../../shared/mutations"
 import { ClientModel, GameActionContext, BackendCommit } from "../../../shared/interfaces";
 import { GameType, FrontendSocket } from "../../../shared/types";
 
-const { SET_GAME_TYPE,
+const {
+    SET_GAME_TYPE,
     CREATE_GAME,
     START_ROUND,
     KEY_DOWN,
     KEY_UP,
     DISPLAY_MSG,
     PLAYER_DEAD,
-    END_ROUND, } = Mutations
+    END_ROUND
+} = Mutations
 
 export default (socket: FrontendSocket) => ({
     BACKEND_ACTION(context: GameActionContext, { mutation, data }: BackendCommit) {

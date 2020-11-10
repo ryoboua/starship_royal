@@ -4,7 +4,7 @@ import { ClientModel, GameModel, Level, GameActionContext as GameFrontEndContext
 import { GRID_SIZE, ROUND_TIME } from "../constants"
 
 export default class Game extends Lobby implements GameModel {
-  levels: Array<Level>
+  levels: Level[]
   asteroidField: AsteroidField
   gridsize: number
   timer: number

@@ -10,6 +10,7 @@ export default class Asteroid {
     private initHealth: number
     public destroid: boolean
     public body: Blueprint
+
     constructor(pos?: Vector) {
         this.pos = pos ? pos : Vector.random(0, GAME_WIDTH, 0, 0)
         this.vel = new Vector(0, ASTEROID_STEP)
@@ -26,6 +27,7 @@ export default class Asteroid {
         return ast
 
     }
+
     breakPiece(y: number, x: number) {
         this.body[y][x] = 0
         this.health--
@@ -39,11 +41,13 @@ export default class Asteroid {
     setHealth() {
         let health = 0
         const body = this.body;
+
         for (let y = 0; y < body.length; y++) {
             for (let x = 0; x < body[y].length; x++) {
                 if (body[y][x]) health++
             }
         }
+
         this.initHealth = health
         this.health = health
     }

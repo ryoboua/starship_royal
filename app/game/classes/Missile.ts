@@ -2,8 +2,6 @@ import Vector from "./Vector"
 import { MissileModel, Blueprint } from "../../shared/interfaces"
 import { MISSILE_STEP } from "../constants"
 
-
-
 export default class Missile implements MissileModel {
     pos: Vector
     vel: Vector

@@ -1,6 +1,5 @@
 import { ClientModel } from "../../shared/interfaces"
 
-
 export default class Client implements ClientModel {
   socketId: string
   name: string

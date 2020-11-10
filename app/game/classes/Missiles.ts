@@ -1,11 +1,11 @@
 import Missile from "./Missile"
 import Vector from "./Vector"
-
 import { GRID_SIZE } from "../constants"
 import AsteroidField from "./AsteroidField"
 
 export default class Missiles {
-    private missiles: Array<Missile>
+    private missiles: Missile[]
+
     constructor() {
         this.missiles = []
     }

@@ -20,6 +20,5 @@ export default {
       state.body = body
       state.showModal = true
     },
-  },
-  actions: {}
+  }
 }

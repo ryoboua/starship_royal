@@ -1,8 +1,7 @@
+import { GameStore } from "./../../../shared/interfaces"
+import { FrontendSocket } from "./../../../shared/types"
 import mutations from "./gameMutations"
 import actions from "./gameActions"
-
-import { FrontendSocket } from "./../../../shared/types"
-import { GameStore } from "./../../../shared/interfaces"
 
 const state: GameStore = {
   _gameInstance: null,
@@ -22,5 +21,4 @@ export default (socket: FrontendSocket) => ({
   state,
   mutations,
   actions: actions(socket)
-}
-)
+})
