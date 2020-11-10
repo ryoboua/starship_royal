@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "backend": "nodemon ./backend/server.js",
+    "backend": "nodemon ./jsBackend/backend/server.js",
     "tscwatch": "tsc -p tsconfig.backend.json",
     "cleangame": "cd game && find . -name \"*.js\" -type f -delete",
     "clean": " npm run cleangame && rm types.js interfaces.js mutations.js"
