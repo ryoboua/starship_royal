@@ -27,5 +27,8 @@
         "mutations.ts",
         "interface.ts",
         "types.ts"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }
