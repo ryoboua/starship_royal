@@ -1,5 +1,5 @@
 import Vector from "./Vector"
-import { MissileModel } from "../../shared/interfaces"
+import { MissileModel, Blueprint } from "../../shared/interfaces"
 import { MISSILE_STEP } from "../constants"
 
 
@@ -8,7 +8,7 @@ export default class Missile implements MissileModel {
     pos: Vector
     vel: Vector
     value: number
-    body: Array<Array<number>>
+    body: Blueprint
 
     constructor(pos: Vector) {
         this.pos = pos
