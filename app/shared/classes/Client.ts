@@ -15,9 +15,4 @@ export default class Client implements ClientModel {
     this.playerNumber = playerNumber
     this.host = !!host
   }
-
-  getRoomName() {
-    return this.roomName
-  }
-
 }

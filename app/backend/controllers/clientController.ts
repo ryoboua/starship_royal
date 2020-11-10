@@ -78,7 +78,7 @@ export function handleDisconnect(socket: BackendSocket) {
   if (!clientList.has(socket.id)) {
     return
   }
-  const roomName = clientList.get(socket.id).getRoomName()
+  const roomName = clientList.get(socket.id).roomName
   removePlayer(roomName, socket.id)
   clientList.delete(socket.id)
 }
@@ -88,7 +88,7 @@ export function handleKeyDown(socket: BackendSocket, keyCode: number) {
     return
   }
 
-  const roomName = clientList.get(socket.id).getRoomName()
+  const roomName = clientList.get(socket.id).roomName
 
   if (!isRoundActive(roomName)) {
     return
@@ -108,7 +108,7 @@ export function handleKeyUp(socket: BackendSocket, keyCode: number) {
     return
   }
 
-  const roomName = clientList.get(socket.id).getRoomName()
+  const roomName = clientList.get(socket.id).roomName
 
   if (!isRoundActive(roomName)) {
     return
@@ -132,7 +132,7 @@ export function handleStartRound(socket: BackendSocket) {
   if (!client.host) {
     return
   }
-  const roomName = client.getRoomName()
+  const roomName = client.roomName
   startRound(roomName)
 }
 
@@ -145,7 +145,7 @@ export function handleEndRound(socket: BackendSocket) {
   if (!client.host) {
     return
   }
-  const roomName = client.getRoomName()
+  const roomName = client.roomName
   endRound(roomName)
 }
 
@@ -154,7 +154,7 @@ export function handleDeadPlayer(socket: BackendSocket, deadPlayerSocketId: stri
     return
   }
 
-  const roomName = clientList.get(socket.id).getRoomName()
+  const roomName = clientList.get(socket.id).roomName
 
   if (!isRoundActive(roomName)) {
     return
