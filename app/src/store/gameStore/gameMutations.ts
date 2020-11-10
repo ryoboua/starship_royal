@@ -32,10 +32,12 @@ export default {
     [SET_GAME_TYPE](state: GameStore, type: GameType) {
         state.type = type
     },
+
     [CREATE_GAME](state: GameStore, { players, context }: { players: ClientModel[], context: GameActionContext }) {
         state.players = players
         state._gameInstance = createGame(players, context)
     },
+
     [START_ROUND](state: GameStore, sequence: Sequence) {
         if (!state._gameInstance) {
             return
@@ -43,57 +45,69 @@ export default {
         state.disableStartBtn = true
         handleStartRound(state._gameInstance, sequence)
     },
+
     [LOAD_LEVEL](state: GameStore, { level, initialGameState }: { level: Level, initialGameState: GameState }) {
         state.level = level;
         state.timer = initialGameState.timer;
         state.gameState = initialGameState
     },
+
     [GAME_ACTIVE](state: GameStore, b: boolean) {
         state.gameActive = b
     },
+
     [GAME_STATE_UPDATE](state: GameStore, gameState: GameState) {
         state.gameState = gameState
         state.playerScores = gameState.playerScores;
         state.timer = gameState.timer;
     },
+
     [KEY_DOWN](state: GameStore, { keyCode, socketId }: KeyEvent) {
         if (!state._gameInstance) {
             return
         }
         gameHandleKeyDown(state._gameInstance, keyCode, socketId)
     },
+
     [KEY_UP](state: GameStore, { keyCode, socketId }: KeyEvent) {
         if (!state._gameInstance) {
             return
         }
         gameHandleKeyUp(state._gameInstance, keyCode, socketId)
     },
+
     [COUNTDOWN](state: GameStore, count: string) {
         state.screen = count
     },
+
     [DISPLAY_MSG](state: GameStore, msg: string) {
         state.screen = msg
     },
+
     [ROUND_OVER](state: GameStore, msg: string) {
         state.screen = msg
         state.disableStartBtn = false
     },
+
     [GAME_OVER](state: GameStore, msg: string) {
         state.screen = msg
         state.disableStartBtn = false
     },
+
     [ADD_PLAYER](state: GameStore, player: ClientModel) {
         if (!state._gameInstance) {
             return
         }
         state.players = addPlayer(state._gameInstance, player)
     },
+
     [REMOVE_PLAYER](state: GameStore, socketId: string) {
         if (!state._gameInstance) {
             return
         }
         state.players = removePlayer(state._gameInstance, socketId)
     },
+
     [PLAYER_DEAD](state: GameStore, socketId: string) {
         if (!state._gameInstance) {
             return
