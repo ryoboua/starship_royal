@@ -45,11 +45,11 @@ export default (socket: FrontendSocket) => ({
     },
     joinGame(context: ActionContext<ClientModel, RootState>, nameAndRoomName: { name: string, roomName: string }) {
       if (context.rootState.game.type === 'multi') {
-        socket.emit(JOIN_GAME, nameAndRoomName, (res: joinGameResponse, err: Modal) => {
+        socket.emit(JOIN_GAME, nameAndRoomName, (payload: joinGameResponse, err: Modal) => {
           if (err) {
             context.commit("modal/setAndShowModal", err, { root: true })
-          } else if (res) {
-            const { client, players } = res
+          } else if (payload) {
+            const { client, players } = payload
             context.commit(SET_CLIENT, client)
             context.dispatch('game/createGame', players, { root: true })
           }
