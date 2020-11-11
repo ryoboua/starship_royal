@@ -60,8 +60,8 @@ export interface Players {
 
 export interface AsteroidFieldModel {
     asteroids: Asteroid[]
-    sequence: Generator | null
-    readonly _s: Sequence
+    sequence: Generator | undefined
+    readonly _s: Sequence | undefined
 }
 
 export interface MissileModel {
@@ -76,10 +76,10 @@ export interface GameModel {
     asteroidField: AsteroidField
     gridsize: number
     timer: number
-    _context: any
+    _context: GameActionContext | undefined
 }
 
-type PlayerScores = Array<{
+export type PlayerScores = Array<{
     name: string
     score: number
 }>

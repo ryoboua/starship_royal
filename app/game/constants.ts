@@ -10,7 +10,7 @@ export const GAME_HEIGHT = 600
 export const ASTEROID_VALUE = 10
 export const ROUND_TIME = 30
 export enum GAME_OVER_REASONS {
-  "ALL DEAD" = 1,
-  "TIMER ENDED",
+  "ALL_DEAD" = 1,
+  "TIMER",
 }
 

@@ -62,17 +62,23 @@ export default {
         state.timer = gameState.timer;
     },
 
-    [KEY_DOWN](state: GameStore, { keyCode, socketId }: KeyEvent) {
+    [KEY_DOWN](state: GameStore, keyEvent: KeyEvent) {
+        const { keyCode, socketId } = keyEvent
+
         if (!state._gameInstance) {
             return
         }
+
         gameHandleKeyDown(state._gameInstance, keyCode, socketId)
     },
 
-    [KEY_UP](state: GameStore, { keyCode, socketId }: KeyEvent) {
+    [KEY_UP](state: GameStore, keyEvent: KeyEvent) {
+        const { keyCode, socketId } = keyEvent
+
         if (!state._gameInstance) {
             return
         }
+
         gameHandleKeyUp(state._gameInstance, keyCode, socketId)
     },
 

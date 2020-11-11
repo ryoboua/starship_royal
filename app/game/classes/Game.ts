@@ -1,14 +1,14 @@
 import Lobby from "../../shared/classes/Lobby"
 import AsteroidField from "./AsteroidField"
-import { ClientModel, GameModel, Level, GameActionContext as GameFrontEndContext, GameState } from "../../shared/interfaces";
-import { GRID_SIZE, ROUND_TIME } from "../constants"
+import { ClientModel, GameModel, Level, GameActionContext as GameFrontEndContext, GameState, PlayerScores } from "../../shared/interfaces";
+import { GRID_SIZE, ROUND_TIME, GAME_OVER_REASONS } from "../constants"
 
 export default class Game extends Lobby implements GameModel {
   levels: Level[]
   asteroidField: AsteroidField
   gridsize: number
   timer: number
-  _context: any
+  _context: GameFrontEndContext | undefined
 
   constructor() {
     super()
@@ -16,10 +16,10 @@ export default class Game extends Lobby implements GameModel {
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE
     this.timer = ROUND_TIME
-    this._context = null
+    this._context
   }
 
-  static createGameState(players: Array<ClientModel>, context: any) {
+  static createGameState(players: ClientModel[], context: GameFrontEndContext): Game {
     const game = new Game()
 
     players.forEach(player => game.addPlayer(player))
@@ -39,14 +39,14 @@ export default class Game extends Lobby implements GameModel {
   }
 
   dispatch(eventName: string, data?: any) {
-    this._context.dispatch(eventName, data)
+    this._context?.dispatch(eventName, data)
   }
 
   commit(eventName: string, data?: any) {
-    this._context.commit(eventName, data)
+    this._context?.commit(eventName, data)
   }
 
-  gameLoop() {
+  gameLoop(): GAME_OVER_REASONS | undefined {
     this.asteroidField.updatePosition()
     Object.values(this.players).forEach((player) => {
       if (player.isAlive) {
@@ -58,12 +58,13 @@ export default class Game extends Lobby implements GameModel {
     })
 
     if (!Object.values(this.players).some((player) => player.isAlive)) {
-      return 1
+      return GAME_OVER_REASONS["ALL_DEAD"]
     }
 
-    // if (!this.timer) {
-    //   return 2
-    // }
+    if (!this.timer) {
+      return GAME_OVER_REASONS["TIMER"]
+    }
+
     return
   }
 
@@ -77,7 +78,7 @@ export default class Game extends Lobby implements GameModel {
     }
   }
 
-  getPlayerScores() {
+  getPlayerScores(): PlayerScores {
     return Object.values(this.players)
       .map((player) => ({
         name: player.name,
@@ -99,7 +100,6 @@ export default class Game extends Lobby implements GameModel {
 
   endRound() {
     this.resetState()
-
   }
 
   getCurrentLevel(): number {
@@ -117,6 +117,6 @@ export default class Game extends Lobby implements GameModel {
   }
 
   isLocal(socketId: string): boolean {
-    return this._context.rootState.client.socketId === socketId
+    return this._context?.rootState.client.socketId === socketId
   }
 }

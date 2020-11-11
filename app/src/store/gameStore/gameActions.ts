@@ -14,7 +14,8 @@ const {
 } = Mutations
 
 export default (socket: FrontendSocket) => ({
-    BACKEND_ACTION(context: GameActionContext, { mutation, data }: BackendCommit) {
+    BACKEND_ACTION(context: GameActionContext, payload: BackendCommit) {
+        const { mutation, data } = payload
         context.commit(mutation, data)
     },
 

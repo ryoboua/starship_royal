@@ -6,13 +6,13 @@ import { GRID_SIZE } from "../constants"
 
 export default class AsteroidField implements AsteroidFieldModel {
     asteroids: Asteroid[]
-    sequence: Generator | null
-    _s: Sequence
+    sequence: Generator | undefined
+    _s: Sequence | undefined
 
     constructor() {
         this.asteroids = []
-        this.sequence = null
-        this._s = null
+        this.sequence
+        this._s
     }
 
     generateAsteroid(numOfAsteroids: number): void {
