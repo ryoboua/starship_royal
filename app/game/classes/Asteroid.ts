@@ -1,5 +1,5 @@
 import Vector from "./Vector"
-import { ASTEROID_STEP, GAME_WIDTH } from "../constants"
+import { ASTEROID_STEP, GAME_WIDTH, GRID_SIZE } from "../constants"
 import asteroidBlueprints from "../blueprints/asteroids"
 import { Blueprint } from "../../shared/interfaces"
 
@@ -54,5 +54,29 @@ export default class Asteroid {
 
     destroy() {
         this.destroid = true
+    }
+
+    isAHit(arr: Vector[]): boolean {
+        let hit = false
+        for (let y = 0; y < this.body.length; y++) {
+            for (let x = 0; x < this.body[y].length; x++) {
+                if (this.body[y][x]) {
+                    const posY = (y * GRID_SIZE) + this.pos.y
+                    const posX = (x * GRID_SIZE) + this.pos.x
+
+                    hit = arr.some((coord) => {
+                        return coord.x < posX + GRID_SIZE &&
+                            coord.x + GRID_SIZE > posX &&
+                            coord.y < posY + GRID_SIZE &&
+                            coord.y + GRID_SIZE > posY
+                    })
+
+                    if (hit) {
+                        return hit
+                    }
+                }
+            }
+        }
+        return hit
     }
 }

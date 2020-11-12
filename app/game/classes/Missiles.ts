@@ -25,7 +25,7 @@ export default class Missiles {
             const newY = newPos.y
             const newX = newPos.x
 
-            asteroidField.asteroids.forEach((ast, asteroidIndex) => {
+            asteroidField.asteroids.forEach((ast) => {
                 const body = ast.body;
                 for (let y = 0; y < body.length; y++) {
                     for (let x = 0; x < body[y].length; x++) {

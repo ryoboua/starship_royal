@@ -47,35 +47,33 @@ export default class Player extends Client implements PlayerModel {
 
   updateSpaceshipPosition(asteroidField: AsteroidField, isLocal: boolean) {
     const pos = Vector.add(this.pos, this.vel)
-    let { x, y } = pos
 
-    // if (isLocal) {
-    //   const hit = asteroidField.asteroids.some(
-    //     (ast) =>
-    //       x <= ast.pos.x + GRID_SIZE &&
-    //       x + GRID_SIZE >= ast.pos.x &&
-    //       y <= ast.pos.y + GRID_SIZE &&
-    //       y + GRID_SIZE >= ast.pos.y
-    //   )
+    if (isLocal) {
+      for (let i = 0; i < asteroidField.asteroids.length; i++) {
 
-    //   if (hit) {
-    //     this.isAlive = false
-    //     return
-    //   }
-    // }
+        const ast = asteroidField.asteroids[i];
+        const hit = ast.isAHit(this.getBodyCoordinate(pos))
+
+        if (hit) {
+          this.isAlive = false
+          return
+        }
+      }
+
+    }
 
     //check if player is in game bounderies
-    if (x - GRID_SIZE < 0) {
-      x = x + SPACE_STEP
+    if (pos.x - GRID_SIZE < 0) {
+      pos.x = pos.x + SPACE_STEP
     }
-    if (x + 2 * GRID_SIZE > 1000) {
-      x = x - SPACE_STEP
+    if (pos.x + 2 * GRID_SIZE > 1000) {
+      pos.x = pos.x - SPACE_STEP
     }
-    if (y - GRID_SIZE < 0) {
-      y = y + SPACE_STEP
+    if (pos.y - GRID_SIZE < 0) {
+      pos.y = pos.y + SPACE_STEP
     }
-    if (y + GRID_SIZE > 600) {
-      y = y - SPACE_STEP
+    if (pos.y + GRID_SIZE > 600) {
+      pos.y = pos.y - SPACE_STEP
     }
     this.pos = pos
   }
@@ -137,5 +135,21 @@ export default class Player extends Client implements PlayerModel {
       const pos = Vector.add(this.pos, new Vector(x * GRID_SIZE, y))
       this.weapons.generateMissile(pos)
     }
+  }
+
+  getBodyCoordinate(pos) {
+    const arr = []
+    const body = this.body
+    for (let y = 0; y < this.body.length; y++) {
+      for (let x = 0; x < this.body[y].length; x++) {
+        if (body[y][x]) {
+          const posY = (y * GRID_SIZE) + pos.y
+          const posX = (x * GRID_SIZE) + pos.x
+          arr.push(new Vector(posX, posY))
+        }
+      }
+    }
+
+    return arr
   }
 }

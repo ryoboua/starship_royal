@@ -12,6 +12,6 @@ export default class Missile implements MissileModel {
         this.pos = pos
         this.vel = new Vector(0, MISSILE_STEP)
         this.value = 10
-        this.body = [[0, 1, 0], [1, 0, 1]]
+        this.body = [[1, 1], [1, 1]]
     }
 }
