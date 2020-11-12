@@ -52,13 +52,13 @@ export default class Player extends Client implements PlayerModel {
 
   updateSpaceshipPosition(asteroidField: AsteroidField, isLocal: boolean) {
     const pos = Vector.add(this.pos, this.vel)
+    const playerBodyCoordinates = this.getBodyCoordinates(pos)
 
     if (isLocal) {
-      const playerBody = this.getBodyCoordinates(pos)
       for (let i = 0; i < asteroidField.asteroids.length; i++) {
 
         const ast = asteroidField.asteroids[i];
-        const hit = ast.asteroidCollisionCheck(playerBody)
+        const hit = ast.playerCollisionCheck(playerBodyCoordinates)
 
         if (hit) {
           this.isAlive = false
@@ -69,17 +69,24 @@ export default class Player extends Client implements PlayerModel {
     }
 
     //check if player is in game bounderies
-    if (pos.x - GRID_SIZE < 0) {
-      pos.x = pos.x + SPACE_STEP
-    }
-    if (pos.x + 2 * GRID_SIZE > 1000) {
-      pos.x = pos.x - SPACE_STEP
-    }
-    if (pos.y - GRID_SIZE < 0) {
-      pos.y = pos.y + SPACE_STEP
-    }
-    if (pos.y + GRID_SIZE > 600) {
-      pos.y = pos.y - SPACE_STEP
+    for (let j = 0; j < playerBodyCoordinates.length; j++) {
+      const p = playerBodyCoordinates[j];
+      if (p.x - GRID_SIZE < 0) {
+        pos.x = pos.x + SPACE_STEP
+        break;
+      }
+      if (p.x + 2 * GRID_SIZE > 1000) {
+        pos.x = pos.x - SPACE_STEP
+        break;
+      }
+      if (p.y - GRID_SIZE < 0) {
+        pos.y = pos.y + SPACE_STEP
+        break;
+      }
+      if (p.y + GRID_SIZE > 600) {
+        pos.y = pos.y - SPACE_STEP
+        break;
+      }
     }
     this.pos = pos
   }

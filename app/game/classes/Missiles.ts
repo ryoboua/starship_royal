@@ -23,11 +23,11 @@ export default class Missiles {
 
         this.missiles.forEach((mis) => {
             const pos = Vector.sub(mis.pos, mis.vel)
-            const missileBody = mis.getBodyCoordinates(pos)
+            const missileBodyCoordinates = mis.getBodyCoordinates(pos)
 
             for (let i = 0; i < asteroidField.asteroids.length; i++) {
                 const ast = asteroidField.asteroids[i];
-                const hit = ast.missileCollisionCheck(missileBody)
+                const hit = ast.missileCollisionCheck(missileBodyCoordinates)
 
                 if (hit) {
                     numOfDestroyedAsteroids++

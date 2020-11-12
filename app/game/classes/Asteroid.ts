@@ -56,7 +56,7 @@ export default class Asteroid {
         this.destroid = true
     }
 
-    asteroidCollisionCheck(arr: Vector[]): boolean {
+    playerCollisionCheck(missileBodyCoordinates: Vector[]): boolean {
         let hit = false
         for (let y = 0; y < this.body.length; y++) {
             for (let x = 0; x < this.body[y].length; x++) {
@@ -64,7 +64,7 @@ export default class Asteroid {
                     const posY = (y * GRID_SIZE) + this.pos.y
                     const posX = (x * GRID_SIZE) + this.pos.x
 
-                    hit = arr.some((coord) => {
+                    hit = missileBodyCoordinates.some((coord) => {
                         return coord.x < posX + GRID_SIZE &&
                             coord.x + GRID_SIZE > posX &&
                             coord.y < posY + GRID_SIZE &&
@@ -81,7 +81,7 @@ export default class Asteroid {
         return hit
     }
 
-    missileCollisionCheck(arr: Vector[]): boolean {
+    missileCollisionCheck(missileBodyCoordinates: Vector[]): boolean {
         let hit = false
         for (let y = 0; y < this.body.length; y++) {
             for (let x = 0; x < this.body[y].length; x++) {
@@ -89,7 +89,7 @@ export default class Asteroid {
                     const posY = (y * GRID_SIZE) + this.pos.y
                     const posX = (x * GRID_SIZE) + this.pos.x
 
-                    arr.forEach((coord) => {
+                    missileBodyCoordinates.forEach((coord) => {
                         if (coord.x < posX + GRID_SIZE &&
                             coord.x + GRID_SIZE > posX &&
                             coord.y < posY + GRID_SIZE &&
