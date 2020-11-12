@@ -17,7 +17,7 @@ export default class Asteroid {
         this.health = 0
         this.initHealth = 0
         this.destroid = false
-        this.body = JSON.parse(JSON.stringify(asteroidBlueprints[1])) // clone blueprint and create new memory reference.
+        this.body = [[0, 1, 1, 1, 1, 0,], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 1, 0]]
     }
 
     static createAsteroid(pos?: Vector) {
