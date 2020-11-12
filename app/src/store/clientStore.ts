@@ -7,6 +7,7 @@ const {
   SET_CLIENT,
   CREATE_GAME,
   JOIN_GAME,
+  LEAVE_ROOM
 } = Mutations
 
 const state: ClientStore = {
@@ -27,6 +28,9 @@ export default (socket: FrontendSocket) => ({
       state.host = client.host
       state.roomName = client.roomName
       state.socketId = client.socketId
+    },
+    [LEAVE_ROOM](state: ClientStore) {
+      state.roomName = ''
     },
   },
   actions: {

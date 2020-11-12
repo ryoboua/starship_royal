@@ -15,6 +15,8 @@
       >
         Start Round
       </button>
+      <br />
+      <button @click.once="returnToStartMenu">Return</button>
       <div v-if="type === 'multi'">
         <h4>Current players in lobby:</h4>
         <ul>
@@ -40,29 +42,29 @@ export default {
   name: "SidePanel",
   computed: {
     ...mapState({
-      name: state => state.client.name,
-      playerNumber: state => state.client.playerNumber,
-      roomName: state => state.client.roomName,
-      isHost: state => state.client.host,
-      gameActive: state => state.game.gameActive,
-      players: state => state.game.players,
-      type: state => state.game.type,
-      level: state => state.game.level,
-      timer: state => state.game.timer,
-      playerScores: state => state.game.playerScores,
-      disableStartBtn: state => state.game.disableStartBtn
-    })
+      name: (state) => state.client.name,
+      playerNumber: (state) => state.client.playerNumber,
+      roomName: (state) => state.client.roomName,
+      isHost: (state) => state.client.host,
+      gameActive: (state) => state.game.gameActive,
+      players: (state) => state.game.players,
+      type: (state) => state.game.type,
+      level: (state) => state.game.level,
+      timer: (state) => state.game.timer,
+      playerScores: (state) => state.game.playerScores,
+      disableStartBtn: (state) => state.game.disableStartBtn,
+    }),
   },
   methods: {
-    ...mapActions("game", ["startRound", "displayMsg"]),
+    ...mapActions("game", ["startRound", "displayMsg", "returnToStartMenu"]),
     handleStartGame() {
       this.clearGameScreenInformation();
       this.startRound();
     },
     clearGameScreenInformation() {
       this.displayMsg("");
-    }
-  }
+    },
+  },
 };
 </script>
 

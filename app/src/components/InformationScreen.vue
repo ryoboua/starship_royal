@@ -12,23 +12,21 @@ export default {
   name: "InformationScreen",
   computed: {
     ...mapState({
-      gameActive: state => state.game.gameActive,
-      screen: state => state.game.screen,
-      isHost: state => state.client.host
-    })
+      gameActive: (state) => state.game.gameActive,
+      screen: (state) => state.game.screen,
+      isHost: (state) => state.client.host,
+    }),
   },
   methods: {
-    ...mapActions("game", [
-      "displayMsg"
-    ])
+    ...mapActions("game", ["displayMsg"]),
   },
   mounted() {
     const msg = this.isHost
       ? "<h3>Click Start Button To Start Round</h3>"
       : "<h3 v-else>Waiting For Host To Start Round</h3>";
 
-    //this.displayMsg(msg);
-  }
+    this.displayMsg(msg);
+  },
 };
 </script>
 <style lang="scss" scoped>

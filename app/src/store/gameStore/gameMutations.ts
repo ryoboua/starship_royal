@@ -10,6 +10,7 @@ import {
 import { GameType, Sequence } from '../../../shared/types'
 import { GameStore, GameState, ClientModel, KeyEvent, Level, GameActionContext } from "../../../shared/interfaces"
 import Mutations from "../../../shared/mutations"
+import getDefaultState from "./gameState";
 const {
     SET_GAME_TYPE,
     CREATE_GAME,
@@ -25,7 +26,8 @@ const {
     GAME_OVER,
     ADD_PLAYER,
     REMOVE_PLAYER,
-    PLAYER_DEAD
+    PLAYER_DEAD,
+    RESET_GAME_STORE
 } = Mutations
 
 export default {
@@ -120,4 +122,8 @@ export default {
         }
         handleDeadPlayer(state._gameInstance, socketId)
     },
+
+    [RESET_GAME_STORE](state: GameStore) {
+        Object.assign(state, getDefaultState())
+    }
 }

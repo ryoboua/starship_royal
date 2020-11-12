@@ -10,7 +10,9 @@ const {
     KEY_UP,
     DISPLAY_MSG,
     PLAYER_DEAD,
-    END_ROUND
+    END_ROUND,
+    RESET_GAME_STORE,
+    LEAVE_ROOM
 } = Mutations
 
 export default (socket: FrontendSocket) => ({
@@ -74,4 +76,12 @@ export default (socket: FrontendSocket) => ({
             socket.emit(PLAYER_DEAD, socketId)
         }
     },
+    returnToStartMenu(context: GameActionContext) {
+
+        context.commit(RESET_GAME_STORE)
+        context.commit("client/LEAVE_ROOM", null, { root: true })
+        if (context.state.type === 'multi') {
+        }
+
+    }
 })
