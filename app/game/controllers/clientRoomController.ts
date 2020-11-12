@@ -37,6 +37,14 @@ export function removePlayer(roomName: string, socketId: string) {
   room.emit(REMOVE_PLAYER, socketId)
 }
 
+export function removeRoom(roomName: string) {
+  if (!rooms.has(roomName)) {
+    return
+  }
+
+
+}
+
 function gameKeyDown(client: Client, keyCode: number, socket: BackendSocket) {
   const roomName = client.roomName
   if (!rooms.has(roomName)) {

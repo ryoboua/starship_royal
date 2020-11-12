@@ -6,7 +6,8 @@ import {
   removePlayer,
   startRound,
   endRound,
-  isRoundActive
+  isRoundActive,
+  removeRoom
 } from "../../game/controllers/clientRoomController"
 import { makeid } from "../../shared/utils"
 import { joinGameResponseCallBack, ClientRoomEmitter } from "../../shared/interfaces"
@@ -78,9 +79,14 @@ export function handleDisconnect(socket: BackendSocket) {
   if (!clientList.has(socket.id)) {
     return
   }
-  const roomName = clientList.get(socket.id).roomName
-  removePlayer(roomName, socket.id)
-  clientList.delete(socket.id)
+  const client = clientList.get(socket.id)
+  const { roomName } = client
+  if (client.host) {
+    removeRoom(roomName)
+  } else {
+    removePlayer(roomName, socket.id)
+    clientList.delete(socket.id)
+  }
 }
 
 export function handleKeyDown(socket: BackendSocket, keyCode: number) {
@@ -94,12 +100,6 @@ export function handleKeyDown(socket: BackendSocket, keyCode: number) {
     return
   }
 
-  // try {
-  //   keyCode = parseInt(keyCode)
-  // } catch (e) {
-  //   console.log(e)
-  //   return
-  // }
   socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_DOWN, data: { keyCode, socketId: socket.id } })
 }
 
@@ -114,12 +114,6 @@ export function handleKeyUp(socket: BackendSocket, keyCode: number) {
     return
   }
 
-  // try {
-  //   keyCode = parseInt(keyCode)
-  // } catch (e) {
-  //   console.log(e)
-  //   return
-  // }
   socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_UP, data: { keyCode, socketId: socket.id } })
 }
 

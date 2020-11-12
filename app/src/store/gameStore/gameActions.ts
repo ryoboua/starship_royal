@@ -77,11 +77,11 @@ export default (socket: FrontendSocket) => ({
         }
     },
     returnToStartMenu(context: GameActionContext) {
-
-        context.commit(RESET_GAME_STORE)
-        context.commit("client/LEAVE_ROOM", null, { root: true })
         if (context.state.type === 'multi') {
+            socket.close()
         }
+        context.commit(RESET_GAME_STORE)
+        context.commit(`client/${LEAVE_ROOM}`, null, { root: true })
 
     }
 })

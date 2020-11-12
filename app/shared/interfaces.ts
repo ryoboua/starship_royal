@@ -144,7 +144,7 @@ export type joinGameResponseCallBack = {
 
 export interface joinGameResponse {
     client: ClientModel
-    players: Players
+    players: Player[]
 }
 
 export interface BackendCommit {
