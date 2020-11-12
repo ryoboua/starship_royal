@@ -4,7 +4,7 @@ import Keys from "./Keys"
 import Missiles from "./Missiles"
 import { PlayerModel, ClientModel, Blueprint } from "../../shared/interfaces"
 import AsteroidField from "./AsteroidField";
-import { GRID_SIZE, SPACE_STEP } from "../constants"
+import { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } from "../constants"
 
 export default class Player extends Client implements PlayerModel {
   score: number
@@ -41,7 +41,12 @@ export default class Player extends Client implements PlayerModel {
   }
 
   updatePosition(asteroidField: AsteroidField, isLocal: boolean) {
-    this.weapons.updateMissilePositions(asteroidField)
+    const numOfDestroyedAsteroids = this.weapons.updateMissilePositions(asteroidField)
+
+    if (numOfDestroyedAsteroids) {
+      this.score += numOfDestroyedAsteroids * ASTEROID_VALUE
+    }
+
     this.updateSpaceshipPosition(asteroidField, isLocal)
   }
 
@@ -49,10 +54,11 @@ export default class Player extends Client implements PlayerModel {
     const pos = Vector.add(this.pos, this.vel)
 
     if (isLocal) {
+      const playerBody = this.getBodyCoordinates(pos)
       for (let i = 0; i < asteroidField.asteroids.length; i++) {
 
         const ast = asteroidField.asteroids[i];
-        const hit = ast.isAHit(this.getBodyCoordinate(pos))
+        const hit = ast.asteroidCollisionCheck(playerBody)
 
         if (hit) {
           this.isAlive = false
@@ -137,9 +143,10 @@ export default class Player extends Client implements PlayerModel {
     }
   }
 
-  getBodyCoordinate(pos) {
+  getBodyCoordinates(pos: Vector): Vector[] {
     const arr = []
     const body = this.body
+
     for (let y = 0; y < this.body.length; y++) {
       for (let x = 0; x < this.body[y].length; x++) {
         if (body[y][x]) {

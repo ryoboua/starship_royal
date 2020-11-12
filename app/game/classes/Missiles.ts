@@ -14,55 +14,44 @@ export default class Missiles {
         this.missiles.push(new Missile(pos))
     }
 
-    updateMissilePositions(asteroidField: AsteroidField): void {
+    updateMissilePositions(asteroidField: AsteroidField): number | undefined {
         if (!this.missiles.length) {
             return
         }
-        const missilesToRemove: Array<number> = []
 
-        this.missiles.forEach((mis, missileIndex) => {
-            const newPos = Vector.sub(mis.pos, mis.vel)
-            const newY = newPos.y
-            const newX = newPos.x
+        let numOfDestroyedAsteroids = 0
 
-            asteroidField.asteroids.forEach((ast) => {
-                const body = ast.body;
-                for (let y = 0; y < body.length; y++) {
-                    for (let x = 0; x < body[y].length; x++) {
-                        if (body[y][x]) {
-                            const posY = (y * GRID_SIZE) + ast.pos.y
-                            const posX = (x * GRID_SIZE) + ast.pos.x
-                            if (
-                                newX < posX + GRID_SIZE &&
-                                newX + GRID_SIZE > posX &&
-                                newY < posY + GRID_SIZE &&
-                                newY + GRID_SIZE > posY
-                            ) {
-                                ast.breakPiece(y, x)
-                                missilesToRemove.push(missileIndex)
-                            }
-                        }
-                    }
+        this.missiles.forEach((mis) => {
+            const pos = Vector.sub(mis.pos, mis.vel)
+            const missileBody = mis.getBodyCoordinates(pos)
+
+            for (let i = 0; i < asteroidField.asteroids.length; i++) {
+                const ast = asteroidField.asteroids[i];
+                const hit = ast.missileCollisionCheck(missileBody)
+
+                if (hit) {
+                    numOfDestroyedAsteroids++
+                    mis.destroyed = true
+                    break;
                 }
-            })
+            }
 
-            //check collisions
-            if (newY - GRID_SIZE < 0) {
-                if (!missilesToRemove.includes(missileIndex)) {
-                    missilesToRemove.push(missileIndex)
-                }
+            if (mis.destroyed) {
+                return
+            }
+
+            if (pos.y - GRID_SIZE < 0) {
+                mis.destroyed = true
             } else {
-                mis.pos = newPos
+                mis.pos = pos
             }
         })
 
-        this.removeMissiles(missilesToRemove)
-        return
+        this.removeMissiles()
+        return numOfDestroyedAsteroids
     }
 
-    removeMissiles(missArr: Array<number>) {
-        this.missiles = this.missiles.filter(
-            (mis, i) => !missArr.includes(i)
-        )
+    removeMissiles() {
+        this.missiles = this.missiles.filter((mis) => !mis.destroyed)
     }
 }

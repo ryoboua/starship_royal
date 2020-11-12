@@ -56,7 +56,7 @@ export default class Asteroid {
         this.destroid = true
     }
 
-    isAHit(arr: Vector[]): boolean {
+    asteroidCollisionCheck(arr: Vector[]): boolean {
         let hit = false
         for (let y = 0; y < this.body.length; y++) {
             for (let x = 0; x < this.body[y].length; x++) {
@@ -72,11 +72,38 @@ export default class Asteroid {
                     })
 
                     if (hit) {
+                        this.breakPiece(y, x)
                         return hit
                     }
                 }
             }
         }
+        return hit
+    }
+
+    missileCollisionCheck(arr: Vector[]): boolean {
+        let hit = false
+        for (let y = 0; y < this.body.length; y++) {
+            for (let x = 0; x < this.body[y].length; x++) {
+                if (this.body[y][x]) {
+                    const posY = (y * GRID_SIZE) + this.pos.y
+                    const posX = (x * GRID_SIZE) + this.pos.x
+
+                    arr.forEach((coord) => {
+                        if (coord.x < posX + GRID_SIZE &&
+                            coord.x + GRID_SIZE > posX &&
+                            coord.y < posY + GRID_SIZE &&
+                            coord.y + GRID_SIZE > posY) {
+                            this.breakPiece(y, x)
+                            hit = true
+
+                        }
+                    })
+
+                }
+            }
+        }
+
         return hit
     }
 }

@@ -69,6 +69,7 @@ export interface MissileModel {
     vel: Vector
     value: number
     body: Blueprint
+    destroyed: boolean
 }
 
 export interface GameModel {
