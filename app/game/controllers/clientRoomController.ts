@@ -2,13 +2,6 @@ import { joinGameResponseCallBack, Emit } from "../../shared/interfaces"
 import { BackendSocket } from "../../shared/types"
 import Room from "../../shared/classes/ClientRoom"
 import Client from "../../shared/classes/Client"
-import Mutations from "../../shared/mutations"
-
-const {
-  ADD_PLAYER,
-  REMOVE_PLAYER,
-  START_ROUND,
-} = Mutations
 
 const rooms = new Map()
 
@@ -24,7 +17,7 @@ export function addPlayer(roomName: string, client: Client, socket: BackendSocke
   room.addPlayer(client)
   const players = room.getPlayerList()
   resFn({ client, players })
-  socket.to(roomName).broadcast.emit("ACTION", { mutation: ADD_PLAYER, data: client })
+  socket.to(roomName).broadcast.emit("addPlayer", client)
 }
 
 export function removePlayer(roomName: string, socketId: string) {
@@ -34,7 +27,7 @@ export function removePlayer(roomName: string, socketId: string) {
 
   const room = rooms.get(roomName)
   room.removePlayer(socketId)
-  room.emit(REMOVE_PLAYER, socketId)
+  room.emit("removePlayer", socketId)
 }
 
 export function removeRoom(roomName: string) {
@@ -66,7 +59,7 @@ export function startRound(roomName: string) {
   const room = rooms.get(roomName)
   room.setRoundStatus(true)
   const sequence = room.generateSequence()
-  room.emit(START_ROUND, sequence)
+  room.emit("startRound", sequence)
 }
 
 export function endRound(roomName: string) {

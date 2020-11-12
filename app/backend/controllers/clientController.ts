@@ -11,17 +11,8 @@ import {
 } from "../../game/controllers/clientRoomController"
 import { makeid } from "../../shared/utils"
 import { joinGameResponseCallBack, ClientRoomEmitter } from "../../shared/interfaces"
-import Mutations from "../../shared/mutations"
-
-const {
-  ROUND_ACTIVE,
-  KEY_DOWN,
-  KEY_UP,
-  PLAYER_DEAD,
-} = Mutations
 
 const clientList = new Map()
-
 
 export function handleNewGame(socket: BackendSocket, name: string, initGameEmitter: ClientRoomEmitter, resFn: any) {
   const roomName = makeid(5)
@@ -100,7 +91,7 @@ export function handleKeyDown(socket: BackendSocket, keyCode: number) {
     return
   }
 
-  socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_DOWN, data: { keyCode, socketId: socket.id } })
+  socket.to(roomName).broadcast.emit("keydown", { keyCode, socketId: socket.id })
 }
 
 export function handleKeyUp(socket: BackendSocket, keyCode: number) {
@@ -114,7 +105,7 @@ export function handleKeyUp(socket: BackendSocket, keyCode: number) {
     return
   }
 
-  socket.to(roomName).broadcast.emit("ACTION", { mutation: KEY_UP, data: { keyCode, socketId: socket.id } })
+  socket.to(roomName).broadcast.emit("keyup", { keyCode, socketId: socket.id })
 }
 
 export function handleStartRound(socket: BackendSocket) {
@@ -153,5 +144,5 @@ export function handleDeadPlayer(socket: BackendSocket, deadPlayerSocketId: stri
   if (!isRoundActive(roomName)) {
     return
   }
-  socket.to(roomName).broadcast.emit("ACTION", { mutation: PLAYER_DEAD, data: deadPlayerSocketId })
+  socket.to(roomName).broadcast.emit("playerDead", deadPlayerSocketId)
 }

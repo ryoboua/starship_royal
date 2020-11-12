@@ -10,7 +10,7 @@ import {
   handleDeadPlayer,
 } from "./controllers/clientController.js"
 
-import { joinGameResponseCallBack, BackendCommit, ClientRoomEmitter } from "../shared/interfaces"
+import { joinGameResponseCallBack, ClientRoomEmitter } from "../shared/interfaces"
 import Mutations from "../shared/mutations"
 
 const {
@@ -32,8 +32,8 @@ io.listen(3000)
 let initGameEmitter: ClientRoomEmitter
 
 initGameEmitter = function (roomName: string) {
-  return function (commit: BackendCommit): void {
-    io.sockets.in(roomName).emit("ACTION", commit)
+  return function (action: string, payload: any): void {
+    io.sockets.in(roomName).emit(action, payload)
   }
 }
 

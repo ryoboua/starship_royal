@@ -147,10 +147,5 @@ export interface joinGameResponse {
     players: Player[]
 }
 
-export interface BackendCommit {
-    mutation: Mutations
-    data?: any
-}
-
 export type ClientRoomEmitter = (roomName: string) => Emit
-export type Emit = (commit: BackendCommit) => void
+export type Emit = (action: string, payload: any) => void

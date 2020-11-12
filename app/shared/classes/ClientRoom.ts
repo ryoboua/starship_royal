@@ -24,9 +24,9 @@ export default class clientRoom extends Lobby {
     this._emit = emit
   }
 
-  emit(mutation: Mutations, data = null) {
+  emit(action: string, payload: any) {
     if (this._emit)
-      this._emit({ mutation, data })
+      this._emit(action, payload)
   }
 
   generateSequence() {
