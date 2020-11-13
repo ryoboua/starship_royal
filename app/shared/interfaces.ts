@@ -112,10 +112,15 @@ export interface GameStore {
     timer: number | null
     players: ClientModel[]
     playerScores: PlayerScores
-    screen: string
+    screen: Screen
     disableStartBtn: boolean
+}
 
-
+export interface Screen {
+    msg?: string
+    endType?: string
+    reason?: any
+    winner?: any
 }
 
 export interface GameState {

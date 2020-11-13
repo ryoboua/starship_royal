@@ -84,21 +84,21 @@ export default {
         gameHandleKeyUp(state._gameInstance, keyCode, socketId)
     },
 
-    [COUNTDOWN](state: GameStore, count: string) {
-        state.screen = count
+    [COUNTDOWN](state: GameStore, screen: Screen) {
+        state.screen = { ...state.screen, ...screen }
     },
 
-    [DISPLAY_MSG](state: GameStore, msg: string) {
-        state.screen = msg
+    [DISPLAY_MSG](state: GameStore, screen: Screen) {
+        state.screen = { ...state.screen, ...screen }
     },
 
-    [ROUND_OVER](state: GameStore, msg: string) {
-        state.screen = msg
+    [ROUND_OVER](state: GameStore, screen: Screen) {
+        state.screen = { ...state.screen, ...screen }
         state.disableStartBtn = false
     },
 
-    [GAME_OVER](state: GameStore, msg: string) {
-        state.screen = msg
+    [GAME_OVER](state: GameStore, screen: Screen) {
+        state.screen = { ...state.screen, ...screen }
         state.disableStartBtn = false
     },
 

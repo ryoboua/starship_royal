@@ -16,7 +16,8 @@
         Start Round
       </button>
       <br />
-      <button @click.once="returnToStartMenu">Return</button>
+      <br />
+      <button @click.once="returnToStartMenu">Leave Room</button>
       <div v-if="type === 'multi'">
         <h4>Current players in lobby:</h4>
         <ul>

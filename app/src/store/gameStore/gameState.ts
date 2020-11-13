@@ -10,6 +10,6 @@ export default (): GameStore => ({
     timer: null,
     players: [],
     playerScores: [],
-    screen: '',
+    screen: {},
     disableStartBtn: false,
 })

@@ -1,6 +1,7 @@
 import Mutations from "../../../shared/mutations"
 import { ClientModel, GameActionContext } from "../../../shared/interfaces";
 import { GameType, FrontendSocket } from "../../../shared/types";
+import { GAME_OVER_REASONS } from "../../../game/constants";
 
 const {
     SET_GAME_TYPE,
@@ -12,7 +13,9 @@ const {
     PLAYER_DEAD,
     END_ROUND,
     RESET_GAME_STORE,
-    LEAVE_ROOM
+    LEAVE_ROOM,
+    GAME_ACTIVE,
+    ROUND_OVER
 } = Mutations
 
 export default (socket: FrontendSocket) => ({
@@ -34,7 +37,11 @@ export default (socket: FrontendSocket) => ({
         }
     },
 
-    endRound(context: GameActionContext) {
+    roundOver(context: GameActionContext, screen: Screen) {
+        context.commit(ROUND_OVER, screen)
+    },
+
+    emitEndRoundToBackend(context: GameActionContext) {
         if (context.state.type === 'multi' && context.rootState.client.host) {
             socket.emit(END_ROUND)
         }

@@ -1,12 +1,14 @@
 <template>
-  <div
-    v-if="!gameActive"
-    v-html="screen"
-    class="game_screen__information"
-  ></div>
+  <div v-if="!gameActive" class="game_screen__information">
+    <h3 v-if="screen.msg">{{ screen.msg }}</h3>
+    <h2 v-if="screen.endtype">{{ screen.endtype }}</h2>
+    <h3 v-if="screen.reason">{{ reason }}</h3>
+    <h3 v-if="screen.winner">Round winner is {{ screen.winner }}</h3>
+  </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
+import { GAME_OVER_REASONS } from "../../game/constants";
 
 export default {
   name: "InformationScreen",
@@ -16,16 +18,30 @@ export default {
       screen: (state) => state.game.screen,
       isHost: (state) => state.client.host,
     }),
+
+    reason() {
+      if (this.screen.reason === 1) {
+        return "All Ships have crashed!";
+      }
+      if (this.screen.reason === 2) {
+        return "Timer Ended";
+      }
+    },
+  },
+  data() {
+    return {
+      gameOverReasons: GAME_OVER_REASONS,
+    };
   },
   methods: {
     ...mapActions("game", ["displayMsg"]),
   },
   mounted() {
     const msg = this.isHost
-      ? "<h3>Click Start Button To Start Round</h3>"
-      : "<h3 v-else>Waiting For Host To Start Round</h3>";
+      ? "Click Start Button To Start Round"
+      : "Waiting For Host To Start Round";
 
-    this.displayMsg(msg);
+    this.displayMsg({ msg });
   },
 };
 </script>
@@ -33,6 +49,7 @@ export default {
 .game_screen__information {
   position: absolute;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
   height: 100%;
@@ -41,7 +58,7 @@ export default {
   /deep/ h3,
   /deep/ h2,
   /deep/ h1 {
-    color: $primary-color;
+    color: $button-primary;
     align-self: center;
   }
 }

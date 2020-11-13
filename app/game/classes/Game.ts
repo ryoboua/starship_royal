@@ -98,10 +98,6 @@ export default class Game extends Lobby implements GameModel {
     this.timer--
   }
 
-  endRound() {
-    this.resetState()
-  }
-
   getCurrentLevel(): number {
     return this.levels.length
   }
@@ -118,5 +114,9 @@ export default class Game extends Lobby implements GameModel {
 
   isLocal(socketId: string): boolean {
     return this._context?.rootState.client.socketId === socketId
+  }
+
+  getPlayerWithHighestScore() {
+    return Object.values(this.players).sort((a, b) => a.score - b.score)[0].name
   }
 }

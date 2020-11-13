@@ -77,11 +77,11 @@ export async function handleStartRound(game: Game, sequence: Sequence) {
 
 function initiateCountdown(game: Game) {
   return new Promise((resolve) => {
-    let count = 5
+    let count = 3
     const countdownIntervalId = setInterval(
       function () {
         if (count) {
-          game.commit(COUNTDOWN, `<h1>${count--}</h1>`)
+          game.commit(COUNTDOWN, { msg: `${count--}` })
         } else {
           clearInterval(countdownIntervalId)
           resolve()
@@ -145,25 +145,23 @@ function processGameOver(gameOverReason: number, game: Game) {
   }
 
   game.setRoundStatus(false)
-  game.endRound()
-  game.dispatch("endRound")
+  game.resetState()
+  game.dispatch("emitEndRoundToBackend")
   game.commit(GAME_ACTIVE, false)
 
+  const winner = game.getPlayerWithHighestScore()
   const currentLevel = game.getCurrentLevel()
+
+  const payload = { reason: gameOverReason, winner }
+
   if (currentLevel < MAX_LEVEL) {
-    const rawHtml = generateGameInfoRawHtml(gameOverReason)
-    game.commit(ROUND_OVER, rawHtml)
+    game.dispatch("roundOver", payload)
   } else {
-    game.commit(GAME_OVER,
-      `
-      <h1>GAME OVER</h1>
-      <br>
-      <h1>THANKS FOR PLAYING</h1>
-    `)
+    game.commit(GAME_OVER, payload)
   }
 
 }
 
 function generateGameInfoRawHtml(reason: number) {
-  return `<h1>${GAME_OVER_REASONS[reason]}</h1>`
+  return `${GAME_OVER_REASONS[reason]}`
 }
