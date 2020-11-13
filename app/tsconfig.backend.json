@@ -14,12 +14,10 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "watch": true,
         "outDir": "jsBackend",
         "removeComments": true,
         "noImplicitReturns": true,
-        "allowUnreachableCode": false,
-        "allowJs": true
+        "allowUnreachableCode": false
     },
     "include": [
         "game/**/*.ts",
