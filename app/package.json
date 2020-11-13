@@ -8,7 +8,9 @@
     "lint": "vue-cli-service lint",
     "backend": "nodemon ./jsBackend/backend/server.js",
     "tscwatch": "tsc -p tsconfig.backend.json --watch",
-    "tscbuild": "tsc -p tsconfig.backend.json"
+    "pretscbuild": "rm -rf jsBackend",
+    "tscbuild": "tsc -p tsconfig.backend.json",
+    "posttscbuild": "cp  ./backend/package.json jsBackend/package.json"
   },
   "dependencies": {
     "core-js": "^3.6.5",

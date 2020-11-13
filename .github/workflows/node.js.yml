@@ -20,9 +20,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      # - run: cd app/backend && npm i
+      - run: cd app && npm i
+      - run: cd app && npm run tscbuild
+      - run: cd app/jsBackend && npm i
       # - run: pm2 restart backend
 
-      - run: cd app && npm i
       - run: cd app && npm run build
+
   #  - run: npm test
