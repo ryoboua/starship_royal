@@ -88,14 +88,14 @@ export default {
       });
     },
   },
-  // sockets: {
-  //   connect: function() {
-  //     console.log("socket connected");
-  //   },
-  //   disconnect: function() {
-  //     console.log("disconnect");
-  //   }
-  // }
+  sockets: {
+    connect: function () {
+      console.log("socket connected");
+    },
+    disconnect: function () {
+      console.log("disconnect");
+    },
+  },
 };
 </script>
 
