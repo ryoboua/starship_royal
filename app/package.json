@@ -10,7 +10,7 @@
     "tsc-watch-backend": "tsc -p tsconfig.backend.json --watch",
     "pretsc-build-backend": "rm -rf jsBackend",
     "tsc-build-backend": "tsc -p tsconfig.backend.json",
-    "posttsc-build-backend": "cp  ./backend/package.json jsBackend/package.json"
+    "posttsc-build-backend": "cp ./backend/package.json jsBackend/package.json"
   },
   "dependencies": {
     "core-js": "^3.6.5",
