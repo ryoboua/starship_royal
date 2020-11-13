@@ -23,7 +23,8 @@ jobs:
       - run: cd app && npm i
       - run: cd app && npm run tscbuild
       - run: cd app/jsBackend && npm i
-      # - run: pm2 restart backend
+      # - run: pm2 start app/jsBackend/backend/server.js --name=backend
+      - run: pm2 restart backend
 
       - run: cd app && npm run build
 
