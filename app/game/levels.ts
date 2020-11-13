@@ -12,16 +12,16 @@ export default [
   {
     number: 3,
     numOfAsteroids: 3,
-    asteroidFieldTimeInterval: 200,
+    asteroidFieldTimeInterval: 250,
   },
   {
     number: 4,
-    numOfAsteroids: 4,
+    numOfAsteroids: 3,
     asteroidFieldTimeInterval: 200,
   },
   {
     number: 5,
-    numOfAsteroids: 5,
+    numOfAsteroids: 3,
     asteroidFieldTimeInterval: 200,
   },
 ]

@@ -51,14 +51,14 @@ io.on("connection", (socket) => {
   function handleJoinRoom({ roomName, name }: { roomName: string, name: string }, resFn: joinGameResponseCallBack): void {
     const room = io.sockets.adapter.rooms[roomName]
 
-    let allUsers
+    let allClients
     if (room) {
-      allUsers = room.sockets
+      allClients = room.sockets
     }
 
     let numClients = 0
-    if (allUsers) {
-      numClients = Object.keys(allUsers).length
+    if (allClients) {
+      numClients = Object.keys(allClients).length
     }
 
     if (numClients === 0) {

@@ -34,5 +34,9 @@ export default (socket: FrontendSocket) => ({
 
     BACKEND_playerDead(context: GameActionContext, socketId: string) {
         context.commit(PLAYER_DEAD, socketId)
+    },
+
+    BACKEND_hostDisconnected(context: GameActionContext) {
+        context.dispatch("returnToStartMenu")
     }
 })

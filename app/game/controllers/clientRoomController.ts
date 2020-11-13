@@ -34,8 +34,8 @@ export function removeRoom(roomName: string) {
   if (!rooms.has(roomName)) {
     return
   }
-
-
+  rooms.get(roomName).emit("hostDisconnected")
+  rooms.delete(roomName)
 }
 
 function gameKeyDown(client: Client, keyCode: number, socket: BackendSocket) {
