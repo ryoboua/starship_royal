@@ -1,4 +1,4 @@
-# frontend
+# appvue2typescript
 
 ## Project setup
 ```
