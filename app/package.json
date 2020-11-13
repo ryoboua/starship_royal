@@ -7,10 +7,10 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "backend": "nodemon ./jsBackend/backend/server.js",
-    "tscwatch": "tsc -p tsconfig.backend.json --watch",
-    "pretscbuild": "rm -rf jsBackend",
-    "tscbuild": "tsc -p tsconfig.backend.json",
-    "posttscbuild": "cp  ./backend/package.json jsBackend/package.json"
+    "tsc-watch-backend": "tsc -p tsconfig.backend.json --watch",
+    "pretsc-build-backend": "rm -rf jsBackend",
+    "tsc-build-backend": "tsc -p tsconfig.backend.json",
+    "posttsc-build-backend": "cp  ./backend/package.json jsBackend/package.json"
   },
   "dependencies": {
     "core-js": "^3.6.5",

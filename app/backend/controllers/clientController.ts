@@ -15,7 +15,6 @@ import { joinGameResponseCallBack, ClientRoomEmitter } from "../../shared/interf
 const clientList = new Map()
 
 export function handleNewGame(socket: BackendSocket, name: string, initGameEmitter: ClientRoomEmitter, resFn: any) {
-  console.log('yoyo')
   const roomName = makeid(5)
   socket.join(roomName, (err) => {
     if (err) {

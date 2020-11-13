@@ -58,7 +58,7 @@ export default {
   /deep/ h3,
   /deep/ h2,
   /deep/ h1 {
-    color: $button-primary;
+    color: $primary-color;
     align-self: center;
   }
 }
