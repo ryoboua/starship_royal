@@ -67,7 +67,6 @@ export default (socket: FrontendSocket) => ({
         context.commit(KEY_UP, keyEvent)
 
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
-            keyEvent.pos = context.state._gameInstance.getPlayerPosition(socketId)
             socket.emit(KEY_UP, keyEvent)
         }
     },
