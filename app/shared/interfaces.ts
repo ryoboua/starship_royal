@@ -7,7 +7,6 @@ import Player from "../game/classes/Player"
 import Game from "../game/classes/Game"
 import AsteroidField from "../game/classes/AsteroidField"
 import { Sequence, GameType } from "./types"
-import Mutations from "./mutations"
 
 export interface Point2D {
     x: number
@@ -74,6 +73,7 @@ export interface MissileModel {
 }
 
 export interface GameModel {
+    level: number
     levels: Level[]
     asteroidField: AsteroidField
     gridsize: number

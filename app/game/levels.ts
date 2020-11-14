@@ -1,6 +1,6 @@
 export default [
   {
-    number: 1,
+    number: 0,
     numOfAsteroids: 2,
     asteroidFieldTimeInterval: 300,
   },

@@ -5,6 +5,7 @@ import { GRID_SIZE, ROUND_TIME, GAME_OVER_REASONS } from "../constants"
 import Vector from './Vector';
 
 export default class Game extends Lobby implements GameModel {
+  level: number
   levels: Level[]
   asteroidField: AsteroidField
   gridsize: number
@@ -13,6 +14,7 @@ export default class Game extends Lobby implements GameModel {
 
   constructor() {
     super()
+    this.level = 0
     this.levels = []
     this.asteroidField = new AsteroidField()
     this.gridsize = GRID_SIZE

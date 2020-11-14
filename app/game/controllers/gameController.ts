@@ -1,6 +1,5 @@
 import Game from "../classes/Game"
 import { FRAME_RATE } from "../constants"
-import { GAME_OVER_REASONS } from "../constants"
 import levelParams from "../levels"
 import { ClientModel, Level, GameActionContext, KeyEvent } from "../../shared/interfaces"
 import { Sequence } from "../../shared/types"
@@ -72,12 +71,13 @@ export async function handleStartRound(game: Game, sequence: Sequence) {
     return
   }
 
-  let level: number | Level = game.getCurrentLevel()
-  if (level >= MAX_LEVEL) {
-    console.log('end game')
-    return
-  }
-  level = levelParams[level]
+  // let level: number | Level = game.getCurrentLevel()
+  // if (level >= MAX_LEVEL) {
+  //   console.log('end game')
+  //   return
+  // }
+  const level = levelParams[0]
+  level.number = ++game.level
   game.addLevel(level)
   const initialGameState = game.getGameState()
   game.commit(LOAD_LEVEL, { level, initialGameState })
@@ -160,14 +160,15 @@ function processGameOver(gameOverReason: number, game: Game) {
   game.commit(GAME_ACTIVE, false)
 
   const winner = game.getPlayerWithHighestScore()
-  const currentLevel = game.getCurrentLevel()
+  //const currentLevel = game.getCurrentLevel()
 
   const payload = { reason: gameOverReason, winner }
+  game.dispatch("roundOver", payload)
 
-  if (currentLevel < MAX_LEVEL) {
-    game.dispatch("roundOver", payload)
-  } else {
-    game.commit(GAME_OVER, payload)
-  }
+  // if (currentLevel < MAX_LEVEL) {
+  //   game.dispatch("roundOver", payload)
+  // } else {
+  //   game.commit(GAME_OVER, payload)
+  // }
 
 }
