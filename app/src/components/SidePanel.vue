@@ -6,7 +6,6 @@
     </h3>
     <h4>Name: {{ name }}</h4>
     <h4>Player Number:{{ playerNumber }}</h4>
-    <h4>Current Level: {{ level.number }}</h4>
     <div v-if="!gameActive">
       <button
         v-if="isHost"
@@ -28,7 +27,6 @@
       </div>
     </div>
     <ul v-if="gameActive">
-      <h2>Timer: {{ timer }}</h2>
       <li v-for="(p, i) in playerScores" :key="i">
         {{ p.name }} : {{ p.score }}
       </li>
@@ -50,7 +48,6 @@ export default {
       gameActive: (state) => state.game.gameActive,
       players: (state) => state.game.players,
       type: (state) => state.game.type,
-      level: (state) => state.game.level,
       timer: (state) => state.game.timer,
       playerScores: (state) => state.game.playerScores,
       disableStartBtn: (state) => state.game.disableStartBtn,

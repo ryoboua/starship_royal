@@ -23,7 +23,6 @@ export interface KeysModel {
 export interface KeyEvent {
     keyCode: number
     socketId: string
-    pos?: Vector
 }
 
 export interface Level {

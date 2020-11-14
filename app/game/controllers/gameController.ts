@@ -1,20 +1,16 @@
 import Game from "../classes/Game"
 import { FRAME_RATE } from "../constants"
 import levelParams from "../levels"
-import { ClientModel, Level, GameActionContext, KeyEvent, PlayerPositionUpdate } from "../../shared/interfaces"
+import { ClientModel, GameActionContext, KeyEvent, PlayerPositionUpdate } from "../../shared/interfaces"
 import { Sequence } from "../../shared/types"
 import Mutations from "../../shared/mutations"
 
 const {
   GAME_STATE_UPDATE,
-  GAME_OVER,
   GAME_ACTIVE,
-  ROUND_OVER,
   LOAD_LEVEL,
   COUNTDOWN,
 } = Mutations
-
-const MAX_LEVEL = levelParams.length
 
 export function createGame(players: Array<ClientModel>, context: GameActionContext) {
   return Game.createGameState(players, context)
@@ -45,7 +41,7 @@ export function handlePlayerPositionUpdate(game: Game, update: PlayerPositionUpd
 }
 
 export function gameHandleKeyDown(game: Game, keyEvent: KeyEvent) {
-  const { socketId, keyCode, pos } = keyEvent
+  const { socketId, keyCode } = keyEvent
   const player = game.players[socketId]
 
   if (!player) {
@@ -57,7 +53,7 @@ export function gameHandleKeyDown(game: Game, keyEvent: KeyEvent) {
 }
 
 export function gameHandleKeyUp(game: Game, keyEvent: KeyEvent) {
-  const { socketId, keyCode, pos } = keyEvent
+  const { socketId, keyCode } = keyEvent
   const player = game.players[socketId]
 
   if (!player) {
@@ -73,17 +69,13 @@ export async function handleStartRound(game: Game, sequence: Sequence) {
     return
   }
 
-  // let level: number | Level = game.getCurrentLevel()
-  // if (level >= MAX_LEVEL) {
-  //   console.log('end game')
-  //   return
-  // }
   const level = levelParams[0]
-  level.number = ++game.level
   game.addLevel(level)
+
   const initialGameState = game.getGameState()
   game.commit(LOAD_LEVEL, { level, initialGameState })
-  //await initiateCountdown(game)
+
+  await initiateCountdown(game)
   startGameInterval(game, sequence)
 }
 
@@ -170,15 +162,7 @@ function processGameOver(gameOverReason: number, game: Game) {
   game.commit(GAME_ACTIVE, false)
 
   const winner = game.getPlayerWithHighestScore()
-  //const currentLevel = game.getCurrentLevel()
-
   const payload = { reason: gameOverReason, winner }
+
   game.dispatch("roundOver", payload)
-
-  // if (currentLevel < MAX_LEVEL) {
-  //   game.dispatch("roundOver", payload)
-  // } else {
-  //   game.commit(GAME_OVER, payload)
-  // }
-
 }

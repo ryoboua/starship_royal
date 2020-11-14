@@ -1,8 +1,6 @@
 import Mutations from "../../../shared/mutations"
 import { ClientModel, GameActionContext, KeyEvent, PlayerPositionUpdate } from "../../../shared/interfaces";
 import { GameType, FrontendSocket } from "../../../shared/types";
-import { GAME_OVER_REASONS } from "../../../game/constants";
-import Vector from 'game/classes/Vector';
 
 const {
     SET_GAME_TYPE,
