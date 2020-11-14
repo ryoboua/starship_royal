@@ -148,7 +148,7 @@ function startGameInterval(game: Game, sequence: Sequence) {
       clearInterval(broadcastPositionIntervalId)
     }
     game.broadcastPosition()
-  }, 50)
+  }, 25)
 }
 
 function processGameOver(game: Game, gameOverReason: number) {
