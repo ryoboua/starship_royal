@@ -122,7 +122,7 @@ function startGameInterval(game: Game, sequence: Sequence) {
       clearInterval(gameTimerIntervalId)
       clearInterval(broadcastPositionIntervalId)
 
-      processGameOver(gameOverReason, game)
+      processGameOver(game, gameOverReason)
     }
   }, 1000 / FRAME_RATE)
 
@@ -151,8 +151,8 @@ function startGameInterval(game: Game, sequence: Sequence) {
   }, 150)
 }
 
-function processGameOver(gameOverReason: number, game: Game) {
-  if (!gameOverReason || !game) {
+function processGameOver(game: Game, gameOverReason: number) {
+  if (!game || !gameOverReason) {
     return
   }
 
