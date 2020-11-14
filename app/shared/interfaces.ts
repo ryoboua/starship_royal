@@ -51,7 +51,6 @@ export interface PlayerModel {
     isAlive: boolean
     left: boolean
     body: Blueprint
-    lock: boolean
 }
 export interface Players {
     [socketId: string]: Player
