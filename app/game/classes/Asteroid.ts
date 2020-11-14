@@ -17,7 +17,13 @@ export default class Asteroid {
         this.health = 0
         this.initHealth = 0
         this.destroid = false
-        this.body = [[0, 1, 1, 1, 1, 0,], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 1, 0]]
+        this.body = [
+            [0, 1, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 0]
+        ]
     }
 
     static createAsteroid(pos?: Vector) {
