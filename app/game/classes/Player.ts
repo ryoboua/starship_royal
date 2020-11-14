@@ -15,6 +15,7 @@ export default class Player extends Client implements PlayerModel {
   isAlive: boolean
   left: boolean
   body: Blueprint
+  lock: boolean
 
   constructor(client: ClientModel) {
     super({ ...client })
@@ -26,6 +27,7 @@ export default class Player extends Client implements PlayerModel {
     this.isAlive = true
     this.left = false
     this.body = [[0, 0, 1, 0, 0], [0, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
+    this.lock = false
   }
 
   reset() {
@@ -52,6 +54,9 @@ export default class Player extends Client implements PlayerModel {
   }
 
   updateSpaceshipPosition(asteroidField: AsteroidField, isLocal: boolean) {
+    if (this.lock) {
+      return
+    }
     const pos = Vector.add(this.pos, this.vel)
     const playerBodyCoordinates = this.getBodyCoordinates(pos)
 
@@ -88,6 +93,9 @@ export default class Player extends Client implements PlayerModel {
         pos.y = pos.y - SPACE_STEP
         break;
       }
+    }
+    if (this.lock) {
+      return
     }
     this.pos = pos
   }

@@ -37,7 +37,9 @@ export function handlePlayerPositionUpdate(game: Game, update: PlayerPositionUpd
   if (!player) {
     return
   }
+  player.lock = true
   player.pos = pos
+  player.lock = false
 }
 
 export function gameHandleKeyDown(game: Game, keyEvent: KeyEvent) {
