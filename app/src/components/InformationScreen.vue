@@ -1,14 +1,15 @@
 <template>
-  <div v-if="!gameActive" class="game_screen__information">
+  <div class="game_screen__information">
     <h3 v-if="screen.msg">{{ screen.msg }}</h3>
-    <h2 v-if="screen.endtype">{{ screen.endtype }}</h2>
     <h3 v-if="screen.reason">{{ reason }}</h3>
-    <h3 v-if="screen.winner">Round winner is {{ screen.winner }}</h3>
+    <h3 v-if="screen.winner">
+      {{ screen.winner.name }} is the round winner with
+      {{ screen.winner.score }} points!
+    </h3>
   </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import { GAME_OVER_REASONS } from "../../game/constants";
 
 export default {
   name: "InformationScreen",
@@ -18,7 +19,6 @@ export default {
       screen: (state) => state.game.screen,
       isHost: (state) => state.client.host,
     }),
-
     reason() {
       if (this.screen.reason === 1) {
         return "All Ships have crashed!";
@@ -27,11 +27,6 @@ export default {
         return "Timer Ended";
       }
     },
-  },
-  data() {
-    return {
-      gameOverReasons: GAME_OVER_REASONS,
-    };
   },
   methods: {
     ...mapActions("game", ["displayMsg"]),

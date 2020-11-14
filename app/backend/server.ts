@@ -41,7 +41,7 @@ initGameEmitter = function (roomName: string) {
 
 
 io.on("connection", (socket) => {
-  socket.on(CREATE_GAME, (name, resFn) => handleNewGame(socket, name, initGameEmitter, resFn))
+  socket.on(CREATE_GAME, (name, joinGameResponse) => handleNewGame(socket, name, initGameEmitter, joinGameResponse))
   socket.on(JOIN_GAME, handleJoinRoom)
   socket.on(START_ROUND, () => handleStartRound(socket))
   socket.on(END_ROUND, () => handleEndRound(socket))
@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
   socket.on(PLAYER_DEAD, (deadPlayerSocketId) => handleDeadPlayer(socket, deadPlayerSocketId))
   socket.on(PLAYER_POSITION_UPDATE, (update) => handlePlayerPositionUpdate(socket, update))
 
-  function handleJoinRoom({ roomName, name }: { roomName: string, name: string }, resFn: joinGameResponseCallBack): void {
+  function handleJoinRoom({ roomName, name }: { roomName: string, name: string }, joinGameResponse: joinGameResponseCallBack): void {
     const room = io.sockets.adapter.rooms[roomName]
 
     let allClients
@@ -69,16 +69,16 @@ io.on("connection", (socket) => {
         header: "Unknown Room",
         body: `Unable to find room ${roomName}`,
       }
-      return resFn(null, err)
+      return joinGameResponse(null, err)
     } else if (numClients >= 4) {
       const err = {
         header: `Room is full`,
         body: `Room ${roomName} is full. Maximum of 4 players per room`,
       }
-      return resFn(null, err)
+      return joinGameResponse(null, err)
     }
 
-    joinRoom(socket, roomName, name, numClients, resFn)
+    joinRoom(socket, roomName, name, numClients, joinGameResponse)
   }
 })
 

@@ -5,18 +5,18 @@ import Client from "../../shared/classes/Client"
 
 const rooms = new Map()
 
-export function createRoom(roomName: string, players: Array<Client>, emit: Emit) {
+export function createRoom(roomName: string, players: Client[], emit: Emit) {
   rooms.set(roomName, Room.createClientRoom(players, emit))
 }
 
-export function addPlayer(roomName: string, client: Client, socket: BackendSocket, resFn: joinGameResponseCallBack) {
+export function addPlayer(roomName: string, client: Client, socket: BackendSocket, joinGameResponse: joinGameResponseCallBack) {
   if (!rooms.has(roomName)) {
     return
   }
   const room = rooms.get(roomName)
   room.addPlayer(client)
   const players = room.getPlayerList()
-  resFn({ client, players })
+  joinGameResponse({ client, players })
   socket.to(roomName).broadcast.emit("addPlayer", client)
 }
 

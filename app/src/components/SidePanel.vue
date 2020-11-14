@@ -9,7 +9,7 @@
     <div v-if="!gameActive">
       <button
         v-if="isHost"
-        @click.once="handleStartGame"
+        @click.once="startRound"
         :disabled="disableStartBtn"
       >
         Start Round
@@ -53,16 +53,7 @@ export default {
       disableStartBtn: (state) => state.game.disableStartBtn,
     }),
   },
-  methods: {
-    ...mapActions("game", ["startRound", "displayMsg", "returnToStartMenu"]),
-    handleStartGame() {
-      this.clearGameScreenInformation();
-      this.startRound();
-    },
-    clearGameScreenInformation() {
-      this.displayMsg("");
-    },
-  },
+  methods: mapActions("game", ["startRound", "returnToStartMenu"]),
 };
 </script>
 

@@ -78,8 +78,8 @@ export default (socket: FrontendSocket) => ({
         }
     },
 
-    displayMsg(context: GameActionContext, msg: string) {
-        context.commit(DISPLAY_MSG, msg)
+    displayMsg(context: GameActionContext, screen: Screen) {
+        context.commit(DISPLAY_MSG, screen)
     },
 
     setGameType(context: GameActionContext, type: GameType) {

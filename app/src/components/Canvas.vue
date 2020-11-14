@@ -88,7 +88,7 @@ export default {
       const { players, gridsize } = state;
 
       Object.values(players).forEach((player) => {
-        if (!player.weapons.missiles.length || !player.isAlive) {
+        if (!player.isAlive || !player.weapons.missiles.length) {
           return;
         }
 

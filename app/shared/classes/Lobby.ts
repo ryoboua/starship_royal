@@ -21,7 +21,7 @@ export default class Lobby {
         delete this.players[socketId]
     }
 
-    getPlayerList(): Array<Player> {
+    getPlayerList(): Player[] {
         return Object.values(this.players)
     }
 

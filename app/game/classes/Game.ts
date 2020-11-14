@@ -65,9 +65,9 @@ export default class Game extends Lobby implements GameModel {
       }
     })
 
-    // if (!Object.values(this.players).some((player) => player.isAlive)) {
-    //   return GAME_OVER_REASONS["ALL_DEAD"]
-    // }
+    if (!Object.values(this.players).some((player) => player.isAlive)) {
+      return GAME_OVER_REASONS["ALL_DEAD"]
+    }
 
     // if (!this.timer) {
     //   return GAME_OVER_REASONS["TIMER"]
@@ -125,7 +125,9 @@ export default class Game extends Lobby implements GameModel {
   }
 
   getPlayerWithHighestScore() {
-    return Object.values(this.players).sort((a, b) => a.score - b.score)[0].name
+    const { name, score } = Object.values(this.players).sort((a, b) => a.score - b.score)[0]
+
+    return { name, score }
   }
 
   getPlayerPosition(socketId: string): Vector {

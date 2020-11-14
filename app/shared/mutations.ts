@@ -11,7 +11,7 @@ enum Mutations {
     END_ROUND = "END_ROUND",
     ROUND_ACTIVE = "ROUND_ACTIVE",
     GAME_ACTIVE = "GAME_ACTIVE",
-    ROUND_OVER = "ROUND_OVER", //*****/
+    ROUND_OVER = "ROUND_OVER",
 
     KEY_DOWN = "KEY_DOWN",
     KEY_UP = "KEY_UP",

@@ -15,7 +15,8 @@ export default {
       state.body = ""
       state.showModal = false
     },
-    setAndShowModal(state: ModalStore, { header, body }: Modal) {
+    setAndShowModal(state: ModalStore, modal: Modal) {
+      const { header, body } = modal
       state.header = header
       state.body = body
       state.showModal = true

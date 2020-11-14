@@ -12,7 +12,7 @@ const {
   COUNTDOWN,
 } = Mutations
 
-export function createGame(players: Array<ClientModel>, context: GameActionContext) {
+export function createGame(players: ClientModel[], context: GameActionContext) {
   return Game.createGameState(players, context)
 }
 
@@ -157,12 +157,12 @@ function processGameOver(gameOverReason: number, game: Game) {
   }
 
   game.setRoundStatus(false)
-  game.resetState()
   game.dispatch("emitEndRoundToBackend")
   game.commit(GAME_ACTIVE, false)
 
   const winner = game.getPlayerWithHighestScore()
   const payload = { reason: gameOverReason, winner }
-
   game.dispatch("roundOver", payload)
+
+  game.resetState()
 }

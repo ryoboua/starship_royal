@@ -8,5 +8,9 @@ import { FrontendSocket } from "../../shared/types"
 Vue.use(Vuex)
 
 export default (socket: FrontendSocket) => new Vuex.Store({
-  modules: { client: client(socket), game: game(socket), modal },
+  modules: {
+    client: client(socket),
+    game: game(socket),
+    modal
+  },
 })

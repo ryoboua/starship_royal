@@ -31,6 +31,10 @@ export default (socket: FrontendSocket) => ({
     },
     [LEAVE_ROOM](state: ClientStore) {
       state.roomName = ''
+      state.playerNumber = 1
+      state.host = null
+      state.roomName = ''
+      state.socketId = ''
     },
   },
   actions: {

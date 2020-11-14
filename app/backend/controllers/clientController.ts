@@ -14,7 +14,7 @@ import { joinGameResponseCallBack, ClientRoomEmitter, KeyEvent, PlayerPositionUp
 
 const clientList = new Map()
 
-export function handleNewGame(socket: BackendSocket, name: string, initGameEmitter: ClientRoomEmitter, resFn: any) {
+export function handleNewGame(socket: BackendSocket, name: string, initGameEmitter: ClientRoomEmitter, joinGameResponse: any) {
   const roomName = makeid(5)
   socket.join(roomName, (err) => {
     if (err) {
@@ -32,21 +32,21 @@ export function handleNewGame(socket: BackendSocket, name: string, initGameEmitt
 
     clientList.set(client.socketId, client)
     createRoom(roomName, [client], initGameEmitter(roomName))
-    resFn(client)
+    joinGameResponse(client)
   })
 }
 
-export function joinRoom(socket: BackendSocket, roomName: string, name: string, numClients: number, resFn: joinGameResponseCallBack) {
+export function joinRoom(socket: BackendSocket, roomName: string, name: string, numClients: number, joinGameResponse: joinGameResponseCallBack) {
   if (isRoundActive(roomName)) {
     const err = {
       header: `Unable to join while round active`,
       body: "",
     }
-    return resFn(null, err)
+    return joinGameResponse(null, err)
   }
   socket.join(roomName, (err) => {
     if (err) {
-      return resFn(null, {
+      return joinGameResponse(null, {
         header: `Error trying to join room ${roomName}`,
         body: err
       })
@@ -62,7 +62,7 @@ export function joinRoom(socket: BackendSocket, roomName: string, name: string, 
     })
 
     clientList.set(client.socketId, client)
-    addPlayer(roomName, client, socket, resFn)
+    addPlayer(roomName, client, socket, joinGameResponse)
   })
 }
 

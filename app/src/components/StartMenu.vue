@@ -28,6 +28,12 @@
         />
         <button @click="handleJoinGame">Join Game</button>
       </div>
+      <div>
+        <h5>
+          Avoid the asteroids by move your ship with the ←↑↓→ or A,W,S,D keys
+        </h5>
+        <h5>Fire missisles by pressing and holding down SPACEBAR</h5>
+      </div>
     </div>
   </section>
 </template>
@@ -87,6 +93,9 @@ export default {
         name: this.name,
       });
     },
+  },
+  mounted() {
+    this.name = this.$store.state.client.name;
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <main class="game_panel">
     <section class="game_screen">
-      <InformationScreen />
+      <InformationScreen v-if="!gameActive" />
       <Canvas />
     </section>
     <SidePanel />
@@ -12,18 +12,20 @@
 import InformationScreen from "./InformationScreen.vue";
 import Canvas from "./Canvas.vue";
 import SidePanel from "./SidePanel.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "Main",
   components: {
     Canvas,
     InformationScreen,
-    SidePanel
+    SidePanel,
   },
-  mounted() {
-    //this.$store.dispatch("client/createGame", "Dave");
-    //this.$store.dispatch("game/startRound")
-  }
+  computed: {
+    ...mapState({
+      gameActive: (state) => state.game.gameActive,
+    }),
+  },
 };
 </script>
 

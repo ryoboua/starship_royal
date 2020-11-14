@@ -8,8 +8,16 @@ import {
     handleDeadPlayer,
     handlePlayerPositionUpdate
 } from "../../../game/controllers/gameController"
+import {
+    GameStore,
+    GameState,
+    ClientModel,
+    KeyEvent,
+    Level,
+    GameActionContext,
+    PlayerPositionUpdate
+} from "../../../shared/interfaces"
 import { GameType, Sequence } from '../../../shared/types'
-import { GameStore, GameState, ClientModel, KeyEvent, Level, GameActionContext, PlayerPositionUpdate } from "../../../shared/interfaces"
 import Mutations from "../../../shared/mutations"
 import getDefaultState from "./gameState";
 const {
@@ -47,6 +55,7 @@ export default {
             return
         }
         state.disableStartBtn = true
+        state.screen = { msg: '', reason: '', winner: '' }
         handleStartRound(state._gameInstance, sequence)
     },
 
