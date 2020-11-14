@@ -45,9 +45,9 @@ export function gameHandleKeyDown(game: Game, keyEvent: KeyEvent) {
   player.keys.updateKeysDown(keyCode)
   player.updateVelocityKeyDown(keyCode)
 
-  if (!game.isLocal(socketId) && pos) {
-    player.pos = pos
-  }
+  // if (!game.isLocal(socketId) && pos) {
+  //   player.pos = pos
+  // }
 }
 
 export function gameHandleKeyUp(game: Game, keyEvent: KeyEvent) {

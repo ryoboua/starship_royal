@@ -54,13 +54,10 @@ export default (socket: FrontendSocket) => ({
         const socketId = context.rootState.client.socketId
         const keyEvent: KeyEvent = { socketId, keyCode: e.keyCode }
 
-        context.commit(KEY_DOWN, keyEvent)
-
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
-            keyEvent.pos = context.state._gameInstance.getPlayerPosition(socketId)
             socket.emit(KEY_DOWN, keyEvent)
         }
-
+        context.commit(KEY_DOWN, keyEvent)
     },
 
     handleKeyUp(context: GameActionContext, e: KeyboardEvent) {
@@ -70,11 +67,10 @@ export default (socket: FrontendSocket) => ({
         const socketId = context.rootState.client.socketId
         const keyEvent: KeyEvent = { socketId, keyCode: e.keyCode }
 
-        context.commit(KEY_UP, keyEvent)
-
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
             socket.emit(KEY_UP, keyEvent)
         }
+        context.commit(KEY_UP, keyEvent)
     },
 
     displayMsg(context: GameActionContext, msg: string) {
