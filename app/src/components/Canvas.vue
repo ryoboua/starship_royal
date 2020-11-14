@@ -24,12 +24,6 @@ export default {
   },
   methods: {
     ...mapActions("game", ["handleKeyDown", "handleKeyUp"]),
-    keydown(e) {
-      this.handleKeyDown(e.keyCode);
-    },
-    keyup(e) {
-      this.handleKeyUp(e.keyCode);
-    },
     paintGame(state) {
       const canvas = this.$refs.canvas;
       const ctx = canvas.getContext("2d");
@@ -118,8 +112,8 @@ export default {
     },
   },
   mounted() {
-    document.addEventListener("keydown", this.keydown);
-    document.addEventListener("keyup", this.keyup);
+    document.addEventListener("keydown", this.handleKeyDown);
+    document.addEventListener("keyup", this.handleKeyUp);
 
     const canvas = this.$refs.canvas;
     const ctx = canvas.getContext("2d");

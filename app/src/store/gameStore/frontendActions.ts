@@ -47,9 +47,12 @@ export default (socket: FrontendSocket) => ({
         }
     },
 
-    handleKeyDown(context: GameActionContext, keyCode: number) {
+    handleKeyDown(context: GameActionContext, e: KeyboardEvent) {
+        if (e.repeat) {
+            return
+        }
         const socketId = context.rootState.client.socketId
-        const keyEvent: KeyEvent = { socketId, keyCode }
+        const keyEvent: KeyEvent = { socketId, keyCode: e.keyCode }
 
         context.commit(KEY_DOWN, keyEvent)
 
@@ -60,9 +63,12 @@ export default (socket: FrontendSocket) => ({
 
     },
 
-    handleKeyUp(context: GameActionContext, keyCode: number) {
+    handleKeyUp(context: GameActionContext, e: KeyboardEvent) {
+        if (e.repeat) {
+            return
+        }
         const socketId = context.rootState.client.socketId
-        const keyEvent: KeyEvent = { socketId, keyCode }
+        const keyEvent: KeyEvent = { socketId, keyCode: e.keyCode }
 
         context.commit(KEY_UP, keyEvent)
 
