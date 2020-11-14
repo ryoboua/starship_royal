@@ -1,5 +1,5 @@
 import Mutations from "../../../shared/mutations"
-import { ClientModel, GameActionContext, KeyEvent } from "../../../shared/interfaces";
+import { ClientModel, GameActionContext, KeyEvent, PlayerPositionUpdate } from "../../../shared/interfaces";
 import { FrontendSocket, Sequence } from "../../../shared/types";
 
 const {
@@ -8,7 +8,8 @@ const {
     KEY_UP,
     ADD_PLAYER,
     REMOVE_PLAYER,
-    PLAYER_DEAD
+    PLAYER_DEAD,
+    PLAYER_POSITION_UPDATE
 } = Mutations
 
 export default (socket: FrontendSocket) => ({
@@ -36,8 +37,11 @@ export default (socket: FrontendSocket) => ({
         context.commit(PLAYER_DEAD, socketId)
     },
 
+    BACKEND_playerPositionUpdate(context: GameActionContext, update: PlayerPositionUpdate) {
+        context.commit(PLAYER_POSITION_UPDATE, update)
+    },
+
     BACKEND_hostDisconnected(context: GameActionContext) {
         window.location.reload()
-        //context.dispatch("returnToStartMenu")
     }
 })

@@ -1,6 +1,6 @@
 import Lobby from "../../shared/classes/Lobby"
 import AsteroidField from "./AsteroidField"
-import { ClientModel, GameModel, Level, GameActionContext as GameFrontEndContext, GameState, PlayerScores } from "../../shared/interfaces";
+import { ClientModel, GameModel, Level, PlayerPositionUpdate, GameActionContext as GameFrontEndContext, GameState, PlayerScores } from "../../shared/interfaces";
 import { GRID_SIZE, ROUND_TIME, GAME_OVER_REASONS } from "../constants"
 import Vector from './Vector';
 
@@ -125,5 +125,16 @@ export default class Game extends Lobby implements GameModel {
 
   getPlayerPosition(socketId: string): Vector {
     return this.players[socketId].pos
+  }
+
+  broadcastPosition() {
+    if (!this._context) {
+      return
+    }
+    const { socketId } = this._context.rootState.client
+    const { pos } = this.players[socketId]
+    const payload: PlayerPositionUpdate = { socketId, pos }
+
+    this.dispatch("broadcastPosition", payload)
   }
 }

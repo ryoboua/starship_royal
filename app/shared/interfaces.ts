@@ -86,6 +86,11 @@ export type PlayerScores = Array<{
     score: number
 }>
 
+export interface PlayerPositionUpdate {
+    socketId: string
+    pos: Vector
+}
+
 ///Modal
 
 export interface ModalStore {

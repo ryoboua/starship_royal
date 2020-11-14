@@ -1,7 +1,7 @@
 import Game from "../classes/Game"
 import { FRAME_RATE } from "../constants"
 import levelParams from "../levels"
-import { ClientModel, Level, GameActionContext, KeyEvent } from "../../shared/interfaces"
+import { ClientModel, Level, GameActionContext, KeyEvent, PlayerPositionUpdate } from "../../shared/interfaces"
 import { Sequence } from "../../shared/types"
 import Mutations from "../../shared/mutations"
 
@@ -34,6 +34,16 @@ export function handleDeadPlayer(game: Game, socketId: string) {
   game.destroyShip(socketId)
 }
 
+export function handlePlayerPositionUpdate(game: Game, update: PlayerPositionUpdate) {
+  const { socketId, pos } = update
+  const player = game.players[socketId]
+
+  if (!player) {
+    return
+  }
+  player.pos = pos
+}
+
 export function gameHandleKeyDown(game: Game, keyEvent: KeyEvent) {
   const { socketId, keyCode, pos } = keyEvent
   const player = game.players[socketId]
@@ -44,10 +54,6 @@ export function gameHandleKeyDown(game: Game, keyEvent: KeyEvent) {
 
   player.keys.updateKeysDown(keyCode)
   player.updateVelocityKeyDown(keyCode)
-
-  // if (!game.isLocal(socketId) && pos) {
-  //   player.pos = pos
-  // }
 }
 
 export function gameHandleKeyUp(game: Game, keyEvent: KeyEvent) {
@@ -60,10 +66,6 @@ export function gameHandleKeyUp(game: Game, keyEvent: KeyEvent) {
 
   player.keys.updateKeysUp(keyCode)
   player.updateVelocityKeyUp(keyCode)
-
-  if (!game.isLocal(socketId) && pos) {
-    player.pos = pos
-  }
 }
 
 export async function handleStartRound(game: Game, sequence: Sequence) {
@@ -126,6 +128,7 @@ function startGameInterval(game: Game, sequence: Sequence) {
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
       clearInterval(gameTimerIntervalId)
+      clearInterval(broadcastPositionIntervalId)
 
       processGameOver(gameOverReason, game)
     }
@@ -147,6 +150,10 @@ function startGameInterval(game: Game, sequence: Sequence) {
       }
     })
   }, 150)
+
+  const broadcastPositionIntervalId = setInterval(() => {
+    game.broadcastPosition()
+  }, 1000)
 }
 
 function processGameOver(gameOverReason: number, game: Game) {

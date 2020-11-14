@@ -5,10 +5,11 @@ import {
     gameHandleKeyDown,
     gameHandleKeyUp,
     handleStartRound,
-    handleDeadPlayer
+    handleDeadPlayer,
+    handlePlayerPositionUpdate
 } from "../../../game/controllers/gameController"
 import { GameType, Sequence } from '../../../shared/types'
-import { GameStore, GameState, ClientModel, KeyEvent, Level, GameActionContext } from "../../../shared/interfaces"
+import { GameStore, GameState, ClientModel, KeyEvent, Level, GameActionContext, PlayerPositionUpdate } from "../../../shared/interfaces"
 import Mutations from "../../../shared/mutations"
 import getDefaultState from "./gameState";
 const {
@@ -27,7 +28,8 @@ const {
     ADD_PLAYER,
     REMOVE_PLAYER,
     PLAYER_DEAD,
-    RESET_GAME_STORE
+    RESET_GAME_STORE,
+    PLAYER_POSITION_UPDATE
 } = Mutations
 
 export default {
@@ -115,6 +117,13 @@ export default {
             return
         }
         handleDeadPlayer(state._gameInstance, socketId)
+    },
+
+    [PLAYER_POSITION_UPDATE](state: GameStore, update: PlayerPositionUpdate) {
+        if (!state._gameInstance) {
+            return
+        }
+        handlePlayerPositionUpdate(state._gameInstance, update)
     },
 
     [RESET_GAME_STORE](state: GameStore) {

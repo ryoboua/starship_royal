@@ -10,7 +10,7 @@ import {
   removeRoom
 } from "../../game/controllers/clientRoomController"
 import { makeid } from "../../shared/utils"
-import { joinGameResponseCallBack, ClientRoomEmitter, KeyEvent } from "../../shared/interfaces"
+import { joinGameResponseCallBack, ClientRoomEmitter, KeyEvent, PlayerPositionUpdate } from "../../shared/interfaces"
 
 const clientList = new Map()
 
@@ -106,6 +106,20 @@ export function handleKeyUp(socket: BackendSocket, keyEvent: KeyEvent) {
   }
 
   socket.to(roomName).broadcast.emit("keyup", keyEvent)
+}
+
+export function handlePlayerPositionUpdate(socket: BackendSocket, update: PlayerPositionUpdate) {
+  if (!clientList.has(socket.id)) {
+    return
+  }
+
+  const roomName = clientList.get(socket.id).roomName
+
+  if (!isRoundActive(roomName)) {
+    return
+  }
+
+  socket.to(roomName).broadcast.emit("playerPositionUpdate", update)
 }
 
 export function handleStartRound(socket: BackendSocket) {

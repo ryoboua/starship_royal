@@ -1,7 +1,8 @@
 import Mutations from "../../../shared/mutations"
-import { ClientModel, GameActionContext, KeyEvent } from "../../../shared/interfaces";
+import { ClientModel, GameActionContext, KeyEvent, PlayerPositionUpdate } from "../../../shared/interfaces";
 import { GameType, FrontendSocket } from "../../../shared/types";
 import { GAME_OVER_REASONS } from "../../../game/constants";
+import Vector from 'game/classes/Vector';
 
 const {
     SET_GAME_TYPE,
@@ -14,7 +15,7 @@ const {
     END_ROUND,
     RESET_GAME_STORE,
     LEAVE_ROOM,
-    GAME_ACTIVE,
+    PLAYER_POSITION_UPDATE,
     ROUND_OVER
 } = Mutations
 
@@ -71,6 +72,12 @@ export default (socket: FrontendSocket) => ({
             socket.emit(KEY_UP, keyEvent)
         }
         context.commit(KEY_UP, keyEvent)
+    },
+
+    broadcastPosition(context: GameActionContext, payload: PlayerPositionUpdate) {
+        if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
+            socket.emit(PLAYER_POSITION_UPDATE, payload)
+        }
     },
 
     displayMsg(context: GameActionContext, msg: string) {

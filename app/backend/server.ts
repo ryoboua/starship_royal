@@ -8,6 +8,7 @@ import {
   handleStartRound,
   handleEndRound,
   handleDeadPlayer,
+  handlePlayerPositionUpdate
 } from "./controllers/clientController.js"
 
 import { joinGameResponseCallBack, ClientRoomEmitter } from "../shared/interfaces"
@@ -21,7 +22,8 @@ const {
   KEY_UP,
   DISCONNECT,
   PLAYER_DEAD,
-  END_ROUND
+  END_ROUND,
+  PLAYER_POSITION_UPDATE
 } = Mutations
 
 const io = socketIO()
@@ -47,6 +49,7 @@ io.on("connection", (socket) => {
   socket.on(KEY_DOWN, (keyCode) => handleKeyDown(socket, keyCode))
   socket.on(KEY_UP, (keyCode) => handleKeyUp(socket, keyCode))
   socket.on(PLAYER_DEAD, (deadPlayerSocketId) => handleDeadPlayer(socket, deadPlayerSocketId))
+  socket.on(PLAYER_POSITION_UPDATE, (update) => handlePlayerPositionUpdate(socket, update))
 
   function handleJoinRoom({ roomName, name }: { roomName: string, name: string }, resFn: joinGameResponseCallBack): void {
     const room = io.sockets.adapter.rooms[roomName]
