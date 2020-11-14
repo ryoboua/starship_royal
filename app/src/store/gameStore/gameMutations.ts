@@ -65,23 +65,17 @@ export default {
     },
 
     [KEY_DOWN](state: GameStore, keyEvent: KeyEvent) {
-        const { keyCode, socketId } = keyEvent
-
         if (!state._gameInstance) {
             return
         }
-
-        gameHandleKeyDown(state._gameInstance, keyCode, socketId)
+        gameHandleKeyDown(state._gameInstance, keyEvent)
     },
 
     [KEY_UP](state: GameStore, keyEvent: KeyEvent) {
-        const { keyCode, socketId } = keyEvent
-
         if (!state._gameInstance) {
             return
         }
-
-        gameHandleKeyUp(state._gameInstance, keyCode, socketId)
+        gameHandleKeyUp(state._gameInstance, keyEvent)
     },
 
     [COUNTDOWN](state: GameStore, screen: Screen) {

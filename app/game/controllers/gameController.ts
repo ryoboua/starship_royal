@@ -2,7 +2,7 @@ import Game from "../classes/Game"
 import { FRAME_RATE } from "../constants"
 import { GAME_OVER_REASONS } from "../constants"
 import levelParams from "../levels"
-import { ClientModel, Level, GameActionContext } from "../../shared/interfaces"
+import { ClientModel, Level, GameActionContext, KeyEvent } from "../../shared/interfaces"
 import { Sequence } from "../../shared/types"
 import Mutations from "../../shared/mutations"
 
@@ -35,7 +35,8 @@ export function handleDeadPlayer(game: Game, socketId: string) {
   game.destroyShip(socketId)
 }
 
-export function gameHandleKeyDown(game: Game, keyCode: number, socketId: string) {
+export function gameHandleKeyDown(game: Game, keyEvent: KeyEvent) {
+  const { socketId, keyCode, pos } = keyEvent
   const player = game.players[socketId]
 
   if (!player) {
@@ -44,9 +45,14 @@ export function gameHandleKeyDown(game: Game, keyCode: number, socketId: string)
 
   player.keys.updateKeysDown(keyCode)
   player.updateVelocityKeyDown(keyCode)
+
+  if (!game.isLocal(socketId) && pos) {
+    player.pos = pos
+  }
 }
 
-export function gameHandleKeyUp(game: Game, keyCode: number, socketId: string) {
+export function gameHandleKeyUp(game: Game, keyEvent: KeyEvent) {
+  const { socketId, keyCode, pos } = keyEvent
   const player = game.players[socketId]
 
   if (!player) {
@@ -55,6 +61,10 @@ export function gameHandleKeyUp(game: Game, keyCode: number, socketId: string) {
 
   player.keys.updateKeysUp(keyCode)
   player.updateVelocityKeyUp(keyCode)
+
+  if (!game.isLocal(socketId) && pos) {
+    player.pos = pos
+  }
 }
 
 export async function handleStartRound(game: Game, sequence: Sequence) {
@@ -160,8 +170,4 @@ function processGameOver(gameOverReason: number, game: Game) {
     game.commit(GAME_OVER, payload)
   }
 
-}
-
-function generateGameInfoRawHtml(reason: number) {
-  return `${GAME_OVER_REASONS[reason]}`
 }

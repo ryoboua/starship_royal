@@ -2,6 +2,7 @@ import Lobby from "../../shared/classes/Lobby"
 import AsteroidField from "./AsteroidField"
 import { ClientModel, GameModel, Level, GameActionContext as GameFrontEndContext, GameState, PlayerScores } from "../../shared/interfaces";
 import { GRID_SIZE, ROUND_TIME, GAME_OVER_REASONS } from "../constants"
+import Vector from './Vector';
 
 export default class Game extends Lobby implements GameModel {
   levels: Level[]
@@ -118,5 +119,9 @@ export default class Game extends Lobby implements GameModel {
 
   getPlayerWithHighestScore() {
     return Object.values(this.players).sort((a, b) => a.score - b.score)[0].name
+  }
+
+  getPlayerPosition(socketId: string): Vector {
+    return this.players[socketId].pos
   }
 }

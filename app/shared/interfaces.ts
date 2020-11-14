@@ -22,8 +22,9 @@ export interface KeysModel {
     spacebar: boolean
 }
 export interface KeyEvent {
-    keyCode: number,
+    keyCode: number
     socketId: string
+    pos?: Vector
 }
 
 export interface Level {

@@ -1,5 +1,5 @@
 import Mutations from "../../../shared/mutations"
-import { ClientModel, GameActionContext } from "../../../shared/interfaces";
+import { ClientModel, GameActionContext, KeyEvent } from "../../../shared/interfaces";
 import { GameType, FrontendSocket } from "../../../shared/types";
 import { GAME_OVER_REASONS } from "../../../game/constants";
 
@@ -49,20 +49,27 @@ export default (socket: FrontendSocket) => ({
 
     handleKeyDown(context: GameActionContext, keyCode: number) {
         const socketId = context.rootState.client.socketId
+        const keyEvent: KeyEvent = { socketId, keyCode }
+
+        context.commit(KEY_DOWN, keyEvent)
+
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
-            socket.emit(KEY_DOWN, keyCode)
+            keyEvent.pos = context.state._gameInstance.getPlayerPosition(socketId)
+            socket.emit(KEY_DOWN, keyEvent)
         }
-        context.commit(KEY_DOWN, { keyCode, socketId })
 
     },
 
     handleKeyUp(context: GameActionContext, keyCode: number) {
         const socketId = context.rootState.client.socketId
-        if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
-            socket.emit(KEY_UP, keyCode)
-        }
-        context.commit(KEY_UP, { keyCode, socketId })
+        const keyEvent: KeyEvent = { socketId, keyCode }
 
+        context.commit(KEY_UP, keyEvent)
+
+        if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
+            keyEvent.pos = context.state._gameInstance.getPlayerPosition(socketId)
+            socket.emit(KEY_UP, keyEvent)
+        }
     },
 
     displayMsg(context: GameActionContext, msg: string) {
