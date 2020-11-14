@@ -33,7 +33,6 @@ export default class Game extends Lobby implements GameModel {
 
   get type() {
     return this._context?.rootState.game.type || 'single'
-
   }
 
   resetState() {
