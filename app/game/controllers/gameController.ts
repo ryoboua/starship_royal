@@ -152,8 +152,11 @@ function startGameInterval(game: Game, sequence: Sequence) {
   }, 150)
 
   const broadcastPositionIntervalId = setInterval(() => {
+    if (game.type === "single") {
+      clearInterval(broadcastPositionIntervalId)
+    }
     game.broadcastPosition()
-  }, 1000)
+  }, 500)
 }
 
 function processGameOver(gameOverReason: number, game: Game) {

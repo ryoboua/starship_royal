@@ -31,6 +31,11 @@ export default class Game extends Lobby implements GameModel {
     return game
   }
 
+  get type() {
+    return this._context?.rootState.game.type || 'single'
+
+  }
+
   resetState() {
     this.timer = ROUND_TIME
     this.asteroidField = new AsteroidField()
