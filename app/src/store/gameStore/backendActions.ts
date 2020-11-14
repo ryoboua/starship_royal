@@ -37,6 +37,7 @@ export default (socket: FrontendSocket) => ({
     },
 
     BACKEND_hostDisconnected(context: GameActionContext) {
-        context.dispatch("returnToStartMenu")
+        window.location.reload()
+        //context.dispatch("returnToStartMenu")
     }
 })
