@@ -25,7 +25,11 @@ export default class Player extends Client implements PlayerModel {
     this.weapons = new Missiles()
     this.isAlive = true
     this.left = false
-    this.body = [[0, 0, 1, 0, 0], [0, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
+    this.body = [
+      [0, 0, 1, 0, 0],
+      [0, 1, 1, 1, 0],
+      [1, 1, 1, 1, 1]
+    ]
   }
 
   reset() {
@@ -55,19 +59,19 @@ export default class Player extends Client implements PlayerModel {
     const pos = Vector.add(this.pos, this.vel)
     const playerBodyCoordinates = this.getBodyCoordinates(pos)
 
-    if (isLocal) {
-      for (let i = 0; i < asteroidField.asteroids.length; i++) {
+    // if (isLocal) {
+    //   for (let i = 0; i < asteroidField.asteroids.length; i++) {
 
-        const ast = asteroidField.asteroids[i];
-        const hit = ast.playerCollisionCheck(playerBodyCoordinates)
+    //     const ast = asteroidField.asteroids[i];
+    //     const hit = ast.playerCollisionCheck(playerBodyCoordinates)
 
-        if (hit) {
-          this.isAlive = false
-          return
-        }
-      }
+    //     if (hit) {
+    //       this.isAlive = false
+    //       return
+    //     }
+    //   }
 
-    }
+    // }
 
     //check if player is in game bounderies
     for (let j = 0; j < playerBodyCoordinates.length; j++) {

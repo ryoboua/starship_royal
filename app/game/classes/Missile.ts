@@ -13,8 +13,11 @@ export default class Missile implements MissileModel {
         this.pos = pos
         this.vel = new Vector(0, MISSILE_STEP)
         this.value = 10
-        this.body = [[1, 1], [1, 1]]
         this.destroyed = false
+        this.body = [
+            [1, 1],
+            [1, 1]
+        ]
     }
 
     getBodyCoordinates(pos: Vector): Vector[] {

@@ -52,6 +52,9 @@ export default (socket: FrontendSocket) => ({
 
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
             socket.emit(KEY_DOWN, keyEvent)
+            if (e.keyCode !== 32) {
+                context.state._gameInstance.broadcastPosition()
+            }
         }
         context.commit(KEY_DOWN, keyEvent)
     },

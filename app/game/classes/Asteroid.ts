@@ -29,9 +29,7 @@ export default class Asteroid {
     static createAsteroid(pos?: Vector) {
         const ast = new Asteroid(pos)
         ast.setHealth()
-
         return ast
-
     }
 
     breakPiece(y: number, x: number) {
