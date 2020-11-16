@@ -41,11 +41,15 @@ export function handlePlayerPositionUpdate(game: Game, update: PlayerPositionUpd
 }
 
 export function gameHandleKeyDown(game: Game, keyEvent: KeyEvent) {
-  const { socketId, keyCode } = keyEvent
+  const { socketId, keyCode, pos } = keyEvent
   const player = game.players[socketId]
 
   if (!player) {
     return
+  }
+
+  if (pos) {
+    player.pos = pos
   }
 
   player.keys.updateKeysDown(keyCode)

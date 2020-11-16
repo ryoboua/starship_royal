@@ -56,10 +56,10 @@ export default (socket: FrontendSocket) => ({
         const keyEvent: KeyEvent = { socketId, keyCode }
 
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
-            socket.emit(KEY_DOWN, keyEvent)
             if (keyCode !== KeyCodes.Space) {
-                context.state._gameInstance.broadcastPosition()
+                keyEvent.pos = context.state._gameInstance.getPlayerPosition(socketId)
             }
+            socket.emit(KEY_DOWN, keyEvent)
         }
         context.commit(KEY_DOWN, keyEvent)
     },
