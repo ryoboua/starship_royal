@@ -1,6 +1,5 @@
 import Vector from "./Vector"
 import { ASTEROID_STEP, GAME_WIDTH, GRID_SIZE } from "../constants"
-import asteroidBlueprints from "../blueprints/asteroids"
 import { Blueprint } from "../../shared/interfaces"
 
 export default class Asteroid {

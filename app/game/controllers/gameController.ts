@@ -18,12 +18,12 @@ export function createGame(players: ClientModel[], context: GameActionContext) {
 
 export function addPlayer(game: Game, player: ClientModel) {
   game.addPlayer(player)
-  return game.getPlayerList()
+  return game.playerList
 }
 
 export function removePlayer(game: Game, socketId: string) {
   game.removePlayer(socketId)
-  return game.getPlayerList()
+  return game.playerList
 }
 
 export function handleDeadPlayer(game: Game, socketId: string) {

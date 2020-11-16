@@ -15,7 +15,7 @@ export function addPlayer(roomName: string, client: Client, socket: BackendSocke
   }
   const room = rooms.get(roomName)
   room.addPlayer(client)
-  const players = room.getPlayerList()
+  const players = room.playerList
   joinGameResponse({ client, players })
   socket.to(roomName).broadcast.emit("addPlayer", client)
 }

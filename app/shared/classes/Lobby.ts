@@ -9,6 +9,10 @@ export default class Lobby {
         this.roundActive = false
     }
 
+    get playerList(): Player[] {
+        return Object.values(this.players)
+    }
+
     addPlayer(client: ClientModel) {
         if (Object.keys(this.players).some(socketId => socketId === client.socketId)) {
             return
@@ -20,11 +24,6 @@ export default class Lobby {
     removePlayer(socketId: string) {
         delete this.players[socketId]
     }
-
-    getPlayerList(): Player[] {
-        return Object.values(this.players)
-    }
-
 
     setRoundStatus(b: boolean) {
         this.roundActive = b

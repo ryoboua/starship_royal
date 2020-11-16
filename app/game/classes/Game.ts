@@ -81,11 +81,11 @@ export default class Game extends Lobby implements GameModel {
       asteroidField: this.asteroidField,
       gridsize: this.gridsize,
       timer: this.timer,
-      playerScores: this.getPlayerScores(),
+      playerScores: this.playerScores,
     }
   }
 
-  getPlayerScores(): PlayerScores {
+  get playerScores(): PlayerScores {
     return Object.values(this.players)
       .map((player) => ({
         name: player.name,
