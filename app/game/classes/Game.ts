@@ -64,9 +64,9 @@ export default class Game extends Lobby implements GameModel {
       }
     })
 
-    if (!Object.values(this.players).some((player) => player.isAlive)) {
-      return GAME_OVER_REASONS["ALL_DEAD"]
-    }
+    // if (!Object.values(this.players).some((player) => player.isAlive)) {
+    //   return GAME_OVER_REASONS["ALL_DEAD"]
+    // }
 
     // if (!this.timer) {
     //   return GAME_OVER_REASONS["TIMER"]
