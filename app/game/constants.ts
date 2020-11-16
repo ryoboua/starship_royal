@@ -1,4 +1,4 @@
-export const FRAME_RATE = 60
+export const FRAME_RATE = 50
 export const GRID_SIZE = 5
 export const STEP = 5
 export const SPACE_STEP = 5
