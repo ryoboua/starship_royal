@@ -13,6 +13,18 @@ export interface Point2D {
     y: number
 }
 
+export enum KeyCodes {
+    ArrowUp = "ArrowUp",
+    ArrowDown = "ArrowDown",
+    ArrowLeft = "ArrowLeft",
+    ArrowRight = "ArrowRight",
+    Space = "Space",
+    KeyW = "KeyW",
+    KeyS = "KeyS",
+    KeyA = "KeyA",
+    KeyD = "KeyD"
+}
+
 export interface KeysModel {
     up: boolean
     down: boolean
@@ -21,7 +33,7 @@ export interface KeysModel {
     spacebar: boolean
 }
 export interface KeyEvent {
-    keyCode: number
+    keyCode: KeyCodes
     socketId: string
 }
 

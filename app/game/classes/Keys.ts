@@ -1,4 +1,16 @@
-import { KeysModel } from "../../shared/interfaces"
+import { KeysModel, KeyCodes } from "../../shared/interfaces"
+
+const {
+  ArrowUp,
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  Space,
+  KeyA,
+  KeyW,
+  KeyD,
+  KeyS
+} = KeyCodes
 
 export default class Keys implements KeysModel {
   public up: boolean
@@ -15,44 +27,44 @@ export default class Keys implements KeysModel {
     this.spacebar = false
   }
 
-  updateKeysDown(keyCode: number) {
+  updateKeysDown(keyCode: KeyCodes) {
     if (!keyCode) {
       return
     }
-    if (keyCode === 37 || keyCode === 65) {
+    if (keyCode === ArrowLeft || keyCode === KeyA) {
       this.left = true
     }
-    if (keyCode === 38 || keyCode === 87) {
+    if (keyCode === ArrowDown || keyCode === KeyS) {
       this.down = true
     }
-    if (keyCode === 39 || keyCode === 68) {
+    if (keyCode === ArrowRight || keyCode === KeyD) {
       this.right = true
     }
-    if (keyCode === 40 || keyCode === 83) {
+    if (keyCode === ArrowUp || keyCode === KeyW) {
       this.up = true
     }
-    if (keyCode === 32) {
+    if (keyCode === Space) {
       this.spacebar = true
     }
   }
 
-  updateKeysUp(keyCode: number) {
+  updateKeysUp(keyCode: KeyCodes) {
     if (!keyCode) {
       return
     }
-    if (keyCode === 37 || keyCode === 65) {
+    if (keyCode === ArrowLeft || keyCode === KeyA) {
       this.left = false
     }
-    if (keyCode === 38 || keyCode === 87) {
+    if (keyCode === ArrowDown || keyCode === KeyS) {
       this.down = false
     }
-    if (keyCode === 39 || keyCode === 68) {
+    if (keyCode === ArrowRight || keyCode === KeyD) {
       this.right = false
     }
-    if (keyCode === 40 || keyCode === 83) {
+    if (keyCode === ArrowUp || keyCode === KeyW) {
       this.up = false
     }
-    if (keyCode === 32) {
+    if (keyCode === Space) {
       this.spacebar = false
     }
   }

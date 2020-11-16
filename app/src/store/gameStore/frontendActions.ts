@@ -1,5 +1,5 @@
 import Mutations from "../../../shared/mutations"
-import { ClientModel, GameActionContext, KeyEvent, PlayerPositionUpdate } from "../../../shared/interfaces";
+import { ClientModel, GameActionContext, KeyEvent, PlayerPositionUpdate, KeyCodes } from "../../../shared/interfaces";
 import { GameType, FrontendSocket } from "../../../shared/types";
 
 const {
@@ -47,12 +47,17 @@ export default (socket: FrontendSocket) => ({
     },
 
     handleKeyDown(context: GameActionContext, e: KeyboardEvent) {
+        const keyCode = (<any>KeyCodes)[e.code]
+        if (!keyCode) {
+            return
+        }
+
         const socketId = context.rootState.client.socketId
-        const keyEvent: KeyEvent = { socketId, keyCode: e.keyCode }
+        const keyEvent: KeyEvent = { socketId, keyCode }
 
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
             socket.emit(KEY_DOWN, keyEvent)
-            if (e.keyCode !== 32) {
+            if (keyCode !== KeyCodes.Space) {
                 context.state._gameInstance.broadcastPosition()
             }
         }
@@ -60,8 +65,13 @@ export default (socket: FrontendSocket) => ({
     },
 
     handleKeyUp(context: GameActionContext, e: KeyboardEvent) {
+        const keyCode = (<any>KeyCodes)[e.code]
+        if (!keyCode) {
+            return
+        }
+
         const socketId = context.rootState.client.socketId
-        const keyEvent: KeyEvent = { socketId, keyCode: e.keyCode }
+        const keyEvent: KeyEvent = { socketId, keyCode }
 
         if (context.state.type === 'multi' && context.state._gameInstance?.roundActive) {
             socket.emit(KEY_UP, keyEvent)
@@ -94,6 +104,5 @@ export default (socket: FrontendSocket) => ({
         }
         context.commit(RESET_GAME_STORE)
         context.commit(`client/${LEAVE_ROOM}`, null, { root: true })
-
     }
 })

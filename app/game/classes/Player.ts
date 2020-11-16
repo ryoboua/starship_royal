@@ -2,9 +2,11 @@ import Client from "../../shared/classes/Client"
 import Vector from "./Vector"
 import Keys from "./Keys"
 import Missiles from "./Missiles"
-import { PlayerModel, ClientModel, Blueprint } from "../../shared/interfaces"
+import { PlayerModel, ClientModel, Blueprint, KeyCodes } from "../../shared/interfaces"
 import AsteroidField from "./AsteroidField";
 import { GRID_SIZE, SPACE_STEP, ASTEROID_VALUE } from "../constants"
+
+const { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, KeyA, KeyW, KeyD, KeyS } = KeyCodes
 
 export default class Player extends Client implements PlayerModel {
   score: number
@@ -96,46 +98,38 @@ export default class Player extends Client implements PlayerModel {
     this.pos = pos
   }
 
-  updateVelocityKeyDown(keyCode: number) {
+  updateVelocityKeyDown(keyCode: KeyCodes) {
     if (!keyCode) {
       return
     }
-    // left
-    if (keyCode === 37 || keyCode === 65) {
+    if (keyCode === ArrowLeft || keyCode === KeyA) {
       this.vel.x = -SPACE_STEP
     }
-    // down
-    if (keyCode === 38 || keyCode === 87) {
+    if (keyCode === ArrowUp || keyCode === KeyW) {
       this.vel.y = -SPACE_STEP
     }
-    // right
-    if (keyCode === 39 || keyCode === 68) {
+    if (keyCode === ArrowRight || keyCode === KeyD) {
       this.vel.x = SPACE_STEP
     }
-    // up
-    if (keyCode === 40 || keyCode === 83) {
+    if (keyCode === ArrowDown || keyCode === KeyS) {
       this.vel.y = SPACE_STEP
     }
   }
 
-  updateVelocityKeyUp(keyCode: number) {
+  updateVelocityKeyUp(keyCode: KeyCodes) {
     if (!keyCode) {
       return
     }
-    // left
-    if (keyCode === 37 || keyCode === 65) {
+    if (keyCode === ArrowLeft || keyCode === KeyA) {
       this.vel.x = this.keys.right ? SPACE_STEP : 0
     }
-    // down
-    if (keyCode === 38 || keyCode === 87) {
+    if (keyCode === ArrowUp || keyCode === KeyW) {
       this.vel.y = this.keys.up ? SPACE_STEP : 0
     }
-    // right
-    if (keyCode === 39 || keyCode === 68) {
+    if (keyCode === ArrowRight || keyCode === KeyD) {
       this.vel.x = this.keys.left ? -SPACE_STEP : 0
     }
-    // up
-    if (keyCode === 40 || keyCode === 83) {
+    if (keyCode === ArrowDown || keyCode === KeyS) {
       this.vel.y = this.keys.down ? -SPACE_STEP : 0
     }
   }
