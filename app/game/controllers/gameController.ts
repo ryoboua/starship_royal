@@ -124,7 +124,7 @@ function startGameInterval(game: Game, sequence: Sequence) {
       clearInterval(asteroidFieldIntervalId)
       clearInterval(fireMissileIntervalId)
       clearInterval(gameTimerIntervalId)
-      clearInterval(broadcastPositionIntervalId)
+      //clearInterval(broadcastPositionIntervalId)
 
       processGameOver(game, gameOverReason)
     }
@@ -147,12 +147,12 @@ function startGameInterval(game: Game, sequence: Sequence) {
     })
   }, 150)
 
-  const broadcastPositionIntervalId = setInterval(() => {
-    if (game.type === "single") {
-      clearInterval(broadcastPositionIntervalId)
-    }
-    game.broadcastPosition()
-  }, 50)
+  // const broadcastPositionIntervalId = setInterval(() => {
+  //   if (game.type === "single") {
+  //     clearInterval(broadcastPositionIntervalId)
+  //   }
+  //   game.broadcastPosition()
+  // }, 50)
 }
 
 function processGameOver(game: Game, gameOverReason: number) {
