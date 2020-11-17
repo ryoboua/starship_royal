@@ -7,8 +7,7 @@ import { SHIP_COLOURS } from "../../game/constants";
 const {
   SET_CLIENT,
   CREATE_GAME,
-  JOIN_GAME,
-  LEAVE_ROOM
+  JOIN_GAME
 } = Mutations
 
 const state: ClientStore = {
@@ -31,14 +30,6 @@ export default (socket: FrontendSocket) => ({
       state.roomName = client.roomName
       state.socketId = client.socketId
       state.color = client.color
-    },
-    [LEAVE_ROOM](state: ClientStore) {
-      state.roomName = ''
-      state.playerNumber = 1
-      state.host = null
-      state.roomName = ''
-      state.socketId = ''
-      state.color = ''
     },
   },
   actions: {

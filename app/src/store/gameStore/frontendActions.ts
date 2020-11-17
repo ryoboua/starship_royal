@@ -11,8 +11,6 @@ const {
     DISPLAY_MSG,
     PLAYER_DEAD,
     END_ROUND,
-    RESET_GAME_STORE,
-    LEAVE_ROOM,
     PLAYER_POSITION_UPDATE,
     ROUND_OVER
 } = Mutations
@@ -99,7 +97,6 @@ export default (socket: FrontendSocket) => ({
         if (context.state.type === 'multi') {
             socket.close()
         }
-        context.commit(RESET_GAME_STORE)
-        context.commit(`client/${LEAVE_ROOM}`, null, { root: true })
+        window.location.reload()
     }
 })

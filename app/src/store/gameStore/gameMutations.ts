@@ -19,7 +19,6 @@ import {
 } from "../../../shared/interfaces"
 import { GameType, Sequence } from '../../../shared/types'
 import Mutations from "../../../shared/mutations"
-import getDefaultState from "./gameState";
 const {
     SET_GAME_TYPE,
     CREATE_GAME,
@@ -36,7 +35,6 @@ const {
     ADD_PLAYER,
     REMOVE_PLAYER,
     PLAYER_DEAD,
-    RESET_GAME_STORE,
     PLAYER_POSITION_UPDATE
 } = Mutations
 
@@ -134,8 +132,4 @@ export default {
         }
         handlePlayerPositionUpdate(state._gameInstance, update)
     },
-
-    [RESET_GAME_STORE](state: GameStore) {
-        Object.assign(state, getDefaultState())
-    }
 }

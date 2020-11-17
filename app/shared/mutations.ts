@@ -27,7 +27,6 @@ enum Mutations {
     COUNTDOWN = "COUNTDOWN",
     GAME_OVER = "GAME_OVER",
 
-    RESET_GAME_STORE = "RESET_GAME_STORE",
     LEAVE_ROOM = "LEAVE_ROOM"
 }
 

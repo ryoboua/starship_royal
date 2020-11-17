@@ -10,8 +10,6 @@ const {
     REMOVE_PLAYER,
     PLAYER_DEAD,
     PLAYER_POSITION_UPDATE,
-    RESET_GAME_STORE,
-    LEAVE_ROOM
 } = Mutations
 
 export default (socket: FrontendSocket) => ({
@@ -44,7 +42,6 @@ export default (socket: FrontendSocket) => ({
     },
 
     BACKEND_hostDisconnected(context: GameActionContext) {
-        context.commit(RESET_GAME_STORE)
-        context.commit(`client/${LEAVE_ROOM}`, null, { root: true })
+        window.location.reload()
     }
 })
