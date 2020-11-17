@@ -31,14 +31,22 @@
       <div v-if="type === 'multi'">
         <h4>Current players in lobby:</h4>
         <ul>
-          <li v-for="(p, i) in players" :key="i">
+          <li
+            v-for="p in players"
+            :key="p.socketId"
+            :style="{ color: p.color }"
+          >
             {{ p.name }}
           </li>
         </ul>
       </div>
     </div>
-    <ul v-if="gameActive">
-      <li v-for="(p, i) in playerScores" :key="i">
+    <ul>
+      <li
+        v-for="p in playerScores"
+        :key="p.socketId"
+        :style="{ color: p.color }"
+      >
         {{ p.name }} : {{ p.score }}
       </li>
     </ul>

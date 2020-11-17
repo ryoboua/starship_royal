@@ -90,6 +90,7 @@ export default class Game extends Lobby implements GameModel {
       .map((player) => ({
         name: player.name,
         score: player.score,
+        color: player.color
       }))
       .sort((a, b) => b.score - a.score)
   }
@@ -124,7 +125,7 @@ export default class Game extends Lobby implements GameModel {
   }
 
   getPlayerWithHighestScore() {
-    const { name, score } = Object.values(this.players).sort((a, b) => a.score - b.score)[0]
+    const { name, score } = Object.values(this.players).sort((a, b) => b.score - a.score)[0]
 
     return { name, score }
   }

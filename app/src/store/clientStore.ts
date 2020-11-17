@@ -10,8 +10,14 @@ const {
   JOIN_GAME
 } = Mutations
 
+let name = window.localStorage.getItem("name")
+
+if (!name) {
+  name = ''
+}
+
 const state: ClientStore = {
-  name: "",
+  name,
   playerNumber: 1,
   host: null,
   roomName: '',
@@ -34,6 +40,7 @@ export default (socket: FrontendSocket) => ({
   },
   actions: {
     createGame(context: ActionContext<ClientModel, RootState>, name: string) {
+      window.localStorage.setItem("name", name)
       if (context.rootState.game.type === 'single') {
         const client = { name, socketId: 'CQkNTGUIzzrQGVYuAAAB', roomName: 'local', playerNumber: 1, host: true, color: SHIP_COLOURS[0] }
         context.commit(SET_CLIENT, client)
