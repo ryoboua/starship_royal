@@ -11,6 +11,7 @@ import {
 } from "../../game/controllers/clientRoomController"
 import { makeid } from "../../shared/utils"
 import { joinGameResponseCallBack, ClientRoomEmitter, KeyEvent, PlayerPositionUpdate } from "../../shared/interfaces"
+import { SHIP_COLOURS } from "../../game/constants";
 
 const clientList = new Map()
 
@@ -28,6 +29,7 @@ export function handleNewGame(socket: BackendSocket, name: string, initGameEmitt
       roomName,
       playerNumber,
       host: true,
+      color: SHIP_COLOURS[playerNumber - 1]
     })
 
     clientList.set(client.socketId, client)
@@ -58,7 +60,8 @@ export function joinRoom(socket: BackendSocket, roomName: string, name: string, 
       name,
       roomName,
       playerNumber,
-      host: false
+      host: false,
+      color: SHIP_COLOURS[playerNumber - 1]
     })
 
     clientList.set(client.socketId, client)

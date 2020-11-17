@@ -9,7 +9,6 @@ export default {
   data() {
     return {
       BG_COLOUR: "#231f20",
-      SHIP_COLOURS: ["#e66916", "#29abe0", "#93c54b", "#FF1493"],
       ASTEROID_COLOUR: "#cdc9c3",
       MISSILE_COLOUR: "#FF6347",
     };
@@ -46,8 +45,8 @@ export default {
         if (!player.isAlive) {
           return;
         }
-        const { body } = player;
-        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
+        const { body, color } = player;
+        ctx.fillStyle = color;
         for (let y = 0; y < body.length; y++) {
           for (let x = 0; x < body[y].length; x++) {
             if (body[y][x]) {
@@ -92,7 +91,7 @@ export default {
           return;
         }
 
-        ctx.fillStyle = this.SHIP_COLOURS[player.playerNumber - 1];
+        ctx.fillStyle = player.color;
         player.weapons.missiles.forEach((mis) => {
           const { body } = mis;
           for (let y = 0; y < body.length; y++) {

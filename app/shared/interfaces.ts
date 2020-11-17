@@ -50,7 +50,7 @@ export interface ClientModel {
     roomName: string
     playerNumber: number
     host: boolean | null
-
+    color: string
 }
 
 export type Blueprint = Array<Array<number>>

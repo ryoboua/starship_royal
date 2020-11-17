@@ -6,12 +6,14 @@ export default class Client implements ClientModel {
   roomName: string
   playerNumber: number
   host: boolean
+  color: string
 
-  constructor({ socketId, name, roomName, playerNumber, host }: ClientModel) {
+  constructor({ socketId, name, roomName, playerNumber, host, color }: ClientModel) {
     this.socketId = socketId
     this.name = name
     this.roomName = roomName
     this.playerNumber = playerNumber
     this.host = !!host
+    this.color = color
   }
 }

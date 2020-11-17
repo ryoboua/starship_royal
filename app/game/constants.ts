@@ -9,6 +9,7 @@ export const SEQUENCE_LENGTH = 1000
 export const GAME_HEIGHT = 600
 export const ASTEROID_VALUE = 10
 export const ROUND_TIME = 30
+export const SHIP_COLOURS = ["#e66916", "#29abe0", "#93c54b", "#FF1493"]
 export enum GAME_OVER_REASONS {
   "ALL_DEAD" = 1,
   "TIMER",

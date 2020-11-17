@@ -6,6 +6,17 @@
     </h3>
     <h4>Name: {{ name }}</h4>
     <h4>Player Number:{{ playerNumber }}</h4>
+    <h4 :style="{ color }">
+      Ship Color :
+      <span
+        :style="{
+          background: color,
+          height: '50px',
+          width: '50px',
+        }"
+        >_</span
+      >
+    </h4>
     <div v-if="!gameActive">
       <button
         v-if="isHost"
@@ -45,6 +56,7 @@ export default {
       playerNumber: (state) => state.client.playerNumber,
       roomName: (state) => state.client.roomName,
       isHost: (state) => state.client.host,
+      color: (state) => state.client.color,
       gameActive: (state) => state.game.gameActive,
       players: (state) => state.game.players,
       type: (state) => state.game.type,
