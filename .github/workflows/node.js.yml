@@ -25,8 +25,8 @@ jobs:
       #Backend
       - run: npm run tsc-build-backend
       - run: cd jsBackend && npm i
-      - run: pm2 start jsBackend/backend/server.js --name=starshiproyal-backend
-      #- run: pm2 restart starshiproyal-backend
+      #- run: pm2 start jsBackend/backend/server.js --name=starshiproyal-backend
+      - run: pm2 restart starshiproyal-backend
 
       #Frontend
       - run: npm run build
