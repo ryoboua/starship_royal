@@ -15,7 +15,7 @@
       <div v-if="type === 'single'">
         <button @click="handleNewGame">Single Player</button>
         <h4>Or</h4>
-        <button @click="handleMulti">Multiplayer Game</button>
+        <button @click="handleMulti">Multi Player</button>
       </div>
       <div v-if="type === 'multi'">
         <button @click="handleNewGame">Create Game</button>

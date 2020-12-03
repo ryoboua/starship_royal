@@ -31,4 +31,4 @@ jobs:
       #Frontend
       - run: cd app && npm run build
       - run: rm -rf /var/www/starshiproyal/dist
-      - run: cd app && mv dist /var/www/starshiproyal/dist
+      - run: mv app/dist /var/www/starshiproyal/dist
