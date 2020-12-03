@@ -7,10 +7,10 @@ import { FrontendSocket } from '../shared/types'
 
 Vue.config.productionTip = false
 
-let url = "http://localhost:3000"
+let url = "http://localhost:3005"
 
 if (process.env.NODE_ENV === "production") {
-  url = "http://159.203.17.103"
+  url = "http://starshiproyal.whoisreggie.ca"
 }
 
 const socket: FrontendSocket = SocketIOClient(url, {

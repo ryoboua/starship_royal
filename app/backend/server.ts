@@ -29,7 +29,7 @@ const {
 const io = socketIO()
 
 io.serveClient(false);
-io.listen(3000)
+io.listen(3005)
 
 let initGameEmitter: ClientRoomEmitter
 
