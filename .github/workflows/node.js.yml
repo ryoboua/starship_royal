@@ -21,11 +21,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - run: cd app && npm i
+
+      #Backend
       - run: cd app && npm run tsc-build-backend
       - run: cd app/jsBackend && npm i
-      - run: pm2 start app/jsBackend/backend/server.js --name=backend
-      # - run: pm2 restart backend
+      #- run: pm2 start app/jsBackend/backend/server.js --name=starshiproyal-backend
+      - run: pm2 restart starshiproyal-backend
 
+      #Frontend
       - run: cd app && npm run build
-
-  # - run: npm test
+      - run: rm -rf /var/www/starshiproyal/dist
+      - run: cd app && mv dist /var/www/starshiproyal/dist
