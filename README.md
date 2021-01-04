@@ -1,4 +1,6 @@
-# Starship Royal is a Space Invaders inspired game with an online multiplayer component.
+# Starship Royal
+
+Starship Royal is a Space Invaders inspired game with an online multiplayer component.
 
 View project at https://starshiproyal.whoisreggie.ca/
 
