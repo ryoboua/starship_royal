@@ -29,7 +29,7 @@
         <button @click="handleJoinGame">Join Game</button>
       </div>
       <div>
-        <h5>Avoid asteroids by move your ship with the ←↑↓→ or A,W,S,D keys</h5>
+        <h5>Avoid asteroids by moving your ship with ←↑↓→ or A,W,S,D keys</h5>
         <h5>Fire missisles by pressing and holding down SPACEBAR</h5>
       </div>
     </div>
